@@ -1,0 +1,38 @@
+# Virtual environment
+venv/
+.venv/
+
+# Python cache/build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Environment and secrets
+.env
+.env.*
+
+# Local databases
+*.db
+*.sqlite3
+
+# Model artifacts (keep large binaries out of git)
+models/baseline/*.pkl
+models/baseline/*.joblib
+models/bert/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data policy
+data/raw/
+data/processed/
