@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional
 import joblib
 
 from src import config
-from src.preprocessing.preprocess import clean_text, preprocess_text
+from src.preprocessing.text_normalization import clean_text, preprocess_text
 
 LOGGER = logging.getLogger(__name__)
 
@@ -83,7 +83,7 @@ def apply_keyword_escalation(review_text: str, current_risk: str) -> str:
         Possibly escalated risk level.
     """
     lowered = review_text.lower()
-    for keyword in config.ADVERSE_EVENT_KEYWORDS:
+    for keyword in config.ADVERSE_KEYWORDS:
         if keyword in lowered:
             return "Severe Adverse Reaction"
     return current_risk
@@ -110,17 +110,17 @@ def predict(review_text: str) -> Dict[str, Any]:
     if not processed.strip():
         risk_level = apply_keyword_escalation(review_text or "", "Mild Concern")
         return {
-            "sentiment": "NEUTRAL",
+            "sentiment": "neutral",
             "confidence": 0.0,
             "risk_level": risk_level,
             "cleaned_text": processed,
-            "probabilities": {"NEGATIVE": 0.0, "NEUTRAL": 1.0, "POSITIVE": 0.0},
+            "probabilities": {"negative": 0.0, "neutral": 1.0, "positive": 0.0},
         }
 
     vec = _vectorizer.transform([processed])
-    prediction = str(_model.predict(vec)[0]).upper()
+    prediction = str(_model.predict(vec)[0]).lower()
     probabilities = _model.predict_proba(vec)[0]
-    classes = [str(label).upper() for label in list(_model.classes_)]
+    classes = [str(label).lower() for label in list(_model.classes_)]
     prob_dict = {label: round(float(prob), 4) for label, prob in zip(classes, probabilities)}
     confidence = round(max(float(prob) for prob in probabilities), 4)
     risk_level = map_risk(prediction, confidence)

@@ -1,0 +1,948 @@
+[
+  {
+    "patient_id": "P-00001",
+    "age": 28,
+    "gender": "female",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [
+      {
+        "drug": "Lisinopril",
+        "reaction": "dry cough",
+        "severity": "mild"
+      }
+    ],
+    "ehr_scores": {
+      "Amlodipine": 0.8,
+      "Lisinopril": 0.87,
+      "Losartan": 0.59,
+      "Hydrochlorothiazide": 0.66,
+      "Atenolol": 0.73
+    }
+  },
+  {
+    "patient_id": "P-00002",
+    "age": 33,
+    "gender": "male",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.77,
+      "Lisinopril": 0.84,
+      "Losartan": 0.56,
+      "Hydrochlorothiazide": 0.63,
+      "Atenolol": 0.7
+    }
+  },
+  {
+    "patient_id": "P-00003",
+    "age": 38,
+    "gender": "female",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.74,
+      "Lisinopril": 0.81,
+      "Losartan": 0.88,
+      "Hydrochlorothiazide": 0.6,
+      "Atenolol": 0.67
+    }
+  },
+  {
+    "patient_id": "P-00004",
+    "age": 43,
+    "gender": "male",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.71,
+      "Lisinopril": 0.78,
+      "Losartan": 0.85,
+      "Hydrochlorothiazide": 0.57,
+      "Atenolol": 0.64
+    }
+  },
+  {
+    "patient_id": "P-00005",
+    "age": 48,
+    "gender": "female",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.68,
+      "Lisinopril": 0.75,
+      "Losartan": 0.82,
+      "Hydrochlorothiazide": 0.89,
+      "Atenolol": 0.61
+    }
+  },
+  {
+    "patient_id": "P-00006",
+    "age": 53,
+    "gender": "male",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.65,
+      "Lisinopril": 0.72,
+      "Losartan": 0.79,
+      "Hydrochlorothiazide": 0.86,
+      "Atenolol": 0.58
+    }
+  },
+  {
+    "patient_id": "P-00007",
+    "age": 58,
+    "gender": "female",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.62,
+      "Lisinopril": 0.69,
+      "Losartan": 0.76,
+      "Hydrochlorothiazide": 0.83,
+      "Atenolol": 0.55
+    }
+  },
+  {
+    "patient_id": "P-00008",
+    "age": 63,
+    "gender": "male",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.59,
+      "Lisinopril": 0.66,
+      "Losartan": 0.73,
+      "Hydrochlorothiazide": 0.8,
+      "Atenolol": 0.87
+    }
+  },
+  {
+    "patient_id": "P-00009",
+    "age": 68,
+    "gender": "female",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.56,
+      "Lisinopril": 0.63,
+      "Losartan": 0.7,
+      "Hydrochlorothiazide": 0.77,
+      "Atenolol": 0.84
+    }
+  },
+  {
+    "patient_id": "P-00010",
+    "age": 73,
+    "gender": "male",
+    "condition": "hypertension",
+    "current_medications": [
+      "Amlodipine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amlodipine": 0.88,
+      "Lisinopril": 0.6,
+      "Losartan": 0.67,
+      "Hydrochlorothiazide": 0.74,
+      "Atenolol": 0.81
+    }
+  },
+  {
+    "patient_id": "P-00011",
+    "age": 28,
+    "gender": "female",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.65,
+      "Glipizide": 0.72,
+      "Sitagliptin": 0.79,
+      "Insulin Glargine": 0.86,
+      "Empagliflozin": 0.58
+    }
+  },
+  {
+    "patient_id": "P-00012",
+    "age": 33,
+    "gender": "male",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.62,
+      "Glipizide": 0.69,
+      "Sitagliptin": 0.76,
+      "Insulin Glargine": 0.83,
+      "Empagliflozin": 0.55
+    }
+  },
+  {
+    "patient_id": "P-00013",
+    "age": 38,
+    "gender": "female",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.59,
+      "Glipizide": 0.66,
+      "Sitagliptin": 0.73,
+      "Insulin Glargine": 0.8,
+      "Empagliflozin": 0.87
+    }
+  },
+  {
+    "patient_id": "P-00014",
+    "age": 43,
+    "gender": "male",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.56,
+      "Glipizide": 0.63,
+      "Sitagliptin": 0.7,
+      "Insulin Glargine": 0.77,
+      "Empagliflozin": 0.84
+    }
+  },
+  {
+    "patient_id": "P-00015",
+    "age": 48,
+    "gender": "female",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.88,
+      "Glipizide": 0.6,
+      "Sitagliptin": 0.67,
+      "Insulin Glargine": 0.74,
+      "Empagliflozin": 0.81
+    }
+  },
+  {
+    "patient_id": "P-00016",
+    "age": 53,
+    "gender": "male",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.85,
+      "Glipizide": 0.57,
+      "Sitagliptin": 0.64,
+      "Insulin Glargine": 0.71,
+      "Empagliflozin": 0.78
+    }
+  },
+  {
+    "patient_id": "P-00017",
+    "age": 58,
+    "gender": "female",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.82,
+      "Glipizide": 0.89,
+      "Sitagliptin": 0.61,
+      "Insulin Glargine": 0.68,
+      "Empagliflozin": 0.75
+    }
+  },
+  {
+    "patient_id": "P-00018",
+    "age": 63,
+    "gender": "male",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.79,
+      "Glipizide": 0.86,
+      "Sitagliptin": 0.58,
+      "Insulin Glargine": 0.65,
+      "Empagliflozin": 0.72
+    }
+  },
+  {
+    "patient_id": "P-00019",
+    "age": 68,
+    "gender": "female",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.76,
+      "Glipizide": 0.83,
+      "Sitagliptin": 0.55,
+      "Insulin Glargine": 0.62,
+      "Empagliflozin": 0.69
+    }
+  },
+  {
+    "patient_id": "P-00020",
+    "age": 73,
+    "gender": "male",
+    "condition": "diabetes",
+    "current_medications": [
+      "Metformin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Metformin": 0.73,
+      "Glipizide": 0.8,
+      "Sitagliptin": 0.87,
+      "Insulin Glargine": 0.59,
+      "Empagliflozin": 0.66
+    }
+  },
+  {
+    "patient_id": "P-00021",
+    "age": 28,
+    "gender": "female",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.85,
+      "Fluoxetine": 0.57,
+      "Escitalopram": 0.64,
+      "Amitriptyline": 0.71,
+      "Venlafaxine": 0.78
+    }
+  },
+  {
+    "patient_id": "P-00022",
+    "age": 33,
+    "gender": "male",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.82,
+      "Fluoxetine": 0.89,
+      "Escitalopram": 0.61,
+      "Amitriptyline": 0.68,
+      "Venlafaxine": 0.75
+    }
+  },
+  {
+    "patient_id": "P-00023",
+    "age": 38,
+    "gender": "female",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.79,
+      "Fluoxetine": 0.86,
+      "Escitalopram": 0.58,
+      "Amitriptyline": 0.65,
+      "Venlafaxine": 0.72
+    }
+  },
+  {
+    "patient_id": "P-00024",
+    "age": 43,
+    "gender": "male",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.76,
+      "Fluoxetine": 0.83,
+      "Escitalopram": 0.55,
+      "Amitriptyline": 0.62,
+      "Venlafaxine": 0.69
+    }
+  },
+  {
+    "patient_id": "P-00025",
+    "age": 48,
+    "gender": "female",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.73,
+      "Fluoxetine": 0.8,
+      "Escitalopram": 0.87,
+      "Amitriptyline": 0.59,
+      "Venlafaxine": 0.66
+    }
+  },
+  {
+    "patient_id": "P-00026",
+    "age": 53,
+    "gender": "male",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.7,
+      "Fluoxetine": 0.77,
+      "Escitalopram": 0.84,
+      "Amitriptyline": 0.56,
+      "Venlafaxine": 0.63
+    }
+  },
+  {
+    "patient_id": "P-00027",
+    "age": 58,
+    "gender": "female",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.67,
+      "Fluoxetine": 0.74,
+      "Escitalopram": 0.81,
+      "Amitriptyline": 0.88,
+      "Venlafaxine": 0.6
+    }
+  },
+  {
+    "patient_id": "P-00028",
+    "age": 63,
+    "gender": "male",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.64,
+      "Fluoxetine": 0.71,
+      "Escitalopram": 0.78,
+      "Amitriptyline": 0.85,
+      "Venlafaxine": 0.57
+    }
+  },
+  {
+    "patient_id": "P-00029",
+    "age": 68,
+    "gender": "female",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.61,
+      "Fluoxetine": 0.68,
+      "Escitalopram": 0.75,
+      "Amitriptyline": 0.82,
+      "Venlafaxine": 0.89
+    }
+  },
+  {
+    "patient_id": "P-00030",
+    "age": 73,
+    "gender": "male",
+    "condition": "depression",
+    "current_medications": [
+      "Sertraline"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Sertraline": 0.58,
+      "Fluoxetine": 0.65,
+      "Escitalopram": 0.72,
+      "Amitriptyline": 0.79,
+      "Venlafaxine": 0.86
+    }
+  },
+  {
+    "patient_id": "P-00031",
+    "age": 28,
+    "gender": "female",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.7,
+      "Quinine": 0.77,
+      "Chloroquine": 0.84,
+      "Doxycycline": 0.56,
+      "Atovaquone": 0.63
+    }
+  },
+  {
+    "patient_id": "P-00032",
+    "age": 33,
+    "gender": "male",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.67,
+      "Quinine": 0.74,
+      "Chloroquine": 0.81,
+      "Doxycycline": 0.88,
+      "Atovaquone": 0.6
+    }
+  },
+  {
+    "patient_id": "P-00033",
+    "age": 38,
+    "gender": "female",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.64,
+      "Quinine": 0.71,
+      "Chloroquine": 0.78,
+      "Doxycycline": 0.85,
+      "Atovaquone": 0.57
+    }
+  },
+  {
+    "patient_id": "P-00034",
+    "age": 43,
+    "gender": "male",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.61,
+      "Quinine": 0.68,
+      "Chloroquine": 0.75,
+      "Doxycycline": 0.82,
+      "Atovaquone": 0.89
+    }
+  },
+  {
+    "patient_id": "P-00035",
+    "age": 48,
+    "gender": "female",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.58,
+      "Quinine": 0.65,
+      "Chloroquine": 0.72,
+      "Doxycycline": 0.79,
+      "Atovaquone": 0.86
+    }
+  },
+  {
+    "patient_id": "P-00036",
+    "age": 53,
+    "gender": "male",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.55,
+      "Quinine": 0.62,
+      "Chloroquine": 0.69,
+      "Doxycycline": 0.76,
+      "Atovaquone": 0.83
+    }
+  },
+  {
+    "patient_id": "P-00037",
+    "age": 58,
+    "gender": "female",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.87,
+      "Quinine": 0.59,
+      "Chloroquine": 0.66,
+      "Doxycycline": 0.73,
+      "Atovaquone": 0.8
+    }
+  },
+  {
+    "patient_id": "P-00038",
+    "age": 63,
+    "gender": "male",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.84,
+      "Quinine": 0.56,
+      "Chloroquine": 0.63,
+      "Doxycycline": 0.7,
+      "Atovaquone": 0.77
+    }
+  },
+  {
+    "patient_id": "P-00039",
+    "age": 68,
+    "gender": "female",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.81,
+      "Quinine": 0.88,
+      "Chloroquine": 0.6,
+      "Doxycycline": 0.67,
+      "Atovaquone": 0.74
+    }
+  },
+  {
+    "patient_id": "P-00040",
+    "age": 73,
+    "gender": "male",
+    "condition": "malaria",
+    "current_medications": [
+      "Artemether-Lumefantrine"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Artemether-Lumefantrine": 0.78,
+      "Quinine": 0.85,
+      "Chloroquine": 0.57,
+      "Doxycycline": 0.64,
+      "Atovaquone": 0.71
+    }
+  },
+  {
+    "patient_id": "P-00041",
+    "age": 28,
+    "gender": "female",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.55,
+      "Azithromycin": 0.62,
+      "Salbutamol": 0.69,
+      "Prednisolone": 0.76,
+      "Doxycycline": 0.83
+    }
+  },
+  {
+    "patient_id": "P-00042",
+    "age": 33,
+    "gender": "male",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.87,
+      "Azithromycin": 0.59,
+      "Salbutamol": 0.66,
+      "Prednisolone": 0.73,
+      "Doxycycline": 0.8
+    }
+  },
+  {
+    "patient_id": "P-00043",
+    "age": 38,
+    "gender": "female",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.84,
+      "Azithromycin": 0.56,
+      "Salbutamol": 0.63,
+      "Prednisolone": 0.7,
+      "Doxycycline": 0.77
+    }
+  },
+  {
+    "patient_id": "P-00044",
+    "age": 43,
+    "gender": "male",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.81,
+      "Azithromycin": 0.88,
+      "Salbutamol": 0.6,
+      "Prednisolone": 0.67,
+      "Doxycycline": 0.74
+    }
+  },
+  {
+    "patient_id": "P-00045",
+    "age": 48,
+    "gender": "female",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.78,
+      "Azithromycin": 0.85,
+      "Salbutamol": 0.57,
+      "Prednisolone": 0.64,
+      "Doxycycline": 0.71
+    }
+  },
+  {
+    "patient_id": "P-00046",
+    "age": 53,
+    "gender": "male",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.75,
+      "Azithromycin": 0.82,
+      "Salbutamol": 0.89,
+      "Prednisolone": 0.61,
+      "Doxycycline": 0.68
+    }
+  },
+  {
+    "patient_id": "P-00047",
+    "age": 58,
+    "gender": "female",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.72,
+      "Azithromycin": 0.79,
+      "Salbutamol": 0.86,
+      "Prednisolone": 0.58,
+      "Doxycycline": 0.65
+    }
+  },
+  {
+    "patient_id": "P-00048",
+    "age": 63,
+    "gender": "male",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.69,
+      "Azithromycin": 0.76,
+      "Salbutamol": 0.83,
+      "Prednisolone": 0.55,
+      "Doxycycline": 0.62
+    }
+  },
+  {
+    "patient_id": "P-00049",
+    "age": 68,
+    "gender": "female",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.66,
+      "Azithromycin": 0.73,
+      "Salbutamol": 0.8,
+      "Prednisolone": 0.87,
+      "Doxycycline": 0.59
+    }
+  },
+  {
+    "patient_id": "P-00050",
+    "age": 73,
+    "gender": "male",
+    "condition": "respiratory",
+    "current_medications": [
+      "Amoxicillin"
+    ],
+    "known_allergies": [
+      "Penicillin"
+    ],
+    "past_reactions": [],
+    "ehr_scores": {
+      "Amoxicillin": 0.63,
+      "Azithromycin": 0.7,
+      "Salbutamol": 0.77,
+      "Prednisolone": 0.84,
+      "Doxycycline": 0.56
+    }
+  }
+]
