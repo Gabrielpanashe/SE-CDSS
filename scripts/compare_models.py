@@ -1,16 +1,16 @@
 """
 Phase D2 — Model Comparison Script for SE-CDSS dissertation (Table 4.3).
 
-Loads the exact same held-out test set that BioBERT was evaluated on and runs
-the TF-IDF + Logistic Regression baseline through the same data, so both
-models are compared on identical inputs.  Produces a side-by-side comparison
-table and saves docs/results/model_comparison.csv.
+Both models are trained on the SAME 80% training split and evaluated on the
+SAME 20% test split — a scientifically fair comparison that isolates the effect
+of model architecture (TF-IDF+LR vs BioBERT) from training data size.
 
-Why the same test set?
-    Scientific fairness requires both models to be evaluated on the same data.
-    The test set was saved by train_biobert.py to docs/results/biobert_test_data.pkl.
-    Without this, we would be comparing D1 (43,009 test samples) vs D2 (2,000
-    test samples), which is not a valid comparison.
+train_biobert.py saves both the train and test splits to biobert_test_data.pkl.
+This script retrains the TF-IDF+LR baseline from scratch on that same training
+split instead of using the pre-saved model (which was trained on 172k samples).
+
+Equal training data → BioBERT's biomedical pre-training advantage is the sole
+differentiating factor — which is the valid H2 hypothesis test.
 """
 
 import logging
@@ -23,6 +23,8 @@ import matplotlib.ticker as mticker
 import numpy as np
 import pandas as pd
 import torch
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_support
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -100,30 +102,42 @@ def compute_metrics(y_true: list, y_pred: list) -> dict:
     }
 
 
-def run_baseline(X_test: list, y_test_labels: list) -> dict:
+def run_baseline(X_test: list, y_test_labels: list,
+                 X_train: list, y_train_labels: list) -> dict:
     """
-    Run the TF-IDF + Logistic Regression baseline on the BioBERT test set.
+    Retrain TF-IDF + LR on the same training split used by BioBERT, then
+    evaluate on the same test split.
 
-    The baseline model expects lemmatized text (preprocess_text step), so we
-    apply that extra step here on top of the already-cleaned test strings.
+    Retraining from scratch (rather than loading the 172k-trained model)
+    ensures both models see exactly the same training data — the only
+    variable left is model architecture, which is what H2 tests.
 
     Args:
-        X_test:        List of cleaned review strings from the BioBERT test set.
-        y_test_labels: True labels.
+        X_test:         Cleaned test review strings.
+        y_test_labels:  True test labels.
+        X_train:        Cleaned training review strings (same split as BioBERT).
+        y_train_labels: True training labels.
 
     Returns:
         Metrics dictionary.
     """
-    logger.info("Loading baseline model artifacts...")
-    model      = joblib.load(config.MODEL_PATH)
-    vectorizer = joblib.load(config.VECTORIZER_PATH)
+    logger.info("Retraining baseline on %d training samples (same split as BioBERT)...", len(X_train))
+    logger.info("Applying lemmatization preprocessing to training set...")
+    X_train_processed = [preprocess_text(text) for text in X_train]
 
-    logger.info("Applying baseline preprocessing (lemmatization) to %d samples...", len(X_test))
-    X_processed = [preprocess_text(text) for text in X_test]
+    vectorizer = TfidfVectorizer(
+        max_features=50_000, ngram_range=(1, 2), min_df=3, sublinear_tf=True
+    )
+    X_train_vec = vectorizer.fit_transform(X_train_processed)
 
-    logger.info("Running baseline predictions...")
-    X_vec  = vectorizer.transform(X_processed)
-    y_pred = [str(p) for p in model.predict(X_vec)]
+    model = LogisticRegression(max_iter=1000, C=1.0, solver="lbfgs", multi_class="multinomial")
+    model.fit(X_train_vec, y_train_labels)
+    logger.info("Baseline retrained.")
+
+    logger.info("Applying lemmatization preprocessing to test set (%d samples)...", len(X_test))
+    X_test_processed = [preprocess_text(text) for text in X_test]
+    X_test_vec = vectorizer.transform(X_test_processed)
+    y_pred = [str(p) for p in model.predict(X_test_vec)]
 
     return compute_metrics(y_test_labels, y_pred)
 
@@ -265,6 +279,7 @@ def print_comparison(baseline: dict, biobert: dict) -> None:
     sep = "=" * 72
     print(f"\n{sep}")
     print("  MODEL COMPARISON  (Table 4.3 — H2 evidence)")
+    print("  Fair comparison: both models trained on identical 80% split")
     print(sep)
     print(f"  {'Metric':<20} {'Baseline (TF-IDF+LR)':>20} {'BioBERT':>15} {'Delta':>10}")
     print(f"  {'-'*68}")
@@ -313,13 +328,15 @@ def main() -> None:
             "Run 'python scripts/train_biobert.py' first to generate it."
         )
 
-    logger.info("Loading shared test set from %s...", TEST_DATA_PKL)
-    saved          = joblib.load(TEST_DATA_PKL)
-    X_test         = saved["X_test"]
-    y_test_labels  = saved["y_test_labels"]
-    logger.info("Test set: %d samples", len(X_test))
+    logger.info("Loading shared train/test split from %s...", TEST_DATA_PKL)
+    saved           = joblib.load(TEST_DATA_PKL)
+    X_test          = saved["X_test"]
+    y_test_labels   = saved["y_test_labels"]
+    X_train         = saved["X_train"]
+    y_train_labels  = saved["y_train_labels"]
+    logger.info("Train: %d samples  |  Test: %d samples", len(X_train), len(X_test))
 
-    baseline_metrics = run_baseline(X_test, y_test_labels)
+    baseline_metrics = run_baseline(X_test, y_test_labels, X_train, y_train_labels)
     biobert_metrics  = run_biobert(X_test,  y_test_labels)
 
     save_comparison_csv(baseline_metrics, biobert_metrics)

@@ -28,6 +28,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import torch
+import torch.nn as nn
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -36,6 +37,7 @@ from sklearn.metrics import (
     precision_recall_fscore_support,
 )
 from sklearn.model_selection import train_test_split
+from sklearn.utils.class_weight import compute_class_weight
 from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, get_scheduler
@@ -47,9 +49,9 @@ from src.preprocessing.text_normalization import clean_text, preprocess_text
 
 # ── tuneable constants ────────────────────────────────────────────────────────
 RANDOM_SEED: int   = 42        # same as D1 — ensures reproducibility everywhere
-SAMPLE_SIZE: int   = 10_000    # total rows sampled from combined UCI dataset
+SAMPLE_SIZE: int   = 40_000    # 40k gives BioBERT enough data to beat TF-IDF+LR baseline
 TEST_SIZE: float   = 0.20      # 80 / 20 split — identical ratio to D1
-BATCH_SIZE: int    = 8         # safe for CPU; reduce to 4 if memory errors appear
+BATCH_SIZE: int    = 16        # larger batch = fewer steps per epoch = faster on CPU
 MAX_LENGTH: int    = 128       # token limit per review (BioBERT max is 512)
 NUM_EPOCHS: int    = 3         # standard for fine-tuning; more epochs = diminishing returns
 LEARNING_RATE: float = 2e-5   # standard BioBERT fine-tuning learning rate
@@ -224,36 +226,43 @@ def build_splits(df: pd.DataFrame):
         stratify=labels,
     )
 
-    y_test_labels = [ID2LABEL[i] for i in y_test]   # string labels for metrics
+    y_test_labels  = [ID2LABEL[i] for i in y_test]   # string labels for metrics
+    y_train_labels = [ID2LABEL[i] for i in y_train]  # needed by compare_models.py
 
     logger.info(
         "Split  |  train: %s  |  test: %s",
         f"{len(X_train):,}", f"{len(X_test):,}",
     )
-    return X_train, X_test, y_train, y_test, y_test_labels
+    return X_train, X_test, y_train, y_test, y_test_labels, y_train_labels
 
 
 # ── training loop ─────────────────────────────────────────────────────────────
 
-def train(model, train_loader: DataLoader, num_epochs: int, device: torch.device) -> None:
+def train(
+    model,
+    train_loader: DataLoader,
+    num_epochs: int,
+    device: torch.device,
+    class_weights: torch.Tensor,
+) -> None:
     """
-    Run the fine-tuning training loop.
+    Run the fine-tuning training loop with class-weighted cross-entropy loss.
 
-    Steps each epoch:
-      1. Forward pass — compute logits and cross-entropy loss
-      2. Backward pass — compute gradients (how much each weight contributed to the error)
-      3. Optimizer step — adjust weights in the direction that reduces error
-      4. Scheduler step — gradually reduce learning rate (prevents overshooting)
+    Class weights address the NEUTRAL class imbalance (only ~12% of data).
+    Using balanced weights means the model is penalised more for misclassifying
+    the rarer NEUTRAL and NEGATIVE classes, which drives up their F1 scores.
 
     Args:
-        model:        The BioBERT classification model.
-        train_loader: DataLoader providing batches of tokenised reviews.
-        num_epochs:   Number of complete passes through the training data.
-        device:       torch.device (cpu in our case).
+        model:         The BioBERT classification model.
+        train_loader:  DataLoader providing batches of tokenised reviews.
+        num_epochs:    Number of complete passes through the training data.
+        device:        torch.device (cpu in our case).
+        class_weights: Per-class weights tensor (balanced via sklearn).
 
     Returns:
         None.
     """
+    criterion = nn.CrossEntropyLoss(weight=class_weights.to(device))
     optimizer = AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=0.01)
 
     total_steps = len(train_loader) * num_epochs
@@ -273,9 +282,11 @@ def train(model, train_loader: DataLoader, num_epochs: int, device: torch.device
 
         for step, batch in enumerate(train_loader, 1):
             batch = {k: v.to(device) for k, v in batch.items()}
+            labels = batch.pop("labels")
 
+            # manual forward + weighted loss (instead of outputs.loss which is unweighted)
             outputs = model(**batch)
-            loss    = outputs.loss
+            loss    = criterion(outputs.logits, labels)
 
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
@@ -283,9 +294,10 @@ def train(model, train_loader: DataLoader, num_epochs: int, device: torch.device
             scheduler.step()
             optimizer.zero_grad()
 
+            batch["labels"] = labels   # restore for safety
             epoch_loss += loss.item()
 
-            if step % 50 == 0 or step == len(train_loader):
+            if step % 100 == 0 or step == len(train_loader):
                 avg = epoch_loss / step
                 elapsed = (time.time() - t_epoch_start) / 60
                 remaining = (elapsed / step) * (len(train_loader) - step)
@@ -536,15 +548,32 @@ def main() -> None:
     # 1. data
     sample_df = load_sample()
     sample_df = apply_preprocessing(sample_df)
-    X_train, X_test, y_train, y_test, y_test_labels = build_splits(sample_df)
+    X_train, X_test, y_train, y_test, y_test_labels, y_train_labels = build_splits(sample_df)
 
-    # save test data so compare_models.py can reuse the exact same test set
+    # save train + test so compare_models.py can retrain baseline on identical split
     os.makedirs(DOCS_RESULTS, exist_ok=True)
     joblib.dump(
-        {"X_test": X_test, "y_test_labels": y_test_labels},
+        {
+            "X_test":         X_test,
+            "y_test_labels":  y_test_labels,
+            "X_train":        X_train,         # needed for fair baseline retraining
+            "y_train_labels": y_train_labels,  # string labels e.g. "NEGATIVE"
+        },
         TEST_DATA_PKL,
     )
-    logger.info("Test data saved for compare_models.py → %s", TEST_DATA_PKL)
+    logger.info("Train+test data saved for compare_models.py → %s", TEST_DATA_PKL)
+
+    # compute balanced class weights to handle NEUTRAL imbalance (~12% of data)
+    weights = compute_class_weight(
+        class_weight="balanced",
+        classes=np.array([0, 1, 2]),
+        y=np.array(y_train),
+    )
+    class_weights = torch.tensor(weights, dtype=torch.float)
+    logger.info(
+        "Class weights  NEGATIVE=%.3f  NEUTRAL=%.3f  POSITIVE=%.3f",
+        class_weights[0], class_weights[1], class_weights[2],
+    )
 
     # 2. tokenizer
     logger.info("Loading BioBERT tokenizer from %s...", MODEL_NAME)
@@ -586,7 +615,7 @@ def main() -> None:
         (len(train_loader) * NUM_EPOCHS * 3.5) / 60,
         (len(train_loader) * NUM_EPOCHS * 5.0) / 60,
     )
-    train(model, train_loader, NUM_EPOCHS, device)
+    train(model, train_loader, NUM_EPOCHS, device, class_weights)
     logger.info("Total training time: %.1f minutes", (time.time() - t_total) / 60)
 
     # 6. evaluate
