@@ -1,0 +1,7 @@
+model,class,precision,recall,f1,support
+TF-IDF + Logistic Regression,NEGATIVE,0.749,0.7212,0.7348,9380
+TF-IDF + Logistic Regression,NEUTRAL,0.6079,0.2153,0.318,5170
+TF-IDF + Logistic Regression,POSITIVE,0.8439,0.9533,0.8953,28459
+TF-IDF + Logistic Regression,OVERALL (macro),,,0.6494,43009
+TF-IDF + Logistic Regression,OVERALL (weighted),,,0.7909,
+TF-IDF + Logistic Regression,ACCURACY,,,0.8139,

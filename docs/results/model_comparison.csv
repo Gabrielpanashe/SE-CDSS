@@ -1,0 +1,7 @@
+class,baseline_precision,baseline_recall,baseline_f1,biobert_precision,biobert_recall,biobert_f1,f1_delta
+NEGATIVE,0.8018,0.8073,0.8046,0.7391,0.7018,0.72,-0.0846
+NEUTRAL,0.8587,0.3292,0.4759,0.3682,0.3667,0.3674,-0.1085
+POSITIVE,0.8632,0.9577,0.908,0.8827,0.898,0.8903,-0.0177
+MACRO F1,,,0.7295,,,0.6592,-0.0703
+WEIGHTED F1,,,0.8336,,,0.7904,-0.0432
+ACCURACY,,,0.8495,,,0.7915,-0.058
