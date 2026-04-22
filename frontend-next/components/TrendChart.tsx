@@ -4,7 +4,7 @@ import {
   ResponsiveContainer, Legend, ReferenceLine,
 } from "recharts";
 import { TrendEntry } from "@/lib/api";
-import { sentimentHex, formatTimestamp } from "@/lib/utils";
+import { formatTimestamp } from "@/lib/utils";
 
 interface Props { trends: TrendEntry[] }
 

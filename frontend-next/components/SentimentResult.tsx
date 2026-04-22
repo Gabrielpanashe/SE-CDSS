@@ -3,7 +3,7 @@ import { FeedbackResponse } from "@/lib/api";
 import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
-import { capitalize, sentimentColor, riskColor, riskDot, scoreBar } from "@/lib/utils";
+import { capitalize, sentimentColor, riskColor, riskDot } from "@/lib/utils";
 import { CheckCircle, AlertCircle, AlertTriangle, TrendingUp } from "lucide-react";
 
 const SentimentIcon = ({ s }: { s: string }) => {
