@@ -4,9 +4,15 @@ import { useState } from "react";
 import { api, FeedbackResponse, RecommendResponse } from "@/lib/api";
 import { SentimentResult } from "@/components/SentimentResult";
 import { RecommendationTable } from "@/components/RecommendationTable";
+import { SevereRiskAlert } from "@/components/SevereRiskAlert";
 import { Spinner } from "@/components/ui/Spinner";
+import { SentimentSkeleton, RecommendationSkeleton } from "@/components/ui/Skeleton";
+import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
 import { CONDITIONS } from "@/lib/utils";
-import { Send, RefreshCw, User, Pill, Stethoscope, FileText } from "lucide-react";
+import { Send, RefreshCw, User, Pill, Stethoscope, Info } from "lucide-react";
+
+const MAX_REVIEW = 1000;
 
 interface FormState {
   review: string;
@@ -84,49 +90,63 @@ export default function PatientPage() {
         {/* Form */}
         <div className="space-y-4">
           <form onSubmit={handleSubmit} className="card space-y-5">
-            {/* Review textarea */}
-            <div>
-              <label className="label">
-                <FileText className="inline h-3 w-3 mr-1" />
-                Medication Feedback <span className="text-red-400">*</span>
-              </label>
-              <textarea
-                className="input-field resize-none"
+            {/* Review textarea — shadcn Field pattern */}
+            <Field data-invalid={form.review.length > MAX_REVIEW ? true : undefined}>
+              <FieldLabel htmlFor="review-input">
+                Medication Feedback <span className="text-red-400 normal-case font-normal">*</span>
+              </FieldLabel>
+              <Textarea
+                id="review-input"
                 rows={5}
-                placeholder="Describe your experience with this medication — side effects, effectiveness, how you feel..."
+                placeholder="Describe your experience — side effects, improvements, how you feel overall…"
                 value={form.review}
                 onChange={set("review")}
+                showCount
+                maxLength={MAX_REVIEW}
+                aria-invalid={form.review.length > MAX_REVIEW}
                 required
               />
-              <p className="mt-1 text-xs text-slate-400">{form.review.length} characters</p>
-            </div>
+              <FieldDescription>
+                {form.review.length > MAX_REVIEW
+                  ? `Review is too long. Please shorten to under ${MAX_REVIEW} characters.`
+                  : "Be as descriptive as possible — the more detail, the more accurate the analysis."}
+              </FieldDescription>
+            </Field>
 
             {/* Patient ID + Drug */}
             <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="label">
+              <Field data-invalid={form.patient_id && !/^P-\d{5}$/.test(form.patient_id) ? true : undefined}>
+                <FieldLabel htmlFor="patient-id">
                   <User className="inline h-3 w-3 mr-1" />
                   Patient ID
-                </label>
+                </FieldLabel>
                 <input
+                  id="patient-id"
                   className="input-field"
-                  placeholder="e.g. P-00001"
+                  placeholder="P-00001"
                   value={form.patient_id}
                   onChange={set("patient_id")}
                 />
-              </div>
-              <div>
-                <label className="label">
+                <FieldDescription>
+                  {form.patient_id && !/^P-\d{5}$/.test(form.patient_id)
+                    ? "Format: P-XXXXX (e.g. P-00042)"
+                    : <span className="flex items-center gap-1"><Info className="h-2.5 w-2.5" /> Format: P-00001</span>}
+                </FieldDescription>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="drug-name">
                   <Pill className="inline h-3 w-3 mr-1" />
                   Drug Name
-                </label>
+                </FieldLabel>
                 <input
+                  id="drug-name"
                   className="input-field"
                   placeholder="e.g. Metformin"
                   value={form.drug_name}
                   onChange={set("drug_name")}
                 />
-              </div>
+                <FieldDescription>Name of the medication you&apos;re reviewing</FieldDescription>
+              </Field>
             </div>
 
             {/* Condition */}
@@ -201,14 +221,15 @@ export default function PatientPage() {
             </div>
           )}
 
-          {loading && (
-            <div className="card flex flex-col items-center justify-center py-16 gap-3">
-              <Spinner className="h-8 w-8 text-teal-500" />
-              <p className="text-sm text-slate-500">Analysing feedback…</p>
-            </div>
-          )}
+          {loading && <SentimentSkeleton />}
 
-          {feedback && <SentimentResult data={feedback} />}
+          {feedback && (
+            <>
+              <SevereRiskAlert riskLevel={feedback.risk_level} drugName={form.drug_name || undefined} />
+              <SentimentResult data={feedback} />
+            </>
+          )}
+          {loading && recommendations === null && feedback !== null && <RecommendationSkeleton />}
           {recommendations && (
             <RecommendationTable
               items={recommendations.recommendations}

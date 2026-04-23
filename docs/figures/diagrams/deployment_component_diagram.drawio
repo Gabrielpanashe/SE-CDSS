@@ -1,0 +1,167 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram id="deployment" name="Deployment Component Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="1" background="#0D1117">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="&lt;b style='font-size:16px;'&gt;SE-CDSS — Deployment &amp;amp; Component Diagram&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:11px;'&gt;Current: Local Development · Planned: Docker · PostgreSQL · Nginx (Phase E/G)&lt;/font&gt;" style="text;html=1;fillColor=#0F2944;fontColor=#FFFFFF;align=center;rounded=1;strokeColor=#38BDF8;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="1494" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- CLIENT NODE -->
+        <mxCell id="10" value="&lt;b&gt;«node»&lt;br&gt;Client Device&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D1E3A;strokeColor=#60A5FA;fontColor=#93C5FD;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="90" width="260" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="11" value="&lt;b&gt;«component»&lt;br&gt;Web Browser&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Chrome / Firefox / Edge&lt;br&gt;Renders Next.js SSR pages&lt;br&gt;Sends REST API calls&lt;br&gt;Displays clinical UI&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1525;strokeColor=#60A5FA;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="260" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- FRONTEND SERVER NODE -->
+        <mxCell id="20" value="&lt;b&gt;«node»&lt;br&gt;Frontend Server&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;color:#86EFAC;'&gt;localhost:3000  (dev)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1E10;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="90" width="360" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="21" value="&lt;b&gt;«component»&lt;br&gt;Next.js 14 App Router&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;color:#86EFAC;'&gt;TypeScript · Tailwind CSS · Recharts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1A0C;strokeColor=#4ADE80;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="140" width="360" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="22" value="app/page.tsx&lt;br&gt;&lt;font style='font-size:9px;'&gt;Landing page&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F2318;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="205" width="100" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="app/patient/page.tsx&lt;br&gt;&lt;font style='font-size:9px;'&gt;Patient Portal&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F2318;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="535" y="205" width="120" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="app/clinician/page.tsx&lt;br&gt;&lt;font style='font-size:9px;'&gt;Clinician Dashboard&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F2318;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="670" y="205" width="110" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="25" value="lib/api.ts&lt;br&gt;&lt;font style='font-size:9px;'&gt;Typed API client&lt;br&gt;All fetch calls&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#071A0E;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="275" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="26" value="components/&lt;br&gt;&lt;font style='font-size:9px;'&gt;TrendChart · SentimentResult&lt;br&gt;RecommendationTable&lt;br&gt;Navbar · DisclaimerBanner&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#071A0E;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="570" y="275" width="210" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- BACKEND SERVER NODE -->
+        <mxCell id="30" value="&lt;b&gt;«node»&lt;br&gt;Backend Server&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;color:#FDBA74;'&gt;localhost:8000  (dev)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A0900;strokeColor=#FB923C;fontColor=#FDBA74;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="860" y="90" width="400" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="31" value="&lt;b&gt;«component»&lt;br&gt;FastAPI (Uvicorn)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;color:#FDBA74;'&gt;Python 3.11 · SQLAlchemy · Pydantic v2&lt;br&gt;CORS · Async lifespan (model pre-warm)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#120900;strokeColor=#FB923C;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="140" width="400" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="32" value="POST /feedback&lt;br&gt;&lt;font style='font-size:9px;'&gt;Predict + log&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="215" width="110" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="POST /recommend&lt;br&gt;&lt;font style='font-size:9px;'&gt;Drug ranking&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="985" y="215" width="110" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="GET /trends&lt;br&gt;&lt;font style='font-size:9px;'&gt;History query&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="215" width="90" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="GET /health&lt;br&gt;&lt;font style='font-size:9px;'&gt;Liveness&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="215" width="90" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="36" value="src/models/predict_bert.py&lt;br&gt;&lt;font style='font-size:9px;'&gt;BioBERT inference&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#160A2E;strokeColor=#A78BFA;fontColor=#C4B5FD;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="285" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="37" value="src/models/predict.py&lt;br&gt;&lt;font style='font-size:9px;'&gt;Baseline TF-IDF+LR&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#160A2E;strokeColor=#A78BFA;fontColor=#C4B5FD;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="285" width="185" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="38" value="src/recommender/engine.py&lt;br&gt;&lt;font style='font-size:9px;'&gt;Drug ranking logic&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A2A28;strokeColor=#2DD4BF;fontColor=#2DD4BF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="350" width="400" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- STORAGE NODE -->
+        <mxCell id="40" value="&lt;b&gt;«node»&lt;br&gt;File System Storage&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#200A0A;strokeColor=#F87171;fontColor=#FCA5A5;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="860" y="430" width="720" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="41" value="&lt;b&gt;«database»&lt;br&gt;SQLite&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;se_cdss.db&lt;br&gt;PredictionLog table&lt;br&gt;~287+ records seeded&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#EF4444;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="475" width="160" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="42" value="&lt;b&gt;BioBERT Model Files&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;models/biobert_sentiment/&lt;br&gt;model.safetensors (~414MB)&lt;br&gt;config.json · tokenizer.json&lt;br&gt;vocab.txt · special_tokens_map.json&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7C3AED;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="475" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="43" value="&lt;b&gt;Baseline Model Files&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;models/baseline/&lt;br&gt;tfidf_vectorizer.pkl&lt;br&gt;lr_classifier.pkl&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#94A3B8;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1305" y="475" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="44" value="&lt;b&gt;EHR JSON&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;data/simulated_ehr.json&lt;br&gt;50 patient records&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="605" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="45" value="&lt;b&gt;Drug CSV Files&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;data/drugs/&lt;br&gt;Per-condition drug stats&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="605" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- PLANNED FUTURE NODE -->
+        <mxCell id="60" value="&lt;b&gt;«planned» Future Infrastructure (Phase E/G)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#111827;strokeColor=#475569;fontColor=#94A3B8;fontSize=11;fontStyle=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="430" width="740" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="61" value="&lt;b&gt;«planned»&lt;br&gt;Docker Container&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;docker-compose.yml&lt;br&gt;frontend:3000&lt;br&gt;backend:8000&lt;br&gt;db:5432&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#111827;strokeColor=#475569;fontColor=#64748B;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="475" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="62" value="&lt;b&gt;«planned»&lt;br&gt;PostgreSQL&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Phase E migration&lt;br&gt;Alembic schema&lt;br&gt;Port 5432&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#111827;strokeColor=#475569;fontColor=#64748B;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="475" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="63" value="&lt;b&gt;«planned»&lt;br&gt;Nginx Reverse Proxy&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;SSL termination&lt;br&gt;Load balancing&lt;br&gt;Port 80 / 443&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#111827;strokeColor=#475569;fontColor=#64748B;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="475" width="165" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="64" value="&lt;b&gt;«planned»&lt;br&gt;SHAP Explainability&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Phase D3&lt;br&gt;src/explainability/&lt;br&gt;shap_explainer.py&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#111827;strokeColor=#475569;fontColor=#64748B;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="625" y="475" width="165" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTORS -->
+        <mxCell id="70" value="HTTP / HTTPS&lt;br&gt;port 3000" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#60A5FA;strokeWidth=2;fontSize=9;fontColor=#93C5FD;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="11" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="71" value="REST API calls&lt;br&gt;port 8000" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#86EFAC;" edge="1" source="25" target="31" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="72" value="inference" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;fontSize=9;fontColor=#C4B5FD;" edge="1" source="32" target="36" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="73" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;" edge="1" source="32" target="37" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="74" value="rank" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;" edge="1" source="33" target="38" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="75" value="SQLAlchemy ORM" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#FCA5A5;" edge="1" source="34" target="41" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="76" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;" edge="1" source="32" target="41" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="77" value="load on startup" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;fontSize=9;fontColor=#C4B5FD;dashed=1;" edge="1" source="36" target="42" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="78" value="load on startup" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2;fontSize=9;fontColor=#94A3B8;dashed=1;" edge="1" source="37" target="43" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79" value="read JSON" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#FCA5A5;" edge="1" source="38" target="44" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="80" value="read CSV" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#FCA5A5;" edge="1" source="38" target="45" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PORT ANNOTATIONS -->
+        <mxCell id="90" value="&lt;b&gt;Interface Ports&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Frontend: localhost:3000&lt;br&gt;Backend API: localhost:8000&lt;br&gt;SQLite: se_cdss.db (file)&lt;br&gt;Health check: GET /health&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="280" width="260" height="90" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

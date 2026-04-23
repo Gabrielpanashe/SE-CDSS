@@ -1,0 +1,198 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram id="biobert-train" name="BioBERT Training Pipeline">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="1" background="#0D1117">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="&lt;b style='font-size:16px;'&gt;SE-CDSS — BioBERT Fine-Tuning Pipeline (Phase D2)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:11px;'&gt;WebMD Drug Reviews → Fine-tuned 3-class Sentiment Classifier · Fair Baseline Comparison for H1 &amp;amp; H2&lt;/font&gt;" style="text;html=1;fillColor=#0F2944;fontColor=#FFFFFF;align=center;rounded=1;strokeColor=#38BDF8;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="1494" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- PHASE LABELS -->
+        <mxCell id="3" value="&lt;b&gt;PHASE 1: Data Preparation&lt;/b&gt;" style="text;html=1;fontSize=10;fontStyle=1;fillColor=#0A1525;strokeColor=#60A5FA;rounded=1;fontColor=#93C5FD;" vertex="1" parent="1">
+          <mxGeometry x="80" y="90" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;PHASE 2: Model Setup&lt;/b&gt;" style="text;html=1;fontSize=10;fontStyle=1;fillColor=#160A2E;strokeColor=#A78BFA;rounded=1;fontColor=#C4B5FD;" vertex="1" parent="1">
+          <mxGeometry x="590" y="90" width="330" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;PHASE 3: Training Loop (3 Epochs)&lt;/b&gt;" style="text;html=1;fontSize=10;fontStyle=1;fillColor=#1A0900;strokeColor=#FB923C;rounded=1;fontColor=#FDBA74;" vertex="1" parent="1">
+          <mxGeometry x="940" y="90" width="310" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;PHASE 4: Evaluation &amp;amp; Save&lt;/b&gt;" style="text;html=1;fontSize=10;fontStyle=1;fillColor=#0A1E0A;strokeColor=#4ADE80;rounded=1;fontColor=#86EFAC;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="90" width="295" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- PHASE 1: DATA PREPARATION -->
+        <mxCell id="10" value="&lt;b&gt;1. Raw Dataset&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;WebMD Drug Reviews (CSV)&lt;br&gt;172,036 labelled reviews&lt;br&gt;Labels: POSITIVE · NEUTRAL · NEGATIVE&lt;br&gt;Columns: review, rating, drug, condition&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="135" width="200" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="11" value="&lt;b&gt;2. Random Sampling&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;SAMPLE_SIZE = 40,000&lt;br&gt;Stratified by sentiment&lt;br&gt;POS: 26,468 · NEG: 8,723&lt;br&gt;NEU: 4,809 (imbalanced)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="290" width="200" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="12" value="&lt;b&gt;3. Text Cleaning&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Strip HTML entities&lt;br&gt;Lowercase conversion&lt;br&gt;Lemmatization (spaCy/NLTK)&lt;br&gt;39,999 rows after cleaning&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A855F7;strokeColor=#C084FC;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="450" width="200" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="13" value="&lt;b&gt;4. Train / Test Split&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;80% Train: 31,999 samples&lt;br&gt;20% Test:    8,000 samples&lt;br&gt;Saved to biobert_test_data.pkl&lt;br&gt;(shared with baseline model)&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#38BDF8;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="610" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="14" value="&lt;b&gt;Training Set (31,999)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;X_train · y_train_labels&lt;br&gt;Used for: BioBERT fine-tuning&lt;br&gt;AND baseline TF-IDF retraining&lt;br&gt;(ensures fair H2 comparison)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D1E3A;strokeColor=#60A5FA;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="790" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;b&gt;Test Set (8,000)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;X_test · y_test_labels&lt;br&gt;Held out — never seen&lt;br&gt;during training&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1A28;strokeColor=#38BDF8;fontColor=#E2E8F0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="910" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="16" value="&lt;b&gt;5. Class Weight Computation&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;compute_class_weight('balanced')&lt;br&gt;NEGATIVE  = 1.529×&lt;br&gt;NEUTRAL   = 2.773× (minority)&lt;br&gt;POSITIVE  = 0.504×&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D9488;strokeColor=#2DD4BF;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="790" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- PHASE 2: MODEL SETUP -->
+        <mxCell id="20" value="&lt;b&gt;6. Load BioBERT Base&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;dmis-lab/biobert-base-cased-v1.2&lt;br&gt;Pre-trained: 18GB PubMed + PMC&lt;br&gt;12 transformer layers&lt;br&gt;Hidden size: 768&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7C3AED;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="140" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="21" value="&lt;b&gt;7. Add Classification Head&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Linear(768 → 3)&lt;br&gt;num_labels = 3&lt;br&gt;[NEGATIVE · NEUTRAL · POSITIVE]&lt;br&gt;108.3M total parameters&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6D28D9;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="310" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="22" value="&lt;b&gt;8. BioBERT Tokenization&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;AutoTokenizer (WordPiece)&lt;br&gt;max_length = 128&lt;br&gt;padding = 'max_length'&lt;br&gt;return_tensors = 'pt'&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5B21B6;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="490" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="23" value="&lt;b&gt;9. DataLoader Setup&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;BATCH_SIZE = 16&lt;br&gt;shuffle = True (train)&lt;br&gt;SentimentDataset wrapper&lt;br&gt;~2,000 batches/epoch&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C1D95;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="660" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- PHASE 3: TRAINING LOOP -->
+        <mxCell id="30" value="" style="rounded=1;fillColor=#1A0900;strokeColor=#FB923C;strokeWidth=2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="900" y="130" width="340" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="&lt;b&gt;Training Loop — 3 Epochs&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;color:#FDBA74;'&gt;lr = 2e-5 · AdamW optimizer&lt;br&gt;Repeat for each batch (~2,000 per epoch)&lt;/font&gt;" style="text;html=1;fontSize=10;fontColor=#FDBA74;align=center;" vertex="1" parent="1">
+          <mxGeometry x="910" y="135" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="32" value="&lt;b&gt;Forward Pass&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;model(input_ids, attention_mask)&lt;br&gt;Output: logits [batch × 3]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="195" width="300" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="33" value="&lt;b&gt;Weighted CrossEntropyLoss&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;weight=[1.529, 2.773, 0.504]&lt;br&gt;Penalises NEUTRAL misclassification&lt;br&gt;Drives minority class F1 up&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="310" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="34" value="&lt;b&gt;Backward Pass&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;loss.backward()&lt;br&gt;Gradient computation (autograd)&lt;br&gt;Clip gradients (max_norm=1.0)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EA580C;strokeColor=#FB923C;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="435" width="300" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="35" value="&lt;b&gt;AdamW Optimizer Step&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;optimizer.step()&lt;br&gt;scheduler.step() (linear warmup)&lt;br&gt;optimizer.zero_grad()&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B45309;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="555" width="300" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="36" value="&lt;b&gt;Per-Epoch Log&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;avg_loss · elapsed time&lt;br&gt;Step progress (every 100 steps)&lt;br&gt;Epoch 1→2→3&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#78350F;strokeColor=#FB923C;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="675" width="300" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="37" value="next batch" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FCD34D;strokeWidth=2;fontSize=9;fontColor=#FCD34D;exitX=1;exitY=0.5;entryX=1;entryY=0.5;curved=1;" edge="1" source="35" target="32" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="597" />
+              <mxPoint x="1250" y="235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="38" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FDBA74;strokeWidth=2;" edge="1" source="32" target="33" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="39" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FDBA74;strokeWidth=2;" edge="1" source="33" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="390" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FDBA74;strokeWidth=2;" edge="1" source="34" target="35" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="391" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FDBA74;strokeWidth=2;" edge="1" source="35" target="36" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PHASE 4: EVALUATION & SAVE -->
+        <mxCell id="40" value="&lt;b&gt;10. Model Evaluation&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Macro F1 · Weighted F1&lt;br&gt;Per-class Precision &amp;amp; Recall&lt;br&gt;Confusion matrix&lt;br&gt;Test set only (8,000 samples)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#16A34A;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="160" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="41" value="&lt;b&gt;H1: Macro F1 ≥ 80%?&lt;/b&gt;&lt;br&gt;&lt;b&gt;H2: BioBERT &gt; Baseline?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#15803D;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="320" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="42" value="&lt;b&gt;11. Save Fine-tuned Model&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;models/biobert_sentiment/&lt;br&gt;• model.safetensors (~414MB)&lt;br&gt;• config.json&lt;br&gt;• tokenizer files&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#166534;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="475" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="43" value="&lt;b&gt;12. Save Test Split (.pkl)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;docs/results/biobert_test_data.pkl&lt;br&gt;X_test · y_test_labels&lt;br&gt;X_train · y_train_labels&lt;br&gt;Used by compare_models.py&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#15803D;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="660" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- CROSS-PHASE CONNECTORS -->
+        <mxCell id="50" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;" edge="1" source="10" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FCD34D;strokeWidth=2;" edge="1" source="11" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#C084FC;strokeWidth=2;" edge="1" source="12" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53" value="train" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#38BDF8;strokeWidth=2;fontSize=9;fontColor=#38BDF8;" edge="1" source="13" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="54" value="test" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#38BDF8;strokeWidth=2;fontSize=9;fontColor=#38BDF8;exitX=0.3;exitY=1;" edge="1" source="13" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="55" value="compute weights" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;" edge="1" source="14" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="56" value="to training" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;fontSize=9;fontColor=#A78BFA;" edge="1" source="14" target="23" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="955" />
+              <mxPoint x="720" y="955" />
+              <mxPoint x="720" y="715" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="57" value="batches" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;fontSize=9;fontColor=#A78BFA;" edge="1" source="23" target="32" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="58" value="inject weights" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;" edge="1" source="16" target="33" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="59" value="after 3 epochs" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#4ADE80;" edge="1" source="36" target="40" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="60" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;" edge="1" source="40" target="41" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="61" value="PASS" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#4ADE80;" edge="1" source="41" target="42" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="62" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;" edge="1" source="42" target="43" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="63" value="evaluate on" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#38BDF8;strokeWidth=2;fontSize=9;fontColor=#38BDF8;dashed=1;" edge="1" source="15" target="40" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="955" />
+              <mxPoint x="1410" y="955" />
+              <mxPoint x="1410" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

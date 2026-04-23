@@ -1,0 +1,164 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram id="system-arch" name="System Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="1" background="#0D1117">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="&lt;b style='font-size:16px;'&gt;SE-CDSS — Sentiment-Enhanced Clinical Decision Support System&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:11px;'&gt;System Architecture Overview&lt;/font&gt;" style="text;html=1;fillColor=#0F2944;fontColor=#FFFFFF;align=center;rounded=1;strokeColor=#38BDF8;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="1494" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 1 BG: Presentation -->
+        <mxCell id="3" value="" style="rounded=1;fillColor=#060A14;strokeColor=#60A5FA;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="95" width="1494" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;PRESENTATION LAYER&lt;/b&gt;" style="text;html=1;fontSize=9;fontColor=#93C5FD;fillColor=#0D1E3A;strokeColor=#3B82F6;rounded=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="100" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 2 BG: Frontend -->
+        <mxCell id="5" value="" style="rounded=1;fillColor=#060E08;strokeColor=#4ADE80;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="245" width="1494" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;FRONTEND LAYER&lt;/b&gt;" style="text;html=1;fontSize=9;fontColor=#86EFAC;fillColor=#0A1E10;strokeColor=#22C55E;rounded=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="250" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 3 BG: API -->
+        <mxCell id="7" value="" style="rounded=1;fillColor=#120900;strokeColor=#FB923C;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="415" width="1494" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;API LAYER&lt;/b&gt;" style="text;html=1;fontSize=9;fontColor=#FDBA74;fillColor=#1F0E00;strokeColor=#F59E0B;rounded=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="420" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 4 BG: ML Engine -->
+        <mxCell id="9" value="" style="rounded=1;fillColor=#0D060E;strokeColor=#C084FC;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="590" width="1494" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="&lt;b&gt;ML ENGINE LAYER&lt;/b&gt;" style="text;html=1;fontSize=9;fontColor=#D8B4FE;fillColor=#1A0826;strokeColor=#A855F7;rounded=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="595" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 5 BG: Data -->
+        <mxCell id="11" value="" style="rounded=1;fillColor=#120808;strokeColor=#F87171;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="760" width="1494" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="&lt;b&gt;DATA LAYER&lt;/b&gt;" style="text;html=1;fontSize=9;fontColor=#FCA5A5;fillColor=#200A0A;strokeColor=#EF4444;rounded=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="765" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- PRESENTATION LAYER COMPONENTS -->
+        <mxCell id="13" value="&lt;b&gt;Patient&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Submits drug reviews&lt;br&gt;Views predictions&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#38BDF8;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="113" width="170" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;b&gt;Web Browser&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;HTTP / REST API calls&lt;br&gt;Responsive UI&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D1E3A;strokeColor=#60A5FA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="113" width="170" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;b&gt;Clinician&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Monitors patient trends&lt;br&gt;Reviews risk alerts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D9488;strokeColor=#2DD4BF;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="113" width="170" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- FRONTEND LAYER COMPONENTS -->
+        <mxCell id="16" value="&lt;b&gt;Landing Page&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;System overview&lt;br&gt;Research hypotheses&lt;br&gt;Feature showcase&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#16A34A;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="268" width="185" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;Patient Portal&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Review submission form&lt;br&gt;Sentiment + confidence&lt;br&gt;Drug recommendations&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#16A34A;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="258" width="185" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="&lt;b&gt;Clinician Dashboard&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Patient ID lookup&lt;br&gt;Trend chart (Recharts)&lt;br&gt;Risk monitoring&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#16A34A;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="258" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="⚡ Next.js 14 · TypeScript · Tailwind CSS · Recharts · Lucide Icons  |  Port 3000" style="text;html=1;fontSize=9;fontColor=#86EFAC;align=center;fontStyle=2;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="375" width="1000" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- API LAYER COMPONENTS -->
+        <mxCell id="20" value="⚙️ FastAPI · Python 3.11 · SQLAlchemy ORM · CORS · Uvicorn  |  Port 8000" style="text;html=1;fontSize=9;fontColor=#FDBA74;align=center;fontStyle=2;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="418" width="1000" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="&lt;b&gt;POST /feedback&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Sentiment prediction&lt;br&gt;Risk stratification&lt;br&gt;DB logging&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="155" y="440" width="185" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="&lt;b&gt;POST /recommend&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;EHR-aware drug ranking&lt;br&gt;Allergy filtering&lt;br&gt;Top-K results&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="440" width="185" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="&lt;b&gt;GET /trends&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Patient history query&lt;br&gt;Time-series data&lt;br&gt;Clinician dashboard&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="745" y="440" width="185" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="&lt;b&gt;GET /health&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Liveness check&lt;br&gt;Model load status&lt;br&gt;System monitoring&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D97706;strokeColor=#FCD34D;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="440" width="185" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ML ENGINE LAYER COMPONENTS -->
+        <mxCell id="25" value="&lt;b&gt;Text Preprocessor&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;HTML strip · Lowercase&lt;br&gt;Lemmatization · Stopwords&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A855F7;strokeColor=#C084FC;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="115" y="615" width="185" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="&lt;b&gt;BioBERT Fine-tuned&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;dmis-lab/biobert-base-cased-v1.2&lt;br&gt;108.3M parameters · 3-class&lt;br&gt;Pre-trained on 18GB PubMed/PMC&lt;br&gt;H1: Macro F1 ≥ 80%&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7C3AED;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="605" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="&lt;b&gt;TF-IDF + Logistic Regression&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Baseline Model (Phase D1)&lt;br&gt;50,000 features · n-gram (1,2)&lt;br&gt;Trained on 172,036 samples&lt;br&gt;Macro F1 = 72.95%&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#475569;strokeColor=#94A3B8;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="800" y="605" width="265" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="&lt;b&gt;Drug Recommender&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;Sentiment-weighted scoring&lt;br&gt;Condition + allergy filtering&lt;br&gt;Ranked drug list&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D9488;strokeColor=#2DD4BF;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="615" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- DATA LAYER COMPONENTS -->
+        <mxCell id="29" value="&lt;b&gt;SQLite Database&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;PredictionLog table&lt;br&gt;sentiment · risk · confidence&lt;br&gt;patient_id · drug · condition&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#EF4444;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="180" y="780" width="210" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="&lt;b&gt;Simulated EHR&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;50 patients (JSON)&lt;br&gt;Conditions: HTN · DM&lt;br&gt;Depression · Malaria · Resp.&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="780" width="210" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="&lt;b&gt;WebMD Drug Reviews&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;172,036 labelled reviews (CSV)&lt;br&gt;Training corpus for both models&lt;br&gt;40,000 sampled for BioBERT&lt;/font&gt;" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="780" width="240" height="115" as="geometry" />
+        </mxCell>
+
+        <!-- CONNECTORS -->
+        <mxCell id="40" value="submits review" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#38BDF8;strokeWidth=2;fontSize=9;fontColor=#38BDF8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="13" target="17" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="41" value="views dashboard" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;" edge="1" source="15" target="18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="42" value="POST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#4ADE80;" edge="1" source="17" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="43" value="POST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#4ADE80;" edge="1" source="17" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="44" value="GET" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2;fontSize=9;fontColor=#4ADE80;" edge="1" source="18" target="23" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="45" value="raw text" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#C084FC;strokeWidth=2;fontSize=9;fontColor=#C084FC;" edge="1" source="21" target="25" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="46" value="cleaned text" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=2;fontSize=9;fontColor=#A78BFA;" edge="1" source="25" target="26" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="47" value="log record" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#F87171;" edge="1" source="21" target="29" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="48" value="query" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#F87171;" edge="1" source="23" target="29" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="49" value="load patient" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F87171;strokeWidth=2;fontSize=9;fontColor=#F87171;" edge="1" source="22" target="30" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="rank drugs" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;" edge="1" source="22" target="28" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="trained on" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#A78BFA;strokeWidth=1;dashed=1;fontSize=9;fontColor=#A78BFA;" edge="1" source="31" target="26" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="trained on" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=1;dashed=1;fontSize=9;fontColor=#94A3B8;" edge="1" source="31" target="27" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

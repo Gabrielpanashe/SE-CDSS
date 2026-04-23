@@ -3,11 +3,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Activity, Stethoscope, Home } from "lucide-react";
+import { BackendStatus } from "@/components/ui/StatusDot";
 
 const links = [
-  { href: "/",           label: "Home",      icon: Home },
-  { href: "/patient",    label: "Patient Portal",    icon: Activity },
-  { href: "/clinician",  label: "Clinician Dashboard", icon: Stethoscope },
+  { href: "/",          label: "Home",                icon: Home },
+  { href: "/patient",   label: "Patient Portal",      icon: Activity },
+  { href: "/clinician", label: "Clinician Dashboard", icon: Stethoscope },
 ];
 
 export function Navbar() {
@@ -16,7 +17,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-brand shadow">
             <Activity className="h-4 w-4 text-white" />
           </div>
@@ -24,7 +25,7 @@ export function Navbar() {
           <span className="hidden sm:inline text-xs text-slate-400 font-medium mt-0.5">Precision Medicine</span>
         </Link>
 
-        {/* Links */}
+        {/* Centre links */}
         <div className="flex items-center gap-1">
           {links.map(({ href, label, icon: Icon }) => (
             <Link
@@ -42,6 +43,9 @@ export function Navbar() {
             </Link>
           ))}
         </div>
+
+        {/* Backend status */}
+        <BackendStatus />
       </nav>
     </header>
   );

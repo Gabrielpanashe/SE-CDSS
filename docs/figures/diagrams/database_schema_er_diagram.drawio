@@ -1,0 +1,175 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram id="er-diagram" name="Database Schema ER Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="1" background="#0D1117">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="&lt;b style='font-size:16px;'&gt;SE-CDSS — Database Schema &amp;amp; Entity Relationship Diagram&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:11px;'&gt;SQLite (SQLAlchemy ORM) · PredictionLog central entity · External data sources (EHR JSON, Drug CSV)&lt;/font&gt;" style="text;html=1;fillColor=#0F2944;fontColor=#FFFFFF;align=center;rounded=1;strokeColor=#38BDF8;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="1494" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- LEGEND -->
+        <mxCell id="3" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;fontSize=10;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#E2E8F0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="90" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="PK  Primary Key" style="text;html=1;fontSize=9;fillColor=#2A2000;strokeColor=#EAB308;fontColor=#FCD34D;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="112" width="180" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="FK  Foreign Key (logical)" style="text;html=1;fontSize=9;fillColor=#001A2E;strokeColor=#0EA5E9;fontColor=#60A5FA;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="136" width="180" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="NN  NOT NULL constraint" style="text;html=1;fontSize=9;fillColor=#0A1E0A;strokeColor=#22C55E;fontColor=#4ADE80;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="160" width="180" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="External entity (not in DB)" style="text;html=1;fontSize=9;fillColor=#130826;strokeColor=#A855F7;fontColor=#C4B5FD;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="184" width="180" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- CENTRAL ENTITY: PredictionLog -->
+        <mxCell id="10" value="&lt;b style='font-size:13px;'&gt;PredictionLog&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;SQLite table · se_cdss.db&lt;br&gt;SQLAlchemy ORM model&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F2944;strokeColor=#38BDF8;fontColor=#FFFFFF;fontSize=11;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="540" y="90" width="400" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- id -->
+        <mxCell id="11" value="&lt;b&gt;PK&lt;/b&gt;  id&lt;font style='color:#94A3B8;'&gt;   INTEGER   AUTOINCREMENT&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#2A2000;strokeColor=#EAB308;fontColor=#FCD34D;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="155" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="raw_review&lt;font style='color:#94A3B8;'&gt;   TEXT   NN&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="183" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="cleaned_review&lt;font style='color:#94A3B8;'&gt;   TEXT   NN&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="209" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="sentiment&lt;font style='color:#94A3B8;'&gt;   VARCHAR   NN   &lt;/font&gt;&lt;font style='color:#4ADE80;'&gt;{'positive','neutral','negative'}&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="235" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="confidence&lt;font style='color:#94A3B8;'&gt;   FLOAT   NN   &lt;/font&gt;&lt;font style='color:#4ADE80;'&gt;range [0.0, 1.0]&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="261" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="risk_level&lt;font style='color:#94A3B8;'&gt;   VARCHAR   NN&lt;/font&gt;&lt;br&gt;&lt;font style='color:#4ADE80;font-size:8px;'&gt;   {'Mild Concern','Moderate Risk','Severe Adverse Reaction'}&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="287" width="400" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;FK&lt;/b&gt;  patient_id&lt;font style='color:#94A3B8;'&gt;   VARCHAR   &lt;/font&gt;&lt;font style='color:#60A5FA;'&gt;→ Patient.patient_id&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#001A2E;strokeColor=#0EA5E9;fontColor=#93C5FD;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="321" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="&lt;b&gt;FK&lt;/b&gt;  drug_name&lt;font style='color:#94A3B8;'&gt;   VARCHAR   &lt;/font&gt;&lt;font style='color:#60A5FA;'&gt;→ Drug.drug_name&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#001A2E;strokeColor=#0EA5E9;fontColor=#93C5FD;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="349" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="condition&lt;font style='color:#94A3B8;'&gt;   VARCHAR   &lt;/font&gt;&lt;font style='color:#4ADE80;'&gt;{'hypertension','diabetes','depression','malaria','respiratory'}&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="377" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="timestamp&lt;font style='color:#94A3B8;'&gt;   DATETIME   DEFAULT now()&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=30;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="403" width="400" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- Table border overlay -->
+        <mxCell id="21" value="" style="fillColor=none;strokeColor=#38BDF8;strokeWidth=2;rounded=1;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="155" width="400" height="274" as="geometry" />
+        </mxCell>
+
+        <!-- EXTERNAL ENTITY: Patient (EHR JSON) -->
+        <mxCell id="30" value="&lt;b style='font-size:12px;'&gt;Patient&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:8px;'&gt;External · data/simulated_ehr.json&lt;br&gt;NOT a DB table — loaded at runtime&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A855F7;strokeColor=#C084FC;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="90" width="280" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="31" value="patient_id&lt;font style='color:#C4B5FD;'&gt;   VARCHAR   PK   e.g. P-00001&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#2A1840;strokeColor=#A855F7;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="155" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="name&lt;font style='color:#94A3B8;'&gt;   VARCHAR&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="181" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="age&lt;font style='color:#94A3B8;'&gt;   INTEGER&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="207" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="condition&lt;font style='color:#94A3B8;'&gt;   VARCHAR&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="233" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="current_medications&lt;font style='color:#94A3B8;'&gt;   ARRAY[VARCHAR]&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="259" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="36" value="allergies&lt;font style='color:#94A3B8;'&gt;   ARRAY[VARCHAR]&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="285" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="37" value="gender&lt;font style='color:#94A3B8;'&gt;   VARCHAR&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="311" width="280" height="26" as="geometry" />
+        </mxCell>
+
+        <mxCell id="38" value="" style="fillColor=none;strokeColor=#C084FC;strokeWidth=2;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="155" width="280" height="182" as="geometry" />
+        </mxCell>
+
+        <!-- EXTERNAL ENTITY: Drug -->
+        <mxCell id="50" value="&lt;b style='font-size:12px;'&gt;Drug&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:8px;'&gt;External · data/drugs/ (CSV files)&lt;br&gt;Aggregated from WebMD Reviews&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D9488;strokeColor=#2DD4BF;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="90" width="280" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="51" value="drug_name&lt;font style='color:#2DD4BF;'&gt;   VARCHAR   PK&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#0A2A28;strokeColor=#2DD4BF;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="155" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="condition&lt;font style='color:#94A3B8;'&gt;   VARCHAR&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="181" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="53" value="avg_sentiment_score&lt;font style='color:#94A3B8;'&gt;   FLOAT&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="207" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="54" value="positive_count&lt;font style='color:#94A3B8;'&gt;   INTEGER&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="233" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="55" value="neutral_count&lt;font style='color:#94A3B8;'&gt;   INTEGER&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="259" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="56" value="negative_count&lt;font style='color:#94A3B8;'&gt;   INTEGER&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#1A2232;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="285" width="280" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="57" value="total_reviews&lt;font style='color:#94A3B8;'&gt;   INTEGER&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=#161C2E;strokeColor=#2D3748;fontColor=#E2E8F0;align=left;spacingLeft=10;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="311" width="280" height="26" as="geometry" />
+        </mxCell>
+
+        <mxCell id="58" value="" style="fillColor=none;strokeColor=#2DD4BF;strokeWidth=2;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="155" width="280" height="182" as="geometry" />
+        </mxCell>
+
+        <!-- RELATIONSHIPS -->
+        <mxCell id="70" value="&lt;b&gt;submits&lt;/b&gt;" style="edgeStyle=entityRelationEdgeStyle;html=1;endArrow=ERmanyToOne;startArrow=ERone;strokeColor=#C084FC;strokeWidth=2;fontSize=10;fontColor=#C4B5FD;fontStyle=1;" edge="1" source="30" target="10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="71" value="1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=#0D1117;fontSize=10;fontStyle=1;fontColor=#E2E8F0;" connectable="0" vertex="1" parent="70">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="72" value="N" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=#0D1117;fontSize=10;fontStyle=1;fontColor=#E2E8F0;" connectable="0" vertex="1" parent="70">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="73" value="&lt;b&gt;reviewed in&lt;/b&gt;" style="edgeStyle=entityRelationEdgeStyle;html=1;endArrow=ERmanyToOne;startArrow=ERone;strokeColor=#2DD4BF;strokeWidth=2;fontSize=10;fontColor=#2DD4BF;fontStyle=1;" edge="1" source="50" target="10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="74" value="1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=#0D1117;fontSize=10;fontStyle=1;fontColor=#E2E8F0;" connectable="0" vertex="1" parent="73">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="75" value="N" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=#0D1117;fontSize=10;fontStyle=1;fontColor=#E2E8F0;" connectable="0" vertex="1" parent="73">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- NOTES -->
+        <mxCell id="80" value="&lt;b&gt;Database Indices&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;• idx_patient_id  (patient_id ASC) — clinician dashboard query&lt;br&gt;• idx_timestamp   (timestamp DESC) — trend ordering&lt;br&gt;• idx_condition   (condition) — condition-filtered lookups&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#FCD34D;fontColor=#FCD34D;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="540" y="480" width="400" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="81" value="&lt;b&gt;Data Constraints &amp;amp; Validation&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;• sentiment IN ('positive','neutral','negative') — enforced by model output&lt;br&gt;• confidence BETWEEN 0.0 AND 1.0 — enforced by Pydantic schema&lt;br&gt;• risk_level IN ('Mild Concern','Moderate Risk','Severe Adverse Reaction')&lt;br&gt;• timestamp DEFAULT CURRENT_TIMESTAMP — auto-set on insert&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0A1E0A;strokeColor=#4ADE80;fontColor=#86EFAC;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="540" y="580" width="400" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="82" value="&lt;b&gt;Seeded Data&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;scripts/seed_patients.py populates 287 realistic&lt;br&gt;PredictionLog records for all 50 EHR patients&lt;br&gt;(P-00001 to P-00050) spanning 90 days&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#060E20;strokeColor=#60A5FA;fontColor=#93C5FD;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="480" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="83" value="&lt;b&gt;Pydantic Request Schema (POST /feedback)&lt;/b&gt;&lt;br&gt;&lt;font style='font-size:9px;'&gt;review: str  (required)&lt;br&gt;patient_id: Optional[str]&lt;br&gt;drug_name: Optional[str]&lt;br&gt;condition: Optional[str]&lt;br&gt;model: str = 'biobert' | 'baseline'&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#200A0A;strokeColor=#F87171;fontColor=#FCA5A5;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="480" width="280" height="110" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

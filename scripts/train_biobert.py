@@ -238,12 +238,20 @@ def build_splits(df: pd.DataFrame):
 
 # ── training loop ─────────────────────────────────────────────────────────────
 
+CHECKPOINT_DIR: str = os.path.join(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..")),
+    "models", "biobert_checkpoints",
+)
+
+
 def train(
     model,
     train_loader: DataLoader,
     num_epochs: int,
     device: torch.device,
     class_weights: torch.Tensor,
+    tokenizer=None,
+    start_epoch: int = 1,
 ) -> None:
     """
     Run the fine-tuning training loop with class-weighted cross-entropy loss.
@@ -276,7 +284,7 @@ def train(
     model.train()
     model.to(device)
 
-    for epoch in range(1, num_epochs + 1):
+    for epoch in range(start_epoch, num_epochs + 1):
         epoch_loss = 0.0
         t_epoch_start = time.time()
 
@@ -313,6 +321,13 @@ def train(
             epoch, epoch_loss / len(train_loader),
             (time.time() - t_epoch_start) / 60,
         )
+        # save per-epoch checkpoint so training can resume if interrupted
+        ckpt_path = os.path.join(CHECKPOINT_DIR, f"epoch_{epoch}")
+        os.makedirs(ckpt_path, exist_ok=True)
+        model.save_pretrained(ckpt_path)
+        if tokenizer is not None:
+            tokenizer.save_pretrained(ckpt_path)
+        logger.info("Checkpoint saved → %s", ckpt_path)
 
 
 # ── evaluation ────────────────────────────────────────────────────────────────
@@ -615,7 +630,26 @@ def main() -> None:
         (len(train_loader) * NUM_EPOCHS * 3.5) / 60,
         (len(train_loader) * NUM_EPOCHS * 5.0) / 60,
     )
-    train(model, train_loader, NUM_EPOCHS, device, class_weights)
+    # auto-resume from latest checkpoint if available
+    start_epoch = 1
+    if os.path.isdir(CHECKPOINT_DIR):
+        completed = sorted(
+            int(d.split("_")[1])
+            for d in os.listdir(CHECKPOINT_DIR)
+            if d.startswith("epoch_") and os.path.isdir(os.path.join(CHECKPOINT_DIR, d))
+        )
+        if completed:
+            last = completed[-1]
+            if last < NUM_EPOCHS:
+                ckpt_path = os.path.join(CHECKPOINT_DIR, f"epoch_{last}")
+                logger.info("Resuming from checkpoint: epoch %d → %s", last, ckpt_path)
+                model = AutoModelForSequenceClassification.from_pretrained(ckpt_path)
+                model.to(device)
+                start_epoch = last + 1
+            else:
+                logger.info("All %d epochs already complete in checkpoints.", NUM_EPOCHS)
+
+    train(model, train_loader, NUM_EPOCHS, device, class_weights, tokenizer=tokenizer, start_epoch=start_epoch)
     logger.info("Total training time: %.1f minutes", (time.time() - t_total) / 60)
 
     # 6. evaluate
