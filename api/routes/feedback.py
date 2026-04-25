@@ -14,7 +14,7 @@ from api.routes.notifications import create_review_notifications
 from src import config
 from src.database.db import User, get_db, save_prediction
 from src.explainability.shap_explainer import explain as shap_explain
-from src.models.predict import predict
+from src.models.predict_bert import predict
 
 LOGGER = logging.getLogger(__name__)
 
