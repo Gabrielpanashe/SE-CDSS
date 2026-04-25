@@ -78,7 +78,7 @@ def test_feedback_includes_disclaimer(client: TestClient, auth_headers: dict) ->
     assert response.status_code == 200
     body = response.json()
     assert body["disclaimer"] == config.DISCLAIMER_TEXT
-    assert body["explanation"] is None
+    assert "explanation" in body  # may be None or a SHAP string
     assert "sentiment" in body and "probabilities" in body
 
 

@@ -13,6 +13,7 @@ from api.auth_utils import get_current_user
 from api.routes.notifications import create_review_notifications
 from src import config
 from src.database.db import User, get_db, save_prediction
+from src.explainability.shap_explainer import explain as shap_explain
 from src.models.predict import predict
 
 LOGGER = logging.getLogger(__name__)
@@ -94,6 +95,14 @@ def submit_feedback(
     except Exception:
         LOGGER.warning("Notification creation failed — non-fatal.")
 
+    shap_result = shap_explain(body.review)
+    explanation = (
+        f"Supporting words: {', '.join(shap_result['top_positive']) or 'none'}. "
+        f"Contradicting words: {', '.join(shap_result['top_negative']) or 'none'}."
+        if (shap_result["top_positive"] or shap_result["top_negative"])
+        else None
+    )
+
     return FeedbackResponse(
         sentiment=prediction["sentiment"],
         confidence=float(prediction["confidence"]),
@@ -101,5 +110,5 @@ def submit_feedback(
         probabilities=prediction["probabilities"],
         log_id=int(record.id),
         disclaimer=config.DISCLAIMER_TEXT,
-        explanation=None,
+        explanation=explanation,
     )
