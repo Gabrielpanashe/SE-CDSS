@@ -1,0 +1,45 @@
+# Version control
+.git
+.gitignore
+
+# Environment and venv
+venv/
+.venv/
+.env
+.env.*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Node modules (frontend already handles this in its own Dockerfile)
+node_modules/
+npm-debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Documentation and data (keep models but not raw data)
+data/raw/
+data/processed/
+docs/results/train_biobert_log.txt
+notebooks/
+
+# Local database (use container DB)
+*.db
+*.sqlite3

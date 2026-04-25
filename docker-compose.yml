@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  # PostgreSQL database
+  db:
+    image: postgres:15-alpine
+    container_name: se_cdss_db
+    environment:
+      POSTGRES_DB: se_cdss
+      POSTGRES_USER: se_cdss_user
+      POSTGRES_PASSWORD: se_cdss_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U se_cdss_user -d se_cdss"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - se_cdss_network
+
+  # FastAPI backend
+  api:
+    build: .
+    container_name: se_cdss_api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://se_cdss_user:se_cdss_pass@db:5432/se_cdss
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./docs:/app/docs
+    networks:
+      - se_cdss_network
+    restart: unless-stopped
+
+  # Next.js frontend
+  frontend:
+    build: ./frontend-next
+    container_name: se_cdss_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    depends_on:
+      - api
+    networks:
+      - se_cdss_network
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  se_cdss_network:
+    driver: bridge

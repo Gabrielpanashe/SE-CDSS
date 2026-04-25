@@ -12,7 +12,8 @@ __pycache__/
 
 # Environment and secrets
 .env
-.env.*
+.env.local
+.env.*.local
 
 # Local databases
 *.db
@@ -66,3 +67,6 @@ models/biobert_checkpoints/
 frontend-next/.next/
 frontend-next/node_modules/
 frontend-next/.env.local
+
+# Docker
+docker-compose.override.yml
