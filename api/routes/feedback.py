@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from api.auth_utils import get_current_user
+from api.routes.notifications import create_review_notifications
 from src import config
 from src.database.db import User, get_db, save_prediction
 from src.models.predict import predict
@@ -44,7 +45,7 @@ class FeedbackResponse(BaseModel):
 def submit_feedback(
     body: FeedbackRequest,
     db: Session = Depends(get_db),
-    _current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ) -> FeedbackResponse:
     """
     Run NLP sentiment and risk classification on a review and persist the result.
@@ -82,6 +83,16 @@ def submit_feedback(
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    try:
+        create_review_notifications(
+            db,
+            from_user_id=current_user.id,
+            prediction_log_id=int(record.id),
+            patient_id=body.patient_id,
+        )
+    except Exception:
+        LOGGER.warning("Notification creation failed — non-fatal.")
 
     return FeedbackResponse(
         sentiment=prediction["sentiment"],

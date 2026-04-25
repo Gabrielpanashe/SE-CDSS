@@ -315,5 +315,19 @@ def save_ehr(db: Session, data: Dict[str, Any]) -> EHR:
     return record
 
 
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True)
+    type = Column(String, nullable=False)       # "new_review" | "clinician_response" | "followup_reminder"
+    from_user_id = Column(Integer, nullable=True)
+    to_user_id = Column(Integer, nullable=True)
+    prediction_log_id = Column(Integer, nullable=True)
+    message = Column(Text, nullable=False)
+    is_read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    followup_due_at = Column(DateTime, nullable=True)
+
+
 if __name__ == "__main__":
     init_db()

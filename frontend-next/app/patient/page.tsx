@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { api, FeedbackResponse, RecommendResponse } from "@/lib/api";
+import { useEffect, useState } from "react";
+import { api, FeedbackResponse, NotificationItem, RecommendResponse } from "@/lib/api";
 import { SentimentResult } from "@/components/SentimentResult";
 import { RecommendationTable } from "@/components/RecommendationTable";
 import { SevereRiskAlert } from "@/components/SevereRiskAlert";
@@ -33,6 +33,18 @@ export default function PatientPage() {
   const [error, setError]     = useState<string | null>(null);
   const [feedback, setFeedback] = useState<FeedbackResponse | null>(null);
   const [recommendations, setRecommendations] = useState<RecommendResponse | null>(null);
+  const [followupReminder, setFollowupReminder] = useState<NotificationItem | null>(null);
+
+  useEffect(() => {
+    api.getNotifications()
+      .then((items) => {
+        const due = items.find(
+          (n) => n.type === "followup_reminder" && n.followup_due_at && new Date(n.followup_due_at) <= new Date()
+        );
+        setFollowupReminder(due ?? null);
+      })
+      .catch(() => null);
+  }, []);
 
   const set = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -85,6 +97,15 @@ export default function PatientPage() {
           Submit medication feedback for AI-powered sentiment analysis and risk classification
         </p>
       </div>
+
+      {/* Follow-up reminder banner */}
+      {followupReminder && (
+        <div className="flex items-start gap-3 rounded-xl border border-teal-200 dark:border-teal-800
+          bg-teal-50 dark:bg-teal-900/20 px-4 py-3">
+          <Info className="h-4 w-4 text-teal-600 mt-0.5 shrink-0" />
+          <p className="text-sm text-teal-700 dark:text-teal-300">{followupReminder.message}</p>
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
         {/* Form */}

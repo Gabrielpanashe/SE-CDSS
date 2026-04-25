@@ -4,11 +4,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getEmail, getRole, logout } from "@/lib/auth";
+import { api } from "@/lib/api";
 import { BackendStatus } from "@/components/ui/StatusDot";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   Activity, Stethoscope, Home, Info, Workflow,
-  Database, Brain, FlaskConical, Pill, LogOut, LogIn,
+  Database, Brain, FlaskConical, Pill, LogOut, LogIn, Bell,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -31,10 +32,18 @@ export function Sidebar() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [unread, setUnread] = useState(0);
 
   useEffect(() => {
     setEmail(getEmail());
     setRole(getRole());
+  }, [path]);
+
+  useEffect(() => {
+    if (!getRole()) return;
+    api.getNotifications()
+      .then((items) => setUnread(items.length))
+      .catch(() => setUnread(0));
   }, [path]);
 
   function handleLogout() {
@@ -64,9 +73,17 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
-        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-          Navigation
-        </p>
+        <div className="flex items-center justify-between px-2 mb-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+            Navigation
+          </p>
+          {unread > 0 && (
+            <span className="flex items-center gap-1 rounded-full bg-teal-500 px-2 py-0.5 text-[10px] font-bold text-white">
+              <Bell className="h-2.5 w-2.5" />
+              {unread}
+            </span>
+          )}
+        </div>
         {NAV_LINKS.map(({ href, label, icon: Icon }) => {
           const active = path === href;
           return (

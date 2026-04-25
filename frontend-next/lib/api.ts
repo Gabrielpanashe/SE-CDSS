@@ -63,6 +63,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+export interface NotificationItem {
+  id: number;
+  type: string;
+  from_user_id: number | null;
+  prediction_log_id: number | null;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+  followup_due_at: string | null;
+}
+
 export const api = {
   submitFeedback: (body: FeedbackRequest) =>
     request<FeedbackResponse>("/api/feedback", {
@@ -79,4 +90,16 @@ export const api = {
     request<TrendsResponse>(`/api/trends/${encodeURIComponent(patientId)}`),
 
   health: () => request<{ status: string }>("/health"),
+
+  getNotifications: () =>
+    request<NotificationItem[]>("/notifications"),
+
+  markNotificationRead: (id: number) =>
+    request<{ message: string }>(`/notifications/${id}/read`, { method: "POST" }),
+
+  respondToPatient: (to_user_id: number, message: string, prediction_log_id?: number) =>
+    request<{ message: string }>("/notifications/respond", {
+      method: "POST",
+      body: JSON.stringify({ to_user_id, message, prediction_log_id }),
+    }),
 };
