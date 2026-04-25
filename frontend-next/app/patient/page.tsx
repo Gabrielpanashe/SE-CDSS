@@ -9,7 +9,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { SentimentSkeleton, RecommendationSkeleton } from "@/components/ui/Skeleton";
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
-import { CONDITIONS } from "@/lib/utils";
+import { CONDITIONS, DRUG_MAP } from "@/lib/utils";
 import { Send, RefreshCw, User, Pill, Stethoscope, Info } from "lucide-react";
 
 const MAX_REVIEW = 1000;
@@ -90,6 +90,77 @@ export default function PatientPage() {
         {/* Form */}
         <div className="space-y-4">
           <form onSubmit={handleSubmit} className="card space-y-5">
+            {/* Condition — comes first to populate drug dropdown */}
+            <div>
+              <label className="label">
+                <Stethoscope className="inline h-3 w-3 mr-1" />
+                Condition <span className="text-red-400 normal-case font-normal">*</span>
+              </label>
+              <select
+                className="input-field"
+                value={form.condition}
+                onChange={set("condition")}
+                required
+              >
+                <option value="">— Select condition —</option>
+                {CONDITIONS.map((c) => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
+              </select>
+              <p className="text-xs text-slate-500 mt-2">
+                <Info className="inline h-2.5 w-2.5 mr-1" />
+                Your condition determines which medications appear in the drug list and which recommendations are shown.
+              </p>
+            </div>
+
+            {/* Drug Name — dropdown populated from selected condition */}
+            <Field>
+              <FieldLabel htmlFor="drug-name">
+                <Pill className="inline h-3 w-3 mr-1" />
+                Drug Name {form.condition && <span className="text-red-400 normal-case font-normal">*</span>}
+              </FieldLabel>
+              <select
+                id="drug-name"
+                className="input-field"
+                value={form.drug_name}
+                onChange={set("drug_name")}
+                required={!!form.condition}
+                disabled={!form.condition}
+              >
+                <option value="">
+                  {form.condition ? "— Select drug for this condition —" : "Select a condition first"}
+                </option>
+                {form.condition && DRUG_MAP[form.condition]?.map((drug) => (
+                  <option key={drug} value={drug}>{drug}</option>
+                ))}
+              </select>
+              <FieldDescription>
+                {form.condition
+                  ? `Available medications for ${CONDITIONS.find(c => c.value === form.condition)?.label}`
+                  : "Select a condition above to see available medications"}
+              </FieldDescription>
+            </Field>
+
+            {/* Patient ID */}
+            <Field data-invalid={form.patient_id && !/^P-\d{5}$/.test(form.patient_id) ? true : undefined}>
+              <FieldLabel htmlFor="patient-id">
+                <User className="inline h-3 w-3 mr-1" />
+                Patient ID <span className="text-slate-400 font-normal normal-case">(optional)</span>
+              </FieldLabel>
+              <input
+                id="patient-id"
+                className="input-field"
+                placeholder="P-00001"
+                value={form.patient_id}
+                onChange={set("patient_id")}
+              />
+              <FieldDescription>
+                {form.patient_id && !/^P-\d{5}$/.test(form.patient_id)
+                  ? "Format: P-XXXXX (e.g. P-00042)"
+                  : <span className="flex items-center gap-1"><Info className="h-2.5 w-2.5" /> Format: P-XXXXX or leave blank</span>}
+              </FieldDescription>
+            </Field>
+
             {/* Review textarea — shadcn Field pattern */}
             <Field data-invalid={form.review.length > MAX_REVIEW ? true : undefined}>
               <FieldLabel htmlFor="review-input">
@@ -112,56 +183,6 @@ export default function PatientPage() {
                   : "Be as descriptive as possible — the more detail, the more accurate the analysis."}
               </FieldDescription>
             </Field>
-
-            {/* Patient ID + Drug */}
-            <div className="grid grid-cols-2 gap-3">
-              <Field data-invalid={form.patient_id && !/^P-\d{5}$/.test(form.patient_id) ? true : undefined}>
-                <FieldLabel htmlFor="patient-id">
-                  <User className="inline h-3 w-3 mr-1" />
-                  Patient ID
-                </FieldLabel>
-                <input
-                  id="patient-id"
-                  className="input-field"
-                  placeholder="P-00001"
-                  value={form.patient_id}
-                  onChange={set("patient_id")}
-                />
-                <FieldDescription>
-                  {form.patient_id && !/^P-\d{5}$/.test(form.patient_id)
-                    ? "Format: P-XXXXX (e.g. P-00042)"
-                    : <span className="flex items-center gap-1"><Info className="h-2.5 w-2.5" /> Format: P-00001</span>}
-                </FieldDescription>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="drug-name">
-                  <Pill className="inline h-3 w-3 mr-1" />
-                  Drug Name
-                </FieldLabel>
-                <input
-                  id="drug-name"
-                  className="input-field"
-                  placeholder="e.g. Metformin"
-                  value={form.drug_name}
-                  onChange={set("drug_name")}
-                />
-                <FieldDescription>Name of the medication you&apos;re reviewing</FieldDescription>
-              </Field>
-            </div>
-
-            {/* Condition */}
-            <div>
-              <label className="label">
-                <Stethoscope className="inline h-3 w-3 mr-1" />
-                Condition <span className="text-slate-400 font-normal normal-case">(for recommendations)</span>
-              </label>
-              <select className="input-field" value={form.condition} onChange={set("condition")}>
-                <option value="">— Select condition —</option>
-                {CONDITIONS.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
-              </select>
-            </div>
 
             {/* Actions */}
             <div className="flex gap-3">

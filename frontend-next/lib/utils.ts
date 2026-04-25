@@ -68,3 +68,11 @@ export const CONDITIONS = [
   { value: "malaria",      label: "Malaria" },
   { value: "respiratory",  label: "Respiratory" },
 ];
+
+export const DRUG_MAP: Record<string, string[]> = {
+  hypertension: ["Amlodipine", "Lisinopril", "Losartan", "Hydrochlorothiazide", "Atenolol"],
+  diabetes: ["Metformin", "Glipizide", "Sitagliptin", "Insulin Glargine", "Empagliflozin"],
+  depression: ["Sertraline", "Fluoxetine", "Escitalopram", "Amitriptyline", "Venlafaxine"],
+  malaria: ["Artemether-Lumefantrine", "Quinine", "Chloroquine", "Doxycycline", "Atovaquone"],
+  respiratory: ["Amoxicillin", "Azithromycin", "Salbutamol", "Prednisolone", "Doxycycline"],
+};
