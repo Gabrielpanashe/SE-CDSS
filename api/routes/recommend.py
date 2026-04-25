@@ -5,8 +5,11 @@ Drug recommendation endpoint (scoring engine wired in Phase C).
 import logging
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
+
+from api.auth_utils import require_clinician
+from src.database.db import User
 
 from src import config
 from src.recommendation.recommender import get_recommendations as compute_recommendations
@@ -44,6 +47,7 @@ def get_recommendations(
         ...,
         description="Latest patient sentiment: positive, neutral, or negative.",
     ),
+    _current_user: User = Depends(require_clinician),
 ) -> RecommendResponse:
     """
     Return ranked drug recommendations for a condition and patient.

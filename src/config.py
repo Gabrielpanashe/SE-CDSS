@@ -30,6 +30,10 @@ CONFUSION_MATRIX_PATH: str = os.path.join(MODEL_DIR, "confusion_matrix.png")
 
 DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./se_cdss.db")
 
+JWT_SECRET: str = os.getenv("JWT_SECRET", "se-cdss-dev-secret-change-in-production")
+JWT_ALGORITHM: str = "HS256"
+JWT_EXPIRE_HOURS: int = 24
+
 CONFIDENCE_THRESHOLD_MED: float = 0.60
 CONFIDENCE_THRESHOLD_HIGH: float = 0.75
 

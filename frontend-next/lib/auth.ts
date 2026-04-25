@@ -1,0 +1,39 @@
+const TOKEN_KEY = "se_cdss_token";
+const ROLE_KEY = "se_cdss_role";
+const EMAIL_KEY = "se_cdss_email";
+
+export function getToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function getRole(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(ROLE_KEY);
+}
+
+export function getEmail(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(EMAIL_KEY);
+}
+
+export function isAuthenticated(): boolean {
+  return !!getToken();
+}
+
+export function setAuth(token: string, role: string, email: string): void {
+  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(ROLE_KEY, role);
+  localStorage.setItem(EMAIL_KEY, email);
+}
+
+export function logout(): void {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(ROLE_KEY);
+  localStorage.removeItem(EMAIL_KEY);
+}
+
+export function authHeader(): Record<string, string> {
+  const token = getToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}

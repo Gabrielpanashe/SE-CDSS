@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import feedback, recommend, trends
+from api.routes import auth, feedback, recommend, trends
 from src.database.db import init_db
 from src import config
 
@@ -61,6 +61,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(feedback.router)
 app.include_router(recommend.router)
 app.include_router(trends.router)

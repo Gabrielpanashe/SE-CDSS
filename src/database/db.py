@@ -116,6 +116,17 @@ class EHR(Base):
     record_date = Column(DateTime, default=datetime.utcnow)
 
 
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    role = Column(String, nullable=False)  # "patient" | "clinician"
+    patient_id = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class DrugInsight(Base):
     """Aggregated drug-level statistics"""
 

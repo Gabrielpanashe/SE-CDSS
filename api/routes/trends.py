@@ -4,12 +4,13 @@ Longitudinal prediction trends per patient.
 
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from api.auth_utils import get_current_user
 from src import config
-from src.database.db import PredictionLog, get_db
+from src.database.db import PredictionLog, User, get_db
 
 router = APIRouter(prefix="/api", tags=["trends"])
 
@@ -39,17 +40,11 @@ class TrendsResponse(BaseModel):
 def get_trends(
     patient_id: str,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> TrendsResponse:
-    """
-    Return chronological prediction history for a patient.
+    if current_user.role == "patient" and current_user.patient_id != patient_id:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Access denied.")
 
-    Args:
-        patient_id: Patient identifier to match against stored prediction logs.
-        db: Database session.
-
-    Returns:
-        Trend entries and disclaimer for clinical decision support context.
-    """
     rows = (
         db.query(PredictionLog)
         .filter(PredictionLog.patient_id == patient_id)

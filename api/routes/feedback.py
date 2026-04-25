@@ -9,8 +9,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
+from api.auth_utils import get_current_user
 from src import config
-from src.database.db import get_db, save_prediction
+from src.database.db import User, get_db, save_prediction
 from src.models.predict import predict
 
 LOGGER = logging.getLogger(__name__)
@@ -43,6 +44,7 @@ class FeedbackResponse(BaseModel):
 def submit_feedback(
     body: FeedbackRequest,
     db: Session = Depends(get_db),
+    _current_user: User = Depends(get_current_user),
 ) -> FeedbackResponse:
     """
     Run NLP sentiment and risk classification on a review and persist the result.

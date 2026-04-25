@@ -51,8 +51,9 @@ export interface TrendsResponse {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const { authHeader } = await import("@/lib/auth");
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeader() },
     ...init,
   });
   if (!res.ok) {

@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { getEmail, getRole, logout } from "@/lib/auth";
 import { BackendStatus } from "@/components/ui/StatusDot";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   Activity, Stethoscope, Home, Info, Workflow,
-  Database, Brain, FlaskConical, Pill,
+  Database, Brain, FlaskConical, Pill, LogOut, LogIn,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -26,6 +28,20 @@ const STATS = [
 
 export function Sidebar() {
   const path = usePathname();
+  const router = useRouter();
+  const [email, setEmail] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setEmail(getEmail());
+    setRole(getRole());
+  }, [path]);
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+  }
+
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col
       border-r border-slate-200/80 dark:border-slate-700/60
@@ -89,6 +105,35 @@ export function Sidebar() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* User section */}
+      <div className="border-t border-slate-100 dark:border-slate-700 px-4 py-3">
+        {email ? (
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-xs font-semibold text-navy dark:text-slate-100 truncate">{email}</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 capitalize">{role}</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              title="Sign out"
+              className="shrink-0 rounded-lg p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50
+                dark:hover:bg-red-900/20 transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium
+              text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-colors"
+          >
+            <LogIn className="h-4 w-4 text-slate-400" />
+            Sign in
+          </Link>
+        )}
       </div>
 
       {/* Theme toggle + backend status */}
