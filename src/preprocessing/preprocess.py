@@ -57,7 +57,7 @@ def assign_sentiment_label(rating: float) -> str:
     """
     if rating >= 7:
         return "POSITIVE"
-    if rating >= 4:
+    if rating >= 5:
         return "NEUTRAL"
     return "NEGATIVE"
 
