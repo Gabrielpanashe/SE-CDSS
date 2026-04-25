@@ -49,17 +49,23 @@ def explain(text: str, top_n: int = 5) -> Dict[str, List[str]]:
 
         feature_names = vectorizer.get_feature_names_out()
 
-        # shap_values shape: (n_classes, 1, n_features) or (1, n_features) for binary
+        arr = np.asarray(shap_values)
+        # Normalise output shape — varies by SHAP version:
+        #   (n_samples, n_features, n_classes)  <- shap 0.40+
+        #   list of (n_samples, n_features)      <- older shap
+        #   (n_samples, n_features)              <- binary
         if isinstance(shap_values, list):
-            # Multi-class: use the POSITIVE class (index 2 = POSITIVE after label encoding)
-            # Labels are sorted alphabetically: NEGATIVE=0, NEUTRAL=1, POSITIVE=2
-            values = shap_values[2][0]
+            # list[class_idx] → shape (n_samples, n_features); POSITIVE = index 2
+            values = np.asarray(shap_values[2]).flatten()
+        elif arr.ndim == 3:
+            # (n_samples, n_features, n_classes) — use POSITIVE class column (index 2)
+            values = arr[0, :, 2]
         else:
-            values = shap_values[0]
+            values = arr.flatten()
 
         indices = np.argsort(values)
-        negative_words = [feature_names[i] for i in indices[:top_n] if values[i] < 0]
-        positive_words = [feature_names[i] for i in indices[-top_n:][::-1] if values[i] > 0]
+        negative_words = [feature_names[i] for i in indices[:top_n] if float(values[i]) < 0]
+        positive_words = [feature_names[i] for i in indices[-top_n:][::-1] if float(values[i]) > 0]
 
         return {"top_positive": positive_words, "top_negative": negative_words}
 
