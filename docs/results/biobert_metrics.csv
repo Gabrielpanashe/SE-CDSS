@@ -1,7 +1,7 @@
 model,class,precision,recall,f1,support
-BioBERT (dmis-lab/biobert-base-cased-v1.2),NEGATIVE,0.7391,0.7018,0.72,436
-BioBERT (dmis-lab/biobert-base-cased-v1.2),NEUTRAL,0.3682,0.3667,0.3674,240
-BioBERT (dmis-lab/biobert-base-cased-v1.2),POSITIVE,0.8827,0.898,0.8903,1324
-BioBERT (dmis-lab/biobert-base-cased-v1.2),OVERALL (macro),,,0.6592,2000
-BioBERT (dmis-lab/biobert-base-cased-v1.2),OVERALL (weighted),,,0.7904,
-BioBERT (dmis-lab/biobert-base-cased-v1.2),ACCURACY,,,0.7915,
+BioBERT (dmis-lab/biobert-base-cased-v1.2),NEGATIVE,0.7489,0.7519,0.7504,1745
+BioBERT (dmis-lab/biobert-base-cased-v1.2),NEUTRAL,0.3517,0.5166,0.4185,962
+BioBERT (dmis-lab/biobert-base-cased-v1.2),POSITIVE,0.9305,0.85,0.8884,5293
+BioBERT (dmis-lab/biobert-base-cased-v1.2),OVERALL (macro),,,0.6858,8000
+BioBERT (dmis-lab/biobert-base-cased-v1.2),OVERALL (weighted),,,0.8018,
+BioBERT (dmis-lab/biobert-base-cased-v1.2),ACCURACY,,,0.7885,
