@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: se_cdss_user
       POSTGRES_PASSWORD: se_cdss_pass
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -42,12 +42,13 @@ services:
 
   # Next.js frontend
   frontend:
-    build: ./frontend-next
+    build:
+      context: ./frontend-next
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
     container_name: se_cdss_frontend
     ports:
       - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
     depends_on:
       - api
     networks:

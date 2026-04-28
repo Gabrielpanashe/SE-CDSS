@@ -29,6 +29,7 @@ class TokenResponse(BaseModel):
     token_type: str
     role: str
     email: str
+    patient_id: str | None = None
 
 
 class MeResponse(BaseModel):
@@ -65,7 +66,22 @@ def login(body: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
         token_type="bearer",
         role=user.role,
         email=user.email,
+        patient_id=user.patient_id,
     )
+
+
+@router.get("/user-by-patient/{patient_id}")
+def get_user_by_patient(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict:
+    if current_user.role != "clinician":
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Clinicians only.")
+    user = db.query(User).filter(User.patient_id == patient_id).first()
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No registered user found for that patient ID.")
+    return {"user_id": user.id, "patient_id": user.patient_id}
 
 
 @router.get("/me", response_model=MeResponse)

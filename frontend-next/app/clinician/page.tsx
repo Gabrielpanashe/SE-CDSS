@@ -8,11 +8,16 @@ import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { Spinner } from "@/components/ui/Spinner";
 import { Badge } from "@/components/ui/Badge";
 import { CONDITIONS, riskColor, riskDot, sentimentColor, capitalize, formatTimestamp } from "@/lib/utils";
-import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck } from "lucide-react";
+import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut } from "lucide-react";
+import { AuthGate } from "@/components/AuthGate";
+import { UserBadge } from "@/components/UserBadge";
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/auth";
 
 type Tab = "trends" | "recommendations";
 
 export default function ClinicianPage() {
+  const router = useRouter();
   const [patientId, setPatientId] = useState("");
   const [condition, setCondition] = useState("");
   const [sentiment, setSentiment] = useState("positive");
@@ -27,6 +32,11 @@ export default function ClinicianPage() {
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [showNotif, setShowNotif]         = useState(false);
+
+  const [patientUserId, setPatientUserId] = useState<number | null>(null);
+  const [msgText, setMsgText]             = useState("");
+  const [msgSending, setMsgSending]       = useState(false);
+  const [msgSent, setMsgSent]             = useState(false);
 
   useEffect(() => {
     api.getNotifications()
@@ -45,14 +55,33 @@ export default function ClinicianPage() {
     setLoading(true);
     setError(null);
     setTrends(null);
+    setPatientUserId(null);
+    setMsgSent(false);
     try {
-      const data = await api.getTrends(patientId.trim());
-      setTrends(data);
-      setTab("trends");
+      const [data, userInfo] = await Promise.allSettled([
+        api.getTrends(patientId.trim()),
+        api.getPatientUserId(patientId.trim()),
+      ]);
+      if (data.status === "fulfilled") { setTrends(data.value); setTab("trends"); }
+      else throw new Error((data.reason as Error).message);
+      if (userInfo.status === "fulfilled") setPatientUserId(userInfo.value.user_id);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to load patient data.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function sendMessage() {
+    if (!patientUserId || !msgText.trim()) return;
+    setMsgSending(true);
+    const latestLogId = trends?.trends.at(-1)?.log_id;
+    try {
+      await api.respondToPatient(patientUserId, msgText.trim(), latestLogId);
+      setMsgSent(true);
+      setMsgText("");
+    } finally {
+      setMsgSending(false);
     }
   }
 
@@ -74,6 +103,7 @@ export default function ClinicianPage() {
   const latestSentiment = trends?.trends.at(-1)?.sentiment ?? null;
 
   return (
+    <AuthGate role="clinician">
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between">
@@ -81,21 +111,33 @@ export default function ClinicianPage() {
           <h1 className="section-title">Clinician Dashboard</h1>
           <p className="section-subtitle">Patient trend monitoring and drug recommendation engine</p>
         </div>
-        <button
-          onClick={() => setShowNotif((v) => !v)}
-          className="relative flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
-            bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
-            hover:border-teal-400 transition-colors"
-        >
-          <Bell className="h-4 w-4 text-teal-500" />
-          Notifications
-          {notifications.length > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center
-              rounded-full bg-teal-500 text-[10px] font-bold text-white">
-              {notifications.length}
-            </span>
-          )}
-        </button>
+        <div className="flex items-center gap-2">
+          <UserBadge />
+          <button
+            onClick={() => setShowNotif((v) => !v)}
+            className="relative flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
+              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
+              hover:border-teal-400 transition-colors"
+          >
+            <Bell className="h-4 w-4 text-teal-500" />
+            Notifications
+            {notifications.length > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center
+                rounded-full bg-teal-500 text-[10px] font-bold text-white">
+                {notifications.length}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => { logout(); router.push("/"); }}
+            className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
+              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
+              hover:border-red-400 hover:text-red-500 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
       </div>
 
       {/* Notification panel */}
@@ -245,6 +287,41 @@ export default function ClinicianPage() {
               )}
             </div>
           )}
+
+          {/* Message Patient */}
+          {patientUserId && (
+            <div className="card space-y-3">
+              <div className="flex items-center gap-2 mb-1">
+                <Bell className="h-4 w-4 text-teal-500" />
+                <h2 className="font-bold text-navy dark:text-slate-100 text-sm">Message Patient</h2>
+              </div>
+              {msgSent ? (
+                <div className="rounded-xl bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 px-3 py-2.5 text-center">
+                  <p className="text-sm font-semibold text-teal-700 dark:text-teal-300">Message sent!</p>
+                  <p className="text-xs text-teal-600 dark:text-teal-400 mt-0.5">The patient will see it in their portal.</p>
+                  <button onClick={() => setMsgSent(false)} className="mt-2 text-xs text-teal-600 underline">Send another</button>
+                </div>
+              ) : (
+                <>
+                  <textarea
+                    rows={3}
+                    className="input-field resize-none text-sm"
+                    placeholder={`Write a message to patient ${patientId}…`}
+                    value={msgText}
+                    onChange={(e) => setMsgText(e.target.value)}
+                  />
+                  <button
+                    onClick={sendMessage}
+                    disabled={msgSending || !msgText.trim()}
+                    className="btn-primary w-full flex items-center justify-center gap-2 text-sm"
+                  >
+                    {msgSending ? <Spinner className="h-4 w-4 text-white" /> : <Bell className="h-4 w-4" />}
+                    {msgSending ? "Sending…" : "Send to Patient Portal"}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Main content */}
@@ -372,5 +449,6 @@ export default function ClinicianPage() {
         </div>
       </div>
     </div>
+    </AuthGate>
   );
 }

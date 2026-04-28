@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Activity, UserPlus } from "lucide-react";
@@ -9,12 +9,22 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"patient" | "clinician">("patient");
+  const [role, setRole]         = useState<"patient" | "clinician">("patient");
   const [patientId, setPatientId] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [loading, setLoading]   = useState(false);
+  const [nextPath, setNextPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+    setNextPath(next);
+    // Pre-select role based on which portal the user came from
+    if (next === "/clinician") setRole("clinician");
+    else if (next === "/patient") setRole("patient");
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,13 +45,17 @@ export default function RegisterPage() {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.detail ?? "Registration failed.");
       }
-      router.push("/login");
+      // Send back to login, preserving the intended destination
+      const loginHref = nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login";
+      router.push(loginHref);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Registration failed.");
     } finally {
       setLoading(false);
     }
   }
+
+  const loginHref = nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
@@ -54,6 +68,15 @@ export default function RegisterPage() {
           <h1 className="text-2xl font-extrabold text-navy dark:text-slate-100">Create your account</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">SE-CDSS Precision Medicine</p>
         </div>
+
+        {/* Destination hint */}
+        {nextPath && (
+          <p className="text-center text-xs text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/20
+            border border-teal-200 dark:border-teal-800 rounded-xl px-4 py-2.5 mb-6 capitalize">
+            Create an account to access the{" "}
+            <strong>{nextPath.replace("/", "")} portal</strong>
+          </p>
+        )}
 
         {/* Card */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-8">
@@ -155,7 +178,7 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             Already have an account?{" "}
-            <Link href="/login" className="text-teal-600 hover:text-teal-700 font-medium">
+            <Link href={loginHref} className="text-teal-600 hover:text-teal-700 font-medium">
               Sign in
             </Link>
           </p>

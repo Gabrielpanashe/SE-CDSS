@@ -2,6 +2,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Receive the API URL at build time so Next.js can bake it into the client bundle.
+# NEXT_PUBLIC_* vars are embedded during `npm run build`, not at runtime.
+ARG NEXT_PUBLIC_API_URL=http://localhost:8000
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 COPY package*.json ./
 
 RUN npm ci

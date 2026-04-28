@@ -92,13 +92,13 @@ export default function HomePage() {
               flags anything that needs attention, and helps your care team find a better match — faster.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/patient"
+              <Link href="/login?next=/patient"
                 className="inline-flex items-center gap-2 rounded-xl bg-white text-navy font-semibold px-5 py-2.5 text-sm hover:bg-teal-50 transition-colors shadow">
                 <Activity className="h-4 w-4" />
                 I&apos;m a Patient
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
-              <Link href="/clinician"
+              <Link href="/login?next=/clinician"
                 className="inline-flex items-center gap-2 rounded-xl bg-white/15 text-white font-semibold px-5 py-2.5 text-sm hover:bg-white/25 transition-colors backdrop-blur-sm">
                 <Stethoscope className="h-4 w-4" />
                 I&apos;m a Clinician
@@ -327,7 +327,7 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
-          <Link href="/patient"
+          <Link href="/login?next=/patient"
             className="inline-flex items-center gap-2 rounded-xl bg-teal-500 text-white font-semibold px-5 py-2.5 text-sm hover:bg-teal-600 transition-colors">
             <Activity className="h-4 w-4" />
             Go to Patient Portal
@@ -360,7 +360,7 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
-          <Link href="/clinician"
+          <Link href="/login?next=/clinician"
             className="inline-flex items-center gap-2 rounded-xl bg-navy text-white font-semibold px-5 py-2.5 text-sm hover:bg-navy-800 transition-colors">
             <Stethoscope className="h-4 w-4" />
             Go to Clinician Dashboard

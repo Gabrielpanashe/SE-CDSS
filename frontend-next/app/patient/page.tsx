@@ -10,7 +10,11 @@ import { SentimentSkeleton, RecommendationSkeleton } from "@/components/ui/Skele
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { CONDITIONS, DRUG_MAP } from "@/lib/utils";
-import { Send, RefreshCw, User, Pill, Stethoscope, Info } from "lucide-react";
+import { Send, RefreshCw, User, Pill, Stethoscope, Info, LogOut } from "lucide-react";
+import { AuthGate } from "@/components/AuthGate";
+import { UserBadge } from "@/components/UserBadge";
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/auth";
 
 const MAX_REVIEW = 1000;
 
@@ -28,12 +32,14 @@ const EXAMPLE_REVIEWS = [
 ];
 
 export default function PatientPage() {
+  const router = useRouter();
   const [form, setForm]       = useState<FormState>({ review: "", patient_id: "", drug_name: "", condition: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState<string | null>(null);
   const [feedback, setFeedback] = useState<FeedbackResponse | null>(null);
   const [recommendations, setRecommendations] = useState<RecommendResponse | null>(null);
-  const [followupReminder, setFollowupReminder] = useState<NotificationItem | null>(null);
+  const [followupReminder, setFollowupReminder]     = useState<NotificationItem | null>(null);
+  const [clinicianMessages, setClinicianMessages]   = useState<NotificationItem[]>([]);
 
   useEffect(() => {
     api.getNotifications()
@@ -42,9 +48,15 @@ export default function PatientPage() {
           (n) => n.type === "followup_reminder" && n.followup_due_at && new Date(n.followup_due_at) <= new Date()
         );
         setFollowupReminder(due ?? null);
+        setClinicianMessages(items.filter((n) => n.type === "clinician_response"));
       })
       .catch(() => null);
   }, []);
+
+  async function dismissClinicianMessage(id: number) {
+    await api.markNotificationRead(id).catch(() => null);
+    setClinicianMessages((prev) => prev.filter((n) => n.id !== id));
+  }
 
   const set = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -89,13 +101,28 @@ export default function PatientPage() {
   }
 
   return (
+    <AuthGate role="patient">
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="section-title">Patient Portal</h1>
-        <p className="section-subtitle">
-          Submit medication feedback for AI-powered sentiment analysis and risk classification
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="section-title">Patient Portal</h1>
+          <p className="section-subtitle">
+            Submit medication feedback for AI-powered sentiment analysis and risk classification
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <UserBadge />
+          <button
+            onClick={() => { logout(); router.push("/"); }}
+            className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
+              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
+              hover:border-red-400 hover:text-red-500 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
       </div>
 
       {/* Follow-up reminder banner */}
@@ -104,6 +131,30 @@ export default function PatientPage() {
           bg-teal-50 dark:bg-teal-900/20 px-4 py-3">
           <Info className="h-4 w-4 text-teal-600 mt-0.5 shrink-0" />
           <p className="text-sm text-teal-700 dark:text-teal-300">{followupReminder.message}</p>
+        </div>
+      )}
+
+      {/* Clinician messages */}
+      {clinicianMessages.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Messages from your Clinician</p>
+          {clinicianMessages.map((msg) => (
+            <div key={msg.id} className="flex items-start gap-3 rounded-xl border border-navy/20 dark:border-slate-600
+              bg-navy/5 dark:bg-slate-700/50 px-4 py-3">
+              <Stethoscope className="h-4 w-4 text-navy dark:text-slate-300 mt-0.5 shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-navy dark:text-slate-200 mb-0.5">Your Clinician</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300">{msg.message}</p>
+              </div>
+              <button
+                onClick={() => dismissClinicianMessage(msg.id)}
+                title="Dismiss"
+                className="shrink-0 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-medium"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
         </div>
       )}
 
@@ -281,5 +332,6 @@ export default function PatientPage() {
         </div>
       </div>
     </div>
+    </AuthGate>
   );
 }

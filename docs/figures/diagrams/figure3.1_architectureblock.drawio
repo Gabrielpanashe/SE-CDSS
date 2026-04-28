@@ -1,103 +1,155 @@
 <mxfile host="65bd71144e">
-    <diagram id="fig31-arch-block" name="Figure 3.1 Architecture Block">
-        <mxGraphModel dx="539" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#0D1117" math="0" shadow="0">
+    <diagram id="fig31-arch-v2" name="3-Tier Architecture">
+        <mxGraphModel dx="1028" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1200" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="3-Tier Architecture Diagram: (Patient Input  →  API  →  Model  →  Database  →  Clinician Response)" style="text;html=1;fillColor=#0F2944;fontColor=#FFFFFF;fontSize=12;fontStyle=1;align=center;rounded=1;strokeColor=#38BDF8;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="30" y="16" width="1110" height="36" as="geometry"/>
+                <mxCell id="title" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;3-Tier Architecture: SE-CDSS  —  Patient Input  →  API  →  Model  →  Database  →  Clinician Response&lt;/font&gt;" style="text;html=1;fillColor=#F0F0F0;fontColor=#000000;fontSize=21;fontStyle=1;align=center;rounded=1;strokeColor=#000000;strokeWidth=2;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="10" width="1140" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="L_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071A0E;strokeColor=#4ADE80;opacity=80;" parent="1" vertex="1">
-                    <mxGeometry x="30" y="62" width="240" height="636" as="geometry"/>
+
+                <!-- ═══════════════ PRESENTATION LAYER ═══════════════ -->
+                <mxCell id="L_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F7F7F7;strokeColor=#000000;strokeWidth=2.5;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="72" width="290" height="704" as="geometry"/>
                 </mxCell>
-                <mxCell id="L_hdr" value="&lt;b style=&#39;font-size:12px;&#39;&gt;Presentation Layer&lt;/b&gt;" style="text;html=1;fillColor=#16A34A;fontColor=#FFFFFF;fontSize=12;fontStyle=1;align=center;rounded=0;strokeColor=none;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="30" y="62" width="240" height="32" as="geometry"/>
+                <mxCell id="L_hdr" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Presentation Layer&lt;/font&gt;" style="text;html=1;fillColor=#DDDDDD;fontColor=#000000;fontSize=21;fontStyle=1;align=center;rounded=0;strokeColor=#000000;strokeWidth=1;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="72" width="290" height="38" as="geometry"/>
                 </mxCell>
-                <mxCell id="L1" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;b&gt;Patient Feedback Portal&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 9px; color: rgb(134, 239, 172);&quot;&gt;&amp;nbsp;Next.js&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="48" y="152" width="204" height="78" as="geometry"/>
+                <mxCell id="L1" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Patient Feedback Portal&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Next.js 14 · App Router&lt;br&gt;• Submit symptom feedback form&lt;br&gt;• View sentiment classification&lt;br&gt;• SHAP word-highlight pane&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="48" y="126" width="254" height="132" as="geometry"/>
                 </mxCell>
-                <mxCell id="L2" value="&lt;font color=&quot;#ffffff&quot;&gt;&lt;font&gt;&lt;b style=&quot;&quot;&gt;Clinician Dashboard&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 9px; color: rgb(134, 239, 172);&quot;&gt;&amp;nbsp;Next.js&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#4ADE80;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="48" y="424" width="204" height="78" as="geometry"/>
+                <mxCell id="L2" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Clinician Dashboard&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Next.js 14 · App Router&lt;br&gt;• Drug recommendation table&lt;br&gt;• Sentiment trend charts&lt;br&gt;• Notifications panel&lt;br&gt;• Admin: retrain trigger &amp;amp; status&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="48" y="388" width="254" height="148" as="geometry"/>
                 </mxCell>
-                <mxCell id="M_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#060E1C;strokeColor=#60A5FA;opacity=80;" parent="1" vertex="1">
-                    <mxGeometry x="292" y="62" width="440" height="636" as="geometry"/>
+
+                <!-- ═══════════════ APPLICATION LAYER ═══════════════ -->
+                <mxCell id="M_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F7F7F7;strokeColor=#000000;strokeWidth=2.5;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="72" width="560" height="704" as="geometry"/>
                 </mxCell>
-                <mxCell id="M_hdr" value="&lt;b style=&#39;font-size:12px;&#39;&gt;Application Layer&lt;/b&gt;" style="text;html=1;fillColor=#2563EB;fontColor=#FFFFFF;fontSize=12;fontStyle=1;align=center;rounded=0;strokeColor=none;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="292" y="62" width="440" height="32" as="geometry"/>
+                <mxCell id="M_hdr" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Application Layer&lt;/font&gt;" style="text;html=1;fillColor=#DDDDDD;fontColor=#000000;fontSize=21;fontStyle=1;align=center;rounded=0;strokeColor=#000000;strokeWidth=1;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="72" width="560" height="38" as="geometry"/>
                 </mxCell>
-                <mxCell id="M1" value="&lt;b&gt;FastAPI Router&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:9px;&#39;&gt;api/main.py&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#38BDF8;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="308" y="112" width="214" height="64" as="geometry"/>
+                <mxCell id="M1" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;FastAPI Router&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;api/main.py · Python 3.11 · Uvicorn · SQLAlchemy · Pydantic v2&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="120" width="524" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="M2" value="&lt;b&gt;NLP Preprocessing&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:9px;&#39;&gt;preprocess.py&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A855F7;strokeColor=#C084FC;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="308" y="212" width="214" height="64" as="geometry"/>
+                <mxCell id="routes_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#555555;strokeWidth=1;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="188" width="524" height="92" as="geometry"/>
                 </mxCell>
-                <mxCell id="M3" value="&lt;b&gt;Sentiment Model&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:9px;&#39;&gt;predict.py — TF-IDF+LR / BioBERT&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7C3AED;strokeColor=#A78BFA;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="308" y="312" width="214" height="64" as="geometry"/>
+                <mxCell id="routes_lbl" value="API Endpoints" style="text;html=1;fontColor=#000000;fontSize=21;fontStyle=1;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="184" width="160" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="M4" value="&lt;b&gt;Risk Mapper + Keyword Escalation&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EF4444;strokeColor=#F87171;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="308" y="412" width="214" height="64" as="geometry"/>
+                <mxCell id="r1" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;POST /auth/register&lt;br&gt;POST /auth/login&lt;br&gt;GET /auth/me&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#888888;fontColor=#000000;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="364" y="208" width="160" height="64" as="geometry"/>
                 </mxCell>
-                <mxCell id="M5" value="&lt;b&gt;Recommendation Engine&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:9px;&#39;&gt;recommender.py&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D9488;strokeColor=#2DD4BF;fontColor=#FFFFFF;fontSize=10;shadow=1;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="308" y="512" width="214" height="64" as="geometry"/>
+                <mxCell id="r2" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;POST /feedback&lt;br&gt;GET /recommend&lt;br&gt;GET /trends/{patient_id}&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#888888;fontColor=#000000;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="534" y="208" width="170" height="64" as="geometry"/>
                 </mxCell>
-                <mxCell id="M6" value="&lt;b&gt;SHAP Explainability&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:9px;color:#FCD34D;&#39;&gt;shap_explain.py&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1200;strokeColor=#F59E0B;fontColor=#FCD34D;fontSize=10;dashed=1;strokeWidth=2;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="548" y="312" width="160" height="64" as="geometry"/>
+                <mxCell id="r3" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;GET /notifications&lt;br&gt;POST /notifications/{id}/read&lt;br&gt;POST /admin/retrain · GET /admin/status&lt;br&gt;GET /health&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#888888;fontColor=#000000;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="714" y="208" width="162" height="64" as="geometry"/>
                 </mxCell>
-                <mxCell id="R_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0D1117;strokeColor=#94A3B8;opacity=90;" parent="1" vertex="1">
-                    <mxGeometry x="754" y="62" width="386" height="636" as="geometry"/>
+                <mxCell id="M2" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;NLP Preprocessing&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;preprocess.py · Lowercase · Stopword removal · Lemmatisation · Tokenisation&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="294" width="524" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="R_hdr" value="&lt;b style=&#39;font-size:12px;&#39;&gt;Data Layer&lt;/b&gt;" style="text;html=1;fillColor=#475569;fontColor=#FFFFFF;fontSize=12;fontStyle=1;align=center;rounded=0;strokeColor=none;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="754" y="62" width="386" height="32" as="geometry"/>
+                <mxCell id="M3a" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;BioBERT Sentiment Model&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;predict_bert.py&lt;br&gt;HuggingFace Transformers&lt;br&gt;Weighted F1: 0.802&lt;br&gt;Primary live inference route&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="368" width="254" height="116" as="geometry"/>
                 </mxCell>
-                <mxCell id="R_db_hdr" value="&lt;b&gt;SQLite → PostgreSQL&lt;/b&gt;" style="text;html=1;fillColor=#141414;fontColor=#E2E8F0;fontSize=10;fontStyle=1;align=center;rounded=1;strokeColor=#64748B;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="770" y="108" width="356" height="28" as="geometry"/>
+                <mxCell id="M3b" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Baseline TF-IDF + LR&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;predict.py&lt;br&gt;scikit-learn pipeline&lt;br&gt;Weighted F1: 0.791&lt;br&gt;Fallback / SHAP input&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="628" y="368" width="254" height="116" as="geometry"/>
                 </mxCell>
-                <mxCell id="R_db_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#64748B;opacity=90;" parent="1" vertex="1">
-                    <mxGeometry x="770" y="136" width="356" height="426" as="geometry"/>
+                <mxCell id="M6" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;SHAP Explainability&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;shap_explainer.py · SHAP LinearExplainer&lt;br&gt;Fitted on TF-IDF + LR pipeline&lt;br&gt;Returns: top_positive / top_negative keywords in response&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="498" width="524" height="84" as="geometry"/>
                 </mxCell>
-                <mxCell id="R1" value="&lt;b&gt;PredictionLog Table&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0000FF;strokeColor=#475569;fontColor=#E2E8F0;fontSize=10;shadow=0;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="784" y="154" width="328" height="52" as="geometry"/>
+                <mxCell id="M4" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Risk Mapper + Keyword Escalation&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Maps sentiment score → risk level (low / medium / high)&lt;br&gt;Scans text for urgent clinical keywords (e.g. suicidal, chest pain)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="596" width="524" height="76" as="geometry"/>
                 </mxCell>
-                <mxCell id="R2" value="&lt;b&gt;PatientFeedback Table&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#475569;fontColor=#E2E8F0;fontSize=10;shadow=0;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="784" y="224" width="328" height="52" as="geometry"/>
+                <mxCell id="M5" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Recommendation Engine&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;recommender.py · Ranks drugs by condition + sentiment + patient EHR history&lt;br&gt;Reads simulated_ehr.json + per-condition Drug CSV files&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="358" y="686" width="524" height="76" as="geometry"/>
                 </mxCell>
-                <mxCell id="R3" value="&lt;b&gt;Recommendations Table&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF3333;strokeColor=#475569;fontColor=#E2E8F0;fontSize=10;shadow=0;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="784" y="294" width="328" height="52" as="geometry"/>
+
+                <!-- ═══════════════ DATA LAYER ═══════════════ -->
+                <mxCell id="R_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F7F7F7;strokeColor=#000000;strokeWidth=2.5;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="72" width="510" height="704" as="geometry"/>
                 </mxCell>
-                <mxCell id="R4" value="&lt;b&gt;EHR Records (patients.json)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00FF00;strokeColor=#475569;fontColor=#E2E8F0;fontSize=10;shadow=0;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="784" y="364" width="328" height="52" as="geometry"/>
+                <mxCell id="R_hdr" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Data Layer&lt;/font&gt;" style="text;html=1;fillColor=#DDDDDD;fontColor=#000000;fontSize=21;fontStyle=1;align=center;rounded=0;strokeColor=#000000;strokeWidth=1;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="72" width="510" height="38" as="geometry"/>
                 </mxCell>
-                <mxCell id="A1" value="HTTP REST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2.5;fontSize=9;fontColor=#4ADE80;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.35;entryPerimeter=0;" parent="1" source="L1" target="M1" edge="1">
+                <mxCell id="db_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="936" y="118" width="478" height="382" as="geometry"/>
+                </mxCell>
+                <mxCell id="db_hdr" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;SQLite Database  (se_cdss.db)&lt;/font&gt;" style="text;html=1;fillColor=#DDDDDD;fontColor=#000000;fontSize=21;fontStyle=1;align=center;rounded=1;strokeColor=#000000;strokeWidth=1;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="936" y="118" width="478" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="R1" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;PredictionLog&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;id · patient_id · feedback_text · sentiment · confidence · risk_level · timestamp&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#000000;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="948" y="162" width="454" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="R2" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;PatientFeedback&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;id · patient_id · feedback_text · created_at&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#000000;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="948" y="232" width="454" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="R3" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Recommendations&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;id · patient_id · drug_name · score · condition · created_at&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#000000;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="948" y="298" width="454" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="R_users" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Users&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;id · username · hashed_password · role (patient / clinician)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#000000;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="948" y="364" width="454" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="R_notif" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Notifications&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;id · clinician_id · message · is_read · created_at&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#000000;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="948" y="430" width="454" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="R4" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;BioBERT Model Files&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;models/biobert_sentiment/&lt;br&gt;model.safetensors (~414 MB) · config.json&lt;br&gt;tokenizer.json · vocab.txt&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="936" y="514" width="232" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="R5" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Baseline Model Files&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;models/baseline/&lt;br&gt;tfidf_vectorizer.pkl&lt;br&gt;lr_classifier.pkl&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1178" y="514" width="232" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="R6" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;EHR Records&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;data/simulated_ehr.json&lt;br&gt;50 simulated patient records&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="936" y="622" width="232" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="R7" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;&lt;b&gt;Drug Catalogue CSV&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;data/drugs/ (per-condition)&lt;br&gt;WebMD-sourced drug stats&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=16;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="1178" y="622" width="232" height="72" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ ARROWS ═══════════════ -->
+                <mxCell id="A1" value="HTTP REST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;fontSize=12;fontColor=#000000;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" source="L1" target="M1" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A2" value="HTTP REST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#4ADE80;strokeWidth=2.5;fontSize=9;fontColor=#4ADE80;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.65;entryPerimeter=0;" parent="1" source="L2" target="M1" edge="1">
+                <mxCell id="A2" value="HTTP REST" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;fontSize=12;fontColor=#000000;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" source="L2" target="M1" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" parent="1" source="M1" target="M2" edge="1">
+                <mxCell id="A3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M1" target="M2" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" parent="1" source="M2" target="M3" edge="1">
+                <mxCell id="A4a" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M2" target="M3a" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" parent="1" source="M3" target="M4" edge="1">
+                <mxCell id="A4b" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M2" target="M3b" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" parent="1" source="M4" target="M5" edge="1">
+                <mxCell id="A5a" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M3a" target="M6" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#F59E0B;strokeWidth=2;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="M3" target="M6" edge="1">
+                <mxCell id="A5b" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M3b" target="M6" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A8" value="read / write" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#94A3B8;strokeWidth=2.5;fontSize=9;fontColor=#94A3B8;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" source="M1" target="R_db_hdr" edge="1">
+                <mxCell id="A6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M6" target="M4" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="A9" value="write log" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2DD4BF;strokeWidth=2;fontSize=9;fontColor=#2DD4BF;dashed=1;dashPattern=6 3;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" source="M5" target="R1" edge="1">
+                <mxCell id="A7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;" parent="1" source="M4" target="M5" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="R5" value="&lt;b&gt;Drug Catalogue (WebMD CSV)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFF33;strokeColor=#475569;fontColor=#E2E8F0;fontSize=10;shadow=0;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="784" y="434" width="328" height="52" as="geometry"/>
+                <mxCell id="A8" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;SQLAlchemy ORM  read / write&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;fontSize=12;fontColor=#000000;fontStyle=1;endArrow=block;startArrow=block;endFill=1;startFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" source="M1" target="db_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="Untitled Layer" parent="0"/>
+                <mxCell id="A9" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;read JSON&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;fontSize=12;fontColor=#000000;endArrow=block;endFill=1;" parent="1" source="M5" target="R6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="A10" value="read CSV" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;fontSize=12;fontColor=#000000;endArrow=block;endFill=1;" parent="1" source="M5" target="R7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="A11" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;load on startup&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=1.5;fontSize=11;fontColor=#000000;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;" parent="1" source="M3a" target="R4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="A12" value="load on startup" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=1.5;fontSize=11;fontColor=#000000;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;" parent="1" source="M3b" target="R5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>

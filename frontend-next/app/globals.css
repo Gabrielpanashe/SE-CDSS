@@ -74,6 +74,12 @@ body {
   }
 }
 
+/* ── Dark-mode: make text-navy readable on dark backgrounds ─── */
+/* Tailwind bakes text-navy as #0F2944 (near-black) which is     */
+/* invisible on dark surfaces. Override it globally here so      */
+/* every component that uses text-navy works in both modes.      */
+.dark .text-navy { color: #CBD5E1; /* slate-300 */ }
+
 /* ── Scrollbar ──────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #F1F5F9; }

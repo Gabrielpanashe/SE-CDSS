@@ -91,6 +91,9 @@ export const api = {
 
   health: () => request<{ status: string }>("/health"),
 
+  getPatientUserId: (patientId: string) =>
+    request<{ user_id: number; patient_id: string }>(`/auth/user-by-patient/${encodeURIComponent(patientId)}`),
+
   getNotifications: () =>
     request<NotificationItem[]>("/notifications"),
 

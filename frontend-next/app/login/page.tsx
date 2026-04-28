@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Activity, LogIn } from "lucide-react";
@@ -10,10 +10,16 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [loading, setLoading]   = useState(false);
+  const [nextPath, setNextPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setNextPath(params.get("next"));
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,14 +36,19 @@ export default function LoginPage() {
         throw new Error(body.detail ?? "Login failed.");
       }
       const data = await res.json();
-      setAuth(data.access_token, data.role, data.email);
-      router.push(data.role === "clinician" ? "/clinician" : "/patient");
+      setAuth(data.access_token, data.role, data.email, data.patient_id);
+
+      // Always go to ?next if present — AuthGate on that page handles wrong-role denial
+      const roleDefault = data.role === "clinician" ? "/clinician" : "/patient";
+      router.push(nextPath ?? roleDefault);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed.");
     } finally {
       setLoading(false);
     }
   }
+
+  const registerHref = nextPath ? `/register?next=${encodeURIComponent(nextPath)}` : "/register";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
@@ -50,6 +61,15 @@ export default function LoginPage() {
           <h1 className="text-2xl font-extrabold text-navy dark:text-slate-100">Sign in to SE-CDSS</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Precision Medicine Decision Support</p>
         </div>
+
+        {/* Destination hint */}
+        {nextPath && (
+          <p className="text-center text-xs text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/20
+            border border-teal-200 dark:border-teal-800 rounded-xl px-4 py-2.5 mb-6 capitalize">
+            Sign in to access the{" "}
+            <strong>{nextPath.replace("/", "")} portal</strong>
+          </p>
+        )}
 
         {/* Card */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-8">
@@ -109,7 +129,7 @@ export default function LoginPage() {
 
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             No account?{" "}
-            <Link href="/register" className="text-teal-600 hover:text-teal-700 font-medium">
+            <Link href={registerHref} className="text-teal-600 hover:text-teal-700 font-medium">
               Create one
             </Link>
           </p>

@@ -1,0 +1,145 @@
+<mxfile host="65bd71144e">
+    <diagram id="fig44-l1-dfd" name="Figure 4.4 Level 1 DFD">
+        <mxGraphModel dx="1300" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1050" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- ═══════════════ TITLE ═══════════════ -->
+                <mxCell id="title" value="Figure 4.4 — Level 1 Data Flow Diagram: SE-CDSS Feedback Processing Pipeline" style="text;html=1;fontSize=17;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="14" width="1540" height="36" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ EXTERNAL ENTITIES ═══════════════ -->
+                <mxCell id="patient" value="&lt;font style=&quot;font-size:16px;&quot;&gt;&lt;b&gt;Patient&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=3;fontColor=#000000;double=1;" vertex="1" parent="1">
+                    <mxGeometry x="10" y="398" width="145" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="clinician" value="&lt;font style=&quot;font-size:16px;&quot;&gt;&lt;b&gt;Clinician&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=3;fontColor=#000000;double=1;" vertex="1" parent="1">
+                    <mxGeometry x="1548" y="398" width="145" height="90" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ ROW 1 PROCESSES (left → right) ═══════════════ -->
+                <mxCell id="P1" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;1&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Input Validation&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;Pydantic FeedbackRequest&lt;br&gt;Rejects invalid → HTTP 422&lt;br&gt;api/main.py&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="225" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P2" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;2&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;NLP Preprocessing&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;text_normalization.py&lt;br&gt;Strip HTML · Lowercase&lt;br&gt;Lemmatise · Stopwords&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="225" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P3" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;3&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Sentiment Inference&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;predict_bert.py / predict.py&lt;br&gt;BioBERT (F1: 0.802)&lt;br&gt;TF-IDF+LR (F1: 0.791)&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="225" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P4" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;4&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Risk Mapping +&lt;br&gt;Keyword Escalation&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;risk_mapper.py&lt;br&gt;10 adverse keywords&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="225" width="210" height="130" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ ROW 2 PROCESSES (right → left) ═══════════════ -->
+                <mxCell id="P5" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;5&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;EHR Profile Load&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;ehr_loader.py&lt;br&gt;Reads EHR JSON store&lt;br&gt;Allergies · Conditions&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="590" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P6" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;6&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Drug Recommendation&lt;br&gt;Scoring&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;recommender.py&lt;br&gt;0.33×guideline + 0.33×ehr&lt;br&gt;+ 0.33×sentiment&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="590" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P7" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;7&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Persistence&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;db.py · save_prediction()&lt;br&gt;Writes PredictionLog&lt;br&gt;SQLAlchemy ORM&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="590" width="210" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="P8" value="&lt;b&gt;&lt;font style=&quot;font-size:16px;&quot;&gt;8&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;b&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;API Response&lt;br&gt;Assembly&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;Assembles final JSON&lt;br&gt;SHAP explanation&lt;br&gt;+ advisory disclaimer&lt;/font&gt;" style="ellipse;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2.5;fontColor=#000000;fontSize=13;verticalAlign=middle;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="590" width="210" height="130" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ DATA STORES ═══════════════ -->
+                <mxCell id="ehr_store" value="&lt;b&gt;&lt;font style=&quot;font-size:13px;&quot;&gt;D1 | EHR JSON File&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;data/simulated_ehr.json&lt;/font&gt;" style="shape=mxgraph.dfd.dataStore;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="810" width="210" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="db_store" value="&lt;b&gt;&lt;font style=&quot;font-size:13px;&quot;&gt;D2 | PredictionLog DB&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;se_cdss.db (SQLite / PostgreSQL)&lt;/font&gt;" style="shape=mxgraph.dfd.dataStore;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="810" width="210" height="58" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ CALLOUT BOX — P4 Keywords ═══════════════ -->
+                <mxCell id="callout" value="&lt;b&gt;&lt;font style=&quot;font-size:13px;&quot;&gt;⚠  Keyword Escalation Triggers (10)&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px;&quot;&gt;1.   suicidal&lt;br&gt;2.   chest pain&lt;br&gt;3.   difficulty breathing&lt;br&gt;4.   severe allergic reaction&lt;br&gt;5.   anaphylaxis&lt;br&gt;6.   seizure / convulsions&lt;br&gt;7.   overdose&lt;br&gt;8.   unconscious&lt;br&gt;9.   severe bleeding&lt;br&gt;10. stroke / heart attack&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=12;verticalAlign=top;align=left;spacingLeft=12;spacingTop=8;spacingRight=8;" vertex="1" parent="1">
+                    <mxGeometry x="1290" y="580" width="280" height="270" as="geometry"/>
+                </mxCell>
+                <!-- Dashed reference line from callout to P4 -->
+                <mxCell id="callout_ref" value="" style="html=1;strokeColor=#000000;strokeWidth=1.5;dashed=1;dashPattern=5 4;endArrow=open;endFill=0;startArrow=none;edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="callout" target="P4" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ S-CURVE DATA FLOW ARROWS ═══════════════ -->
+
+                <!-- 1. Patient → P1 -->
+                <mxCell id="a_pat_p1" value="&lt;font style=&quot;font-size:11px;&quot;&gt;drug_review_text&lt;br&gt;patient_id · drug_name&lt;br&gt;condition&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=1;exitY=0.35;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" edge="1" source="patient" target="P1" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 2. P1 → P2 -->
+                <mxCell id="a_p1_p2" value="&lt;font style=&quot;font-size:11px;&quot;&gt;validated_input&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" edge="1" source="P1" target="P2" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 3. P2 → P3 -->
+                <mxCell id="a_p2_p3" value="&lt;font style=&quot;font-size:11px;&quot;&gt;cleaned_text&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" edge="1" source="P2" target="P3" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 4. P3 → P4 -->
+                <mxCell id="a_p3_p4" value="&lt;font style=&quot;font-size:11px;&quot;&gt;sentiment_label&lt;br&gt;confidence&lt;br&gt;class_probabilities&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" edge="1" source="P3" target="P4" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 5. P4 → P5  (S-curve turn — straight vertical drop) -->
+                <mxCell id="a_p4_p5" value="&lt;font style=&quot;font-size:11px;&quot;&gt;risk_level&lt;br&gt;sentiment_label&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" edge="1" source="P4" target="P5" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 6. P5 → P6 (row 2 flows right → left) -->
+                <mxCell id="a_p5_p6" value="&lt;font style=&quot;font-size:11px;&quot;&gt;ehr_scores · allergies&lt;br&gt;condition&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0;exitY=0.5;exitPerimeter=0;entryX=1;entryY=0.5;entryPerimeter=0;" edge="1" source="P5" target="P6" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 7. P6 → P7 -->
+                <mxCell id="a_p6_p7" value="&lt;font style=&quot;font-size:11px;&quot;&gt;top_3_drugs&lt;br&gt;recommendation_scores&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0;exitY=0.5;exitPerimeter=0;entryX=1;entryY=0.5;entryPerimeter=0;" edge="1" source="P6" target="P7" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 8. P7 → P8 -->
+                <mxCell id="a_p7_p8" value="&lt;font style=&quot;font-size:11px;&quot;&gt;log_id&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0;exitY=0.5;exitPerimeter=0;entryX=1;entryY=0.5;entryPerimeter=0;" edge="1" source="P7" target="P8" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════ EXTERNAL ENTITY RETURN FLOWS ═══════════════ -->
+
+                <!-- P8 → Patient (return: confirmation + risk) -->
+                <mxCell id="a_p8_pat" value="&lt;font style=&quot;font-size:11px;&quot;&gt;submission_confirmation&lt;br&gt;risk_level · SHAP keywords&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0;exitY=0.5;exitPerimeter=0;entryX=1;entryY=0.65;entryPerimeter=0;" edge="1" source="P8" target="patient" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Clinician → P5 (patient lookup request) -->
+                <mxCell id="a_clin_p5" value="&lt;font style=&quot;font-size:11px;&quot;&gt;patient_id&lt;br&gt;(lookup request)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0;exitY=0.35;exitPerimeter=0;entryX=1;entryY=0.35;entryPerimeter=0;" edge="1" source="clinician" target="P5" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- P8 → Clinician (all results — routed along diagram bottom) -->
+                <mxCell id="a_p8_clin" value="&lt;font style=&quot;font-size:11px;&quot;&gt;sentiment_result · risk_badge&lt;br&gt;drug_recommendations · trend_chart&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=2;endArrow=block;endFill=1;fontColor=#000000;fontStyle=1;fontSize=11;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0;entryY=0.65;entryPerimeter=0;" edge="1" source="P8" target="clinician" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="305" y="960"/>
+                            <mxPoint x="1620" y="960"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- ═══════════════ DATA STORE CONNECTIONS ═══════════════ -->
+
+                <!-- EHR JSON → P5 (read) -->
+                <mxCell id="a_ehr_p5" value="&lt;font style=&quot;font-size:11px;&quot;&gt;patient_ehr_record&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;fontColor=#000000;fontSize=11;exitX=0.5;exitY=0;exitPerimeter=0;entryX=0.5;entryY=1;entryPerimeter=0;" edge="1" source="ehr_store" target="P5" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- P7 → PredictionLog DB (write) -->
+                <mxCell id="a_p7_db" value="&lt;font style=&quot;font-size:11px;&quot;&gt;prediction_record&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;fontColor=#000000;fontSize=11;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;" edge="1" source="P7" target="db_store" parent="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
