@@ -95,11 +95,11 @@ def submit_feedback(
     except Exception:
         LOGGER.warning("Notification creation failed — non-fatal.")
 
-    shap_result = shap_explain(body.review)
+    lime_result = shap_explain(body.review)
     explanation = (
-        f"Supporting words: {', '.join(shap_result['top_positive']) or 'none'}. "
-        f"Contradicting words: {', '.join(shap_result['top_negative']) or 'none'}."
-        if (shap_result["top_positive"] or shap_result["top_negative"])
+        f"Supporting evidence: {', '.join(lime_result['top_positive']) or 'none'}. "
+        f"Uncertainty factors: {', '.join(lime_result['top_negative']) or 'none'}."
+        if (lime_result["top_positive"] or lime_result["top_negative"])
         else None
     )
 

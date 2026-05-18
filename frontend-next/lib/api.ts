@@ -1,4 +1,7 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Empty base: all paths are relative so the Next.js rewrite proxy handles routing.
+// This means the browser only ever talks to the same origin — no CORS issues and
+// no hardcoded backend host baked into the client bundle.
+const API_BASE = "";
 
 export interface FeedbackRequest {
   review: string;

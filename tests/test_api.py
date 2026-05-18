@@ -67,6 +67,7 @@ def test_feedback_requires_auth(client: TestClient) -> None:
     assert resp.status_code == 401
 
 
+@pytest.mark.slow
 def test_feedback_includes_disclaimer(client: TestClient, auth_headers: dict) -> None:
     response = client.post(
         "/api/feedback",
@@ -90,6 +91,7 @@ def test_recommend_requires_clinician(client: TestClient) -> None:
     assert resp.status_code == 401
 
 
+@pytest.mark.slow
 def test_recommend_returns_top_three(client: TestClient, auth_headers: dict) -> None:
     if not os.path.exists(config.SIMULATED_EHR_PATH):
         pytest.skip("patients.json missing")
@@ -121,6 +123,7 @@ def test_trends_requires_auth(client: TestClient) -> None:
     assert resp.status_code == 401
 
 
+@pytest.mark.slow
 def test_trends_shape(client: TestClient, auth_headers: dict) -> None:
     response = client.get("/api/trends/nonexistent-patient-xyz", headers=auth_headers)
     assert response.status_code == 200

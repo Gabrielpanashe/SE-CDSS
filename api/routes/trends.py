@@ -4,7 +4,7 @@ Longitudinal prediction trends per patient.
 
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -39,16 +39,26 @@ class TrendsResponse(BaseModel):
 @router.get("/trends/{patient_id}", response_model=TrendsResponse)
 def get_trends(
     patient_id: str,
+    limit: int = Query(default=50, ge=1, le=500, description="Max entries to return."),
+    offset: int = Query(default=0, ge=0, description="Number of entries to skip."),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> TrendsResponse:
     if current_user.role == "patient" and current_user.patient_id != patient_id:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Access denied.")
 
+    total_entries: int = (
+        db.query(PredictionLog)
+        .filter(PredictionLog.patient_id == patient_id)
+        .count()
+    )
+
     rows = (
         db.query(PredictionLog)
         .filter(PredictionLog.patient_id == patient_id)
         .order_by(PredictionLog.timestamp.asc())
+        .offset(offset)
+        .limit(limit)
         .all()
     )
 
@@ -68,7 +78,7 @@ def get_trends(
 
     return TrendsResponse(
         patient_id=patient_id,
-        total_entries=len(trends),
+        total_entries=total_entries,
         trends=trends,
         disclaimer=config.DISCLAIMER_TEXT,
         explanation=None,

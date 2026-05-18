@@ -47,7 +47,7 @@ export function SentimentResult({ data }: { data: FeedbackResponse }) {
             <span className={`h-2 w-2 rounded-full ${riskDot(data.risk_level)}`} />
             {data.risk_level}
           </Badge>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Based on sentiment + keyword escalation rules
           </p>
         </div>
@@ -56,8 +56,8 @@ export function SentimentResult({ data }: { data: FeedbackResponse }) {
       {/* Probability breakdown */}
       <div className="card">
         <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className="h-4 w-4 text-teal-500" />
-          <p className="font-semibold text-navy text-sm">Class Probabilities</p>
+          <TrendingUp className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+          <p className="font-semibold text-slate-900 dark:text-slate-50 text-sm">Class Probabilities</p>
         </div>
         <div className="space-y-3">
           {probOrder.map((key) => (

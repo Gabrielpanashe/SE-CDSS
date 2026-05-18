@@ -3,7 +3,7 @@ JWT authentication utilities for SE-CDSS.
 Provides token creation, verification, and FastAPI dependency injection.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import Depends, HTTPException, status
@@ -28,7 +28,7 @@ def verify_password(plain: str, hashed: str) -> bool:
 
 def create_token(data: dict) -> str:
     payload = data.copy()
-    payload["exp"] = datetime.utcnow() + timedelta(hours=config.JWT_EXPIRE_HOURS)
+    payload["exp"] = datetime.now(timezone.utc) + timedelta(hours=config.JWT_EXPIRE_HOURS)
     return jwt.encode(payload, config.JWT_SECRET, algorithm=config.JWT_ALGORITHM)
 
 
@@ -60,7 +60,6 @@ def get_current_user(
     if user is None:
         raise _auth_exception()
     return user
-
 
 def require_clinician(current_user: User = Depends(get_current_user)) -> User:
     if current_user.role != "clinician":

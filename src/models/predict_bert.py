@@ -1,6 +1,5 @@
 """
 BioBERT inference module for SE-CDSS.
-
 Provides the same predict() interface as predict.py (the baseline module) so
 the API can swap between the two models without any changes to route code.
 Loads the fine-tuned model from models/biobert_sentiment/ on first call and
@@ -10,10 +9,8 @@ caches it in memory for subsequent requests.
 import logging
 import os
 from typing import Any, Dict, Optional
-
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
 from src import config
 from src.preprocessing.text_normalization import clean_text
 from src.models.predict import apply_keyword_escalation, map_risk
@@ -88,7 +85,6 @@ def predict(review_text: str) -> Dict[str, Any]:
 
     Args:
         review_text: Raw patient medication feedback text.
-
     Returns:
         Dict with keys:
             sentiment    (str)  — 'positive', 'neutral', or 'negative' (always lowercase)
@@ -107,7 +103,6 @@ def predict(review_text: str) -> Dict[str, Any]:
         raise RuntimeError(str(exc)) from exc
 
     cleaned = clean_text(review_text)
-
     if not cleaned.strip():
         # empty text after cleaning — return safe defaults
         risk_level = apply_keyword_escalation(review_text or "", "Mild Concern")
@@ -118,7 +113,6 @@ def predict(review_text: str) -> Dict[str, Any]:
             "cleaned_text":  cleaned,
             "probabilities": {"negative": 0.0, "neutral": 1.0, "positive": 0.0},
         }
-
     # tokenise — same parameters used during training
     inputs = _tokenizer(
         cleaned,
@@ -147,7 +141,6 @@ def predict(review_text: str) -> Dict[str, Any]:
 
     risk_level = map_risk(sentiment, confidence)
     risk_level = apply_keyword_escalation(review_text, risk_level)
-
     return {
         "sentiment":     sentiment,
         "confidence":    confidence,

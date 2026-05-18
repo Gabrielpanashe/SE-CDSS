@@ -44,11 +44,13 @@ services:
   frontend:
     build:
       context: ./frontend-next
-      args:
-        NEXT_PUBLIC_API_URL: http://localhost:8000
     container_name: se_cdss_frontend
     ports:
       - "3000:3000"
+    environment:
+      # Runtime env var — Next.js reads this when the server starts (not at build time).
+      # Uses Docker internal network name so server-side rewrites can reach the API.
+      API_URL: http://api:8000
     depends_on:
       - api
     networks:

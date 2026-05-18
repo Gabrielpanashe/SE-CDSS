@@ -10,7 +10,7 @@ Includes:
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Generator, Optional
 
 from sqlalchemy import (
@@ -59,7 +59,7 @@ class PredictionLog(Base):
     confidence = Column(Float, nullable=False)
     risk_level = Column(String, nullable=False)
 
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class PatientFeedback(Base):
@@ -74,7 +74,7 @@ class PatientFeedback(Base):
     feedback = Column(Text, nullable=False)
     rating = Column(Integer)
 
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class Recommendation(Base):
@@ -94,7 +94,7 @@ class Recommendation(Base):
 
     clinician_accepted = Column(Boolean)
 
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class EHR(Base):
@@ -113,7 +113,7 @@ class EHR(Base):
 
     notes = Column(Text)  # doctor notes / patient history
 
-    record_date = Column(DateTime, default=datetime.utcnow)
+    record_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class User(Base):
@@ -124,7 +124,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(String, nullable=False)  # "patient" | "clinician"
     patient_id = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class DrugInsight(Base):
@@ -144,7 +144,7 @@ class DrugInsight(Base):
 
     avg_confidence = Column(Float)
 
-    last_updated = Column(DateTime, default=datetime.utcnow)
+    last_updated = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 # ─────────────────────────────────────────────────────
@@ -222,7 +222,7 @@ def save_prediction(
         raw_review=raw_review,
         cleaned_review=prediction.get("cleaned_text"),
 
-        drug_name=drug_name,
+        drug_name=drug_name.strip().title() if drug_name else None,
         condition=condition,
 
         sentiment=prediction["sentiment"],
@@ -325,7 +325,7 @@ class Notification(Base):
     prediction_log_id = Column(Integer, nullable=True)
     message = Column(Text, nullable=False)
     is_read = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     followup_due_at = Column(DateTime, nullable=True)
 
 

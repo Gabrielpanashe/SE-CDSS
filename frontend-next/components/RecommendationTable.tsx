@@ -23,7 +23,7 @@ const SCORE_ROWS: Array<{
 }> = [
   { key: "guideline_score", label: "Guideline", icon: FlaskConical, color: "bg-blue-500"   },
   { key: "ehr_score",       label: "EHR Match", icon: Heart,        color: "bg-purple-500" },
-  { key: "sentiment_score", label: "Sentiment", icon: Activity,     color: "bg-teal-500"   },
+  { key: "sentiment_score", label: "Sentiment", icon: Activity,     color: "bg-blue-500"   },
 ];
 
 export function RecommendationTable({ items, condition }: Props) {
@@ -33,10 +33,10 @@ export function RecommendationTable({ items, condition }: Props) {
     <div className="space-y-3">
       {/* Header */}
       <div className="flex items-center gap-2">
-        <Award className="h-5 w-5 text-teal-500" />
+        <Award className="h-5 w-5 text-blue-500 dark:text-blue-400" />
         <div>
-          <h3 className="font-bold text-navy text-sm">Drug Recommendations</h3>
-          <p className="text-xs text-slate-400 capitalize">
+          <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Drug Recommendations</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">
             {condition} · 0.33 × Guideline + 0.33 × EHR + 0.33 × Sentiment
           </p>
         </div>
@@ -57,13 +57,13 @@ export function RecommendationTable({ items, condition }: Props) {
                   {rank.label}
                 </span>
                 <div className="flex items-center gap-1.5">
-                  <Pill className="h-4 w-4 text-navy/50" />
-                  <span className="font-bold text-navy text-sm">{item.drug}</span>
+                  <Pill className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                  <span className="font-bold text-slate-900 dark:text-slate-50 text-sm">{item.drug}</span>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wide">Overall</p>
-                <p className="text-lg font-extrabold text-navy tabular-nums">
+                <p className="text-lg font-extrabold text-slate-900 dark:text-slate-50 tabular-nums">
                   {formatPercent(item.recommendation_score)}
                 </p>
               </div>
@@ -79,14 +79,14 @@ export function RecommendationTable({ items, condition }: Props) {
             {/* Component score breakdown */}
             <div className="grid grid-cols-3 gap-2">
               {SCORE_ROWS.map(({ key, label, icon: Icon, color }) => (
-                <div key={key} className="rounded-xl bg-white/80 border border-white px-3 py-2.5 shadow-sm">
+                <div key={key} className="rounded-xl bg-white/90 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600/50 px-3 py-2.5 shadow-sm">
                   <div className="flex items-center gap-1 mb-1">
                     <Icon className="h-3 w-3 text-slate-400" />
-                    <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                       {label}
                     </span>
                   </div>
-                  <p className="text-sm font-bold text-navy tabular-nums">
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-100 tabular-nums">
                     {formatPercent(item[key] as number)}
                   </p>
                   <div className="mt-1.5 h-1 rounded-full bg-slate-100 overflow-hidden">

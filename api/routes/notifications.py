@@ -2,7 +2,7 @@
 Notification routes: list, mark-read, clinician respond.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -127,7 +127,7 @@ def create_review_notifications(
             to_user_id=from_user_id,
             prediction_log_id=prediction_log_id,
             message="Please submit a follow-up review in 7 days to help track your progress.",
-            followup_due_at=datetime.utcnow() + timedelta(days=7),
+            followup_due_at=datetime.now(timezone.utc) + timedelta(days=7),
         )
         db.add(reminder)
 

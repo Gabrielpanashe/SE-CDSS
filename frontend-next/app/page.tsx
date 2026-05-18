@@ -109,7 +109,7 @@ export default function HomePage() {
           {/* Bottom-right corner tag */}
           <div className="relative mt-8 flex justify-end">
             <span className="text-[10px] text-white/30 font-medium tracking-wide">
-              Precision Medicine · BSIT Final Year Project
+              Precision Medicine · BECE Final Year Project
             </span>
           </div>
         </div>

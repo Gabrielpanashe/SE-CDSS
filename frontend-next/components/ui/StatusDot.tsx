@@ -31,7 +31,11 @@ export function BackendStatus() {
   );
 
   return (
-    <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-500">
+    <div className="hidden sm:flex items-center gap-1.5 rounded-full
+      border border-slate-200 dark:border-slate-700
+      bg-slate-50 dark:bg-slate-800
+      px-3 py-1.5 text-xs font-medium
+      text-slate-500 dark:text-slate-400">
       <span className={dot} />
       {label}
     </div>

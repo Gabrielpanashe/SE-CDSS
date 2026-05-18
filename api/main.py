@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
 
     # Pre-warm the baseline model (TF-IDF vectorizer + LR classifier)
     try:
-        from src.models.predict import _load_model as load_baseline
+        from src.models.predict import _load_models as load_baseline
         load_baseline()
         LOGGER.info("Baseline model pre-warmed.")
     except Exception as exc:
@@ -53,9 +53,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+_ALLOWED_ORIGINS = [
+    "http://localhost:3000",   # Next.js dev
+    "http://localhost:3001",   # Next.js dev (alternate port)
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
