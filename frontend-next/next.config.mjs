@@ -8,6 +8,13 @@ const API_URL = process.env.API_URL ?? "http://localhost:8000";
 const nextConfig = {
   output: "standalone",
 
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "plus.unsplash.com" },
+    ],
+  },
+
   // Proxy every API call through the Next.js server so the browser only ever
   // talks to the same origin (no CORS issues, no hardcoded backend host in JS).
   async rewrites() {

@@ -25,8 +25,8 @@ export function TrendChart({ trends }: Props) {
     if (!active || !payload?.length) return null;
     const d = payload[0].payload;
     return (
-      <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-card text-xs space-y-1">
-        <p className="font-semibold text-navy">{d.timestamp}</p>
+      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-card text-xs space-y-1">
+        <p className="font-semibold text-slate-800 dark:text-slate-100">{d.timestamp}</p>
         <p>Sentiment: <span className="font-semibold capitalize">{d.sentiment}</span></p>
         <p>Confidence: <span className="font-semibold">{d.confidence}%</span></p>
         <p>Risk: <span className="font-semibold">{d.risk}</span></p>
@@ -41,7 +41,7 @@ export function TrendChart({ trends }: Props) {
 
   return (
     <div className="card">
-      <h3 className="font-bold text-navy mb-1">Sentiment Trend</h3>
+      <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-1">Sentiment Trend</h3>
       <p className="text-xs text-slate-400 mb-4">{trends.length} entries</p>
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data} margin={{ top: 4, right: 16, bottom: 4, left: -16 }}>

@@ -28,6 +28,8 @@
 }
 
 /* ── Base ─────────────────────────────────────────────────────────── */
+html { font-size: 15px; }
+
 body {
   color: var(--text-mid);
   background: var(--bg);

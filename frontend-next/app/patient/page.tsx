@@ -104,20 +104,25 @@ export default function PatientPage() {
     <AuthGate role="patient">
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="section-title">Patient Portal</h1>
-          <p className="section-subtitle">
-            Submit medication feedback for AI-powered sentiment analysis and risk classification
+      <div className="rounded-2xl gradient-brand px-6 py-5 text-white flex items-center justify-between gap-4 shadow-card overflow-hidden relative">
+        <div className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 80% 50%, white 0%, transparent 55%)" }} />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-0.5">
+            <User className="h-4 w-4 text-blue-200" />
+            <p className="text-[11px] font-semibold text-blue-200 uppercase tracking-wide">Patient Portal</p>
+          </div>
+          <h1 className="text-xl font-extrabold text-white leading-tight">Medication Feedback & Analysis</h1>
+          <p className="text-xs text-blue-200 mt-0.5">
+            Submit a review · get instant sentiment analysis · see drug recommendations
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center gap-2 shrink-0">
           <UserBadge />
           <button
             onClick={() => { logout(); router.push("/"); }}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
-              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
-              hover:border-red-400 hover:text-red-500 transition-colors"
+            className="flex items-center gap-1.5 rounded-xl bg-white/15 border border-white/20 px-3 py-2
+              text-sm font-medium text-white hover:bg-white/25 transition-colors backdrop-blur-sm"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
@@ -127,10 +132,10 @@ export default function PatientPage() {
 
       {/* Follow-up reminder banner */}
       {followupReminder && (
-        <div className="flex items-start gap-3 rounded-xl border border-teal-200 dark:border-teal-800
-          bg-teal-50 dark:bg-teal-900/20 px-4 py-3">
-          <Info className="h-4 w-4 text-teal-600 mt-0.5 shrink-0" />
-          <p className="text-sm text-teal-700 dark:text-teal-300">{followupReminder.message}</p>
+        <div className="flex items-start gap-3 rounded-xl border border-blue-200 dark:border-blue-800
+          bg-blue-50 dark:bg-blue-900/20 px-4 py-3">
+          <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+          <p className="text-sm text-blue-700 dark:text-blue-300">{followupReminder.message}</p>
         </div>
       )}
 
@@ -141,9 +146,9 @@ export default function PatientPage() {
           {clinicianMessages.map((msg) => (
             <div key={msg.id} className="flex items-start gap-3 rounded-xl border border-navy/20 dark:border-slate-600
               bg-navy/5 dark:bg-slate-700/50 px-4 py-3">
-              <Stethoscope className="h-4 w-4 text-navy dark:text-slate-300 mt-0.5 shrink-0" />
+              <Stethoscope className="h-4 w-4 text-slate-700 dark:text-slate-300 mt-0.5 shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-navy dark:text-slate-200 mb-0.5">Your Clinician</p>
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-100 mb-0.5">Your Clinician</p>
                 <p className="text-sm text-slate-700 dark:text-slate-300">{msg.message}</p>
               </div>
               <button
@@ -281,8 +286,8 @@ export default function PatientPage() {
                 <button
                   key={i}
                   onClick={() => setForm((f) => ({ ...f, review: ex }))}
-                  className="w-full text-left text-xs text-slate-600 hover:text-navy rounded-lg
-                    border border-slate-100 hover:border-teal-200 hover:bg-teal-50/50
+                  className="w-full text-left text-xs text-slate-600 hover:text-slate-900 dark:hover:text-slate-50 rounded-lg
+                    border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/20
                     px-3 py-2.5 transition-all duration-150 leading-relaxed"
                 >
                   &ldquo;{ex}&rdquo;

@@ -106,33 +106,39 @@ export default function ClinicianPage() {
     <AuthGate role="clinician">
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="section-title">Clinician Dashboard</h1>
-          <p className="section-subtitle">Patient trend monitoring and drug recommendation engine</p>
+      <div className="rounded-2xl bg-slate-900 dark:bg-slate-950 px-6 py-5 text-white flex items-center justify-between gap-4 shadow-card overflow-hidden relative">
+        <div className="absolute inset-0 opacity-5 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 80% 50%, white 0%, transparent 55%)" }} />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-0.5">
+            <Stethoscope className="h-4 w-4 text-slate-400" />
+            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Clinician Dashboard</p>
+          </div>
+          <h1 className="text-xl font-extrabold text-white leading-tight">Patient Monitoring & Recommendations</h1>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Look up patients · view sentiment trends · generate drug recommendations
+          </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center gap-2 shrink-0">
           <UserBadge />
           <button
             onClick={() => setShowNotif((v) => !v)}
-            className="relative flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
-              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
-              hover:border-teal-400 transition-colors"
+            className="relative flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/15 px-3 py-2
+              text-sm font-medium text-white hover:bg-white/20 transition-colors"
           >
-            <Bell className="h-4 w-4 text-teal-500" />
+            <Bell className="h-4 w-4 text-blue-300" />
             Notifications
             {notifications.length > 0 && (
               <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center
-                rounded-full bg-teal-500 text-[10px] font-bold text-white">
+                rounded-full bg-blue-500 text-[10px] font-bold text-white">
                 {notifications.length}
               </span>
             )}
           </button>
           <button
             onClick={() => { logout(); router.push("/"); }}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700
-              bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300
-              hover:border-red-400 hover:text-red-500 transition-colors"
+            className="flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/15 px-3 py-2
+              text-sm font-medium text-white hover:bg-red-500/30 hover:border-red-400/50 transition-colors"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
@@ -151,7 +157,7 @@ export default function ClinicianPage() {
               <div key={n.id} className="flex items-start justify-between gap-3 rounded-xl
                 bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-700 px-4 py-3">
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-teal-600 capitalize mb-0.5">
+                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 capitalize mb-0.5">
                     {n.type.replace(/_/g, " ")}
                   </p>
                   <p className="text-sm text-slate-700 dark:text-slate-200">{n.message}</p>
@@ -164,7 +170,7 @@ export default function ClinicianPage() {
                 <button
                   onClick={() => dismissNotification(n.id)}
                   title="Mark as read"
-                  className="shrink-0 rounded-lg p-1.5 text-slate-400 hover:text-teal-500 transition-colors"
+                  className="shrink-0 rounded-lg p-1.5 text-slate-400 hover:text-blue-500 transition-colors"
                 >
                   <CheckCheck className="h-4 w-4" />
                 </button>
@@ -180,8 +186,8 @@ export default function ClinicianPage() {
           {/* Patient lookup */}
           <form onSubmit={lookupTrends} className="card space-y-4">
             <div className="flex items-center gap-2 mb-1">
-              <Search className="h-4 w-4 text-teal-500" />
-              <h2 className="font-bold text-navy text-sm">Patient Lookup</h2>
+              <Search className="h-4 w-4 text-blue-500" />
+              <h2 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Patient Lookup</h2>
             </div>
             <div>
               <label className="label">Patient ID</label>
@@ -202,8 +208,8 @@ export default function ClinicianPage() {
           {/* Recommendations form */}
           <div className="card space-y-4">
             <div className="flex items-center gap-2 mb-1">
-              <Stethoscope className="h-4 w-4 text-teal-500" />
-              <h2 className="font-bold text-navy text-sm">Drug Recommendations</h2>
+              <Stethoscope className="h-4 w-4 text-blue-500" />
+              <h2 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Drug Recommendations</h2>
             </div>
             <div>
               <label className="label">Condition</label>
@@ -247,11 +253,11 @@ export default function ClinicianPage() {
               <p className="label">Patient Summary</p>
               <div className="grid grid-cols-2 gap-2 text-center">
                 <div className="rounded-xl bg-slate-50 px-3 py-2">
-                  <p className="text-2xl font-bold text-navy">{trends.total_entries}</p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-50">{trends.total_entries}</p>
                   <p className="text-xs text-slate-400">Total Records</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 px-3 py-2">
-                  <p className="text-2xl font-bold text-teal-600">
+                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {trends.total_entries > 0
                       ? Math.round(trends.trends.reduce((s, t) => s + t.confidence, 0) / trends.total_entries * 100)
                       : 0}%
@@ -292,14 +298,14 @@ export default function ClinicianPage() {
           {patientUserId && (
             <div className="card space-y-3">
               <div className="flex items-center gap-2 mb-1">
-                <Bell className="h-4 w-4 text-teal-500" />
-                <h2 className="font-bold text-navy dark:text-slate-100 text-sm">Message Patient</h2>
+                <Bell className="h-4 w-4 text-blue-500" />
+                <h2 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Message Patient</h2>
               </div>
               {msgSent ? (
-                <div className="rounded-xl bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 px-3 py-2.5 text-center">
-                  <p className="text-sm font-semibold text-teal-700 dark:text-teal-300">Message sent!</p>
-                  <p className="text-xs text-teal-600 dark:text-teal-400 mt-0.5">The patient will see it in their portal.</p>
-                  <button onClick={() => setMsgSent(false)} className="mt-2 text-xs text-teal-600 underline">Send another</button>
+                <div className="rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 px-3 py-2.5 text-center">
+                  <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">Message sent!</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">The patient will see it in their portal.</p>
+                  <button onClick={() => setMsgSent(false)} className="mt-2 text-xs text-blue-600 dark:text-blue-400 underline">Send another</button>
                 </div>
               ) : (
                 <>
@@ -345,7 +351,7 @@ export default function ClinicianPage() {
 
           {loading && (
             <div className="card flex flex-col items-center justify-center py-24 gap-3">
-              <Spinner className="h-8 w-8 text-teal-500" />
+              <Spinner className="h-8 w-8 text-blue-500" />
               <p className="text-sm text-slate-500">Loading patient records…</p>
             </div>
           )}
@@ -368,7 +374,7 @@ export default function ClinicianPage() {
                     key={t}
                     onClick={() => setTab(t)}
                     className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${
-                      tab === t ? "bg-teal-500 text-white shadow-sm" : "text-slate-500 hover:text-navy"
+                      tab === t ? "bg-blue-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-100"
                     }`}
                   >
                     {t}
@@ -383,10 +389,10 @@ export default function ClinicianPage() {
                   {/* History table */}
                   <div className="card overflow-x-auto">
                     <div className="flex items-center gap-2 mb-4">
-                      <History className="h-4 w-4 text-teal-500" />
-                      <h3 className="font-bold text-navy text-sm">Full History</h3>
+                      <History className="h-4 w-4 text-blue-500" />
+                      <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Full History</h3>
                       <button onClick={() => lookupTrends({ preventDefault: () => {} } as React.FormEvent)}
-                        className="ml-auto text-xs text-slate-400 hover:text-teal-600 flex items-center gap-1">
+                        className="ml-auto text-xs text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1">
                         <RefreshCw className="h-3 w-3" /> Refresh
                       </button>
                     </div>

@@ -10,9 +10,9 @@ interface Props {
 }
 
 const RANK_STYLE = [
-  { border: "border-yellow-300",   bg: "bg-yellow-50",      badge: "bg-yellow-400 text-white", label: "1st" },
-  { border: "border-slate-300",    bg: "bg-slate-50",       badge: "bg-slate-400 text-white",  label: "2nd" },
-  { border: "border-amber-700/30", bg: "bg-orange-50/50",   badge: "bg-amber-700 text-white",  label: "3rd" },
+  { border: "border-yellow-300 dark:border-yellow-700/50",   bg: "bg-yellow-50 dark:bg-yellow-900/20",    badge: "bg-yellow-400 text-white", label: "1st" },
+  { border: "border-slate-300 dark:border-slate-600",        bg: "bg-slate-50 dark:bg-slate-700/40",      badge: "bg-slate-400 text-white",  label: "2nd" },
+  { border: "border-amber-700/30 dark:border-amber-700/40",  bg: "bg-orange-50/50 dark:bg-orange-900/20", badge: "bg-amber-700 text-white",  label: "3rd" },
 ];
 
 const SCORE_ROWS: Array<{
@@ -79,14 +79,14 @@ export function RecommendationTable({ items, condition }: Props) {
             {/* Component score breakdown */}
             <div className="grid grid-cols-3 gap-2">
               {SCORE_ROWS.map(({ key, label, icon: Icon, color }) => (
-                <div key={key} className="rounded-xl bg-white/90 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600/50 px-3 py-2.5 shadow-sm">
+                <div key={key} className="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 px-3 py-2.5 shadow-sm">
                   <div className="flex items-center gap-1 mb-1">
-                    <Icon className="h-3 w-3 text-slate-400" />
+                    <Icon className="h-3 w-3 text-slate-400 dark:text-slate-500" />
                     <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                       {label}
                     </span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-100 tabular-nums">
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 tabular-nums">
                     {formatPercent(item[key] as number)}
                   </p>
                   <div className="mt-1.5 h-1 rounded-full bg-slate-100 overflow-hidden">

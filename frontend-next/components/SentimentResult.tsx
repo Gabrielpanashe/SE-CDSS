@@ -58,6 +58,7 @@ export function SentimentResult({ data }: { data: FeedbackResponse }) {
         <div className="flex items-center gap-2 mb-4">
           <TrendingUp className="h-4 w-4 text-blue-500 dark:text-blue-400" />
           <p className="font-semibold text-slate-900 dark:text-slate-50 text-sm">Class Probabilities</p>
+          <p className="ml-auto text-xs text-slate-400 dark:text-slate-500">BioBERT output</p>
         </div>
         <div className="space-y-3">
           {probOrder.map((key) => (
