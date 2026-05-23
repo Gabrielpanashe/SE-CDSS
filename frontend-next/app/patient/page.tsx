@@ -10,6 +10,7 @@ import { SentimentSkeleton, RecommendationSkeleton } from "@/components/ui/Skele
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { CONDITIONS, DRUG_MAP } from "@/lib/utils";
+import Image from "next/image";
 import { Send, RefreshCw, User, Pill, Stethoscope, Info, LogOut } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { UserBadge } from "@/components/UserBadge";
@@ -104,29 +105,37 @@ export default function PatientPage() {
     <AuthGate role="patient">
     <div className="space-y-6">
       {/* Header */}
-      <div className="rounded-2xl gradient-brand px-6 py-5 text-white flex items-center justify-between gap-4 shadow-card overflow-hidden relative">
-        <div className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 80% 50%, white 0%, transparent 55%)" }} />
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-0.5">
-            <User className="h-4 w-4 text-blue-200" />
-            <p className="text-[11px] font-semibold text-blue-200 uppercase tracking-wide">Patient Portal</p>
+      <div className="relative rounded-2xl overflow-hidden min-h-[140px] flex items-center shadow-card">
+        <Image
+          src="/images/custom/patientfeedback_portalbanner.jpg"
+          alt="Patient portal"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-slate-900/30" />
+        <div className="relative z-10 flex w-full items-center justify-between gap-4 px-6 py-5">
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <User className="h-4 w-4 text-blue-300" />
+              <p className="text-[11px] font-semibold text-blue-300 uppercase tracking-wide">Patient Portal</p>
+            </div>
+            <h1 className="text-xl font-extrabold text-white leading-tight">Medication Feedback & Analysis</h1>
+            <p className="text-xs text-slate-300 mt-0.5">
+              Submit a review · get instant sentiment analysis · see drug recommendations
+            </p>
           </div>
-          <h1 className="text-xl font-extrabold text-white leading-tight">Medication Feedback & Analysis</h1>
-          <p className="text-xs text-blue-200 mt-0.5">
-            Submit a review · get instant sentiment analysis · see drug recommendations
-          </p>
-        </div>
-        <div className="relative flex items-center gap-2 shrink-0">
-          <UserBadge />
-          <button
-            onClick={() => { logout(); router.push("/"); }}
-            className="flex items-center gap-1.5 rounded-xl bg-white/15 border border-white/20 px-3 py-2
-              text-sm font-medium text-white hover:bg-white/25 transition-colors backdrop-blur-sm"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <UserBadge />
+            <button
+              onClick={() => { logout(); router.push("/"); }}
+              className="flex items-center gap-1.5 rounded-xl bg-white/15 border border-white/20 px-3 py-2
+                text-sm font-medium text-white hover:bg-white/25 transition-colors backdrop-blur-sm"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </button>
+          </div>
         </div>
       </div>
 

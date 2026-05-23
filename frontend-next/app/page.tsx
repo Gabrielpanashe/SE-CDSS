@@ -1,293 +1,278 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Activity, Stethoscope, Brain, Shield, TrendingUp, Clock,
-  ArrowRight, Heart, UserCheck, ChevronRight,
+  Activity, Stethoscope, Brain, Shield, TrendingUp,
+  ArrowRight, Heart, UserCheck, CheckCircle,
 } from "lucide-react";
-import { HeroStats } from "@/components/HeroStats";
 
-/* ── Feature cards ─────────────────────────────────────────── */
-const features = [
-  {
-    step: "01",
-    icon: Brain,
-    title: "Sentiment Analysis",
-    desc: "Your medication feedback is analysed by a biomedical AI model that understands clinical language — not just keywords.",
-    hoverBg: "hover:bg-blue-600",
-  },
-  {
-    step: "02",
-    icon: Shield,
-    title: "Risk Classification",
-    desc: "Every review is automatically assessed and flagged as Mild Concern, Moderate Risk, or Severe Adverse Reaction.",
-    hoverBg: "hover:bg-red-500",
-  },
-  {
-    step: "03",
-    icon: TrendingUp,
-    title: "Drug Recommendations",
-    desc: "Safer alternatives are ranked using clinical guidelines, your health profile, and how similar patients responded.",
-    hoverBg: "hover:bg-slate-700",
-  },
-  {
-    step: "04",
-    icon: Clock,
-    title: "Trend Monitoring",
-    desc: "Clinicians can track how a patient's sentiment changes over time and spot warning signs before they escalate.",
-    hoverBg: "hover:bg-purple-600",
-  },
-];
-
-/* ── Pipeline steps ────────────────────────────────────────── */
-const pipeline = [
-  { num: 1, label: "Submit Review",       color: "bg-blue-600"   },
-  { num: 2, label: "AI Reads Text",       color: "bg-purple-600" },
-  { num: 3, label: "Sentiment Classified",color: "bg-indigo-600" },
-  { num: 4, label: "Risk Assessed",       color: "bg-red-500"    },
-  { num: 5, label: "Drugs Ranked",        color: "bg-emerald-600"},
-];
-
-/* ── Conditions ────────────────────────────────────────────── */
 const conditions = [
-  { name: "Hypertension", drugs: "Amlodipine · Lisinopril · Losartan",              accent: "border-l-red-400",    dot: "bg-red-400"    },
-  { name: "Diabetes",     drugs: "Metformin · Insulin Glargine · Empagliflozin",    accent: "border-l-blue-400",   dot: "bg-blue-400"   },
-  { name: "Depression",   drugs: "Escitalopram · Sertraline · Venlafaxine",         accent: "border-l-purple-400", dot: "bg-purple-400" },
-  { name: "Malaria",      drugs: "Artemether-Lumefantrine · Quinine · Atovaquone",  accent: "border-l-amber-400",  dot: "bg-amber-400"  },
-  { name: "Respiratory",  drugs: "Salbutamol · Azithromycin · Amoxicillin",         accent: "border-l-green-400",  dot: "bg-green-400"  },
+  { name: "Hypertension", drugs: "Amlodipine · Lisinopril · Losartan",             accent: "border-l-red-400",    dot: "bg-red-400"    },
+  { name: "Diabetes",     drugs: "Metformin · Insulin Glargine · Empagliflozin",   accent: "border-l-blue-400",   dot: "bg-blue-400"   },
+  { name: "Depression",   drugs: "Escitalopram · Sertraline · Venlafaxine",        accent: "border-l-purple-400", dot: "bg-purple-400" },
+  { name: "Malaria",      drugs: "Artemether-Lumefantrine · Quinine · Atovaquone", accent: "border-l-amber-400",  dot: "bg-amber-400"  },
+  { name: "Respiratory",  drugs: "Salbutamol · Azithromycin · Amoxicillin",        accent: "border-l-green-400",  dot: "bg-green-400"  },
 ];
 
 export default function HomePage() {
   return (
-    <div className="space-y-14">
+    <div className="space-y-16">
 
-      {/* ── HERO ───────────────────────────────────────────── */}
-      <section className="relative overflow-hidden rounded-3xl gradient-brand px-8 pt-8 pb-10 text-white shadow-card">
-        {/* Background radial glow */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 75% 30%, white 0%, transparent 60%)" }} />
+      {/* ── HERO ──────────────────────────────────────────── */}
+      <section className="relative overflow-hidden rounded-3xl min-h-[480px] flex items-center shadow-card-hover">
+        {/* Background image */}
+        <Image
+          src="/images/custom/hero_section.jpg"
+          alt="Clinical environment"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/30" />
 
-        <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] items-center">
-          {/* Left: brand mark + headline + CTAs */}
-          <div>
-            <div className="flex items-center gap-2.5 mb-7">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm border border-white/20">
-                <Activity className="h-4 w-4 text-white" />
-              </div>
-              <div>
-                <p className="font-extrabold text-white text-sm leading-tight tracking-tight">SE&#8209;CDSS</p>
-                <p className="text-[10px] text-white/50 font-medium">Chinhoyi University of Technology · 2026</p>
-              </div>
+        {/* Content */}
+        <div className="relative z-10 px-8 py-14 max-w-2xl">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 shadow">
+              <Activity className="h-4 w-4 text-white" />
             </div>
-
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm w-fit">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-300 animate-pulse" />
-              Clinical Decision Support · Powered by BioBERT
+            <div>
+              <p className="font-extrabold text-white text-sm tracking-tight">SE&#8209;CDSS</p>
+              <p className="text-[10px] text-white/50 font-medium">Sentiment-Enhanced Clinical Decision Support</p>
             </div>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold leading-tight tracking-tight mb-4">
-              Your medication feedback,<br />
-              <span className="text-blue-200">turned into clinical insight.</span>
-            </h1>
-
-            <p className="text-sm text-blue-100 leading-relaxed mb-8 max-w-lg">
-              Describe how your medication is making you feel. SE-CDSS analyses your words,
-              flags anything that needs attention, and helps your care team find a better match — faster.
-            </p>
-
-            <div className="flex flex-wrap gap-3">
-              <Link href="/login?next=/patient"
-                className="inline-flex items-center gap-2 rounded-xl bg-white text-slate-800 font-semibold px-5 py-2.5 text-sm hover:bg-blue-50 transition-colors shadow">
-                <Activity className="h-4 w-4 text-blue-600" />
-                I&apos;m a Patient
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-              <Link href="/login?next=/clinician"
-                className="inline-flex items-center gap-2 rounded-xl bg-white/15 text-white font-semibold px-5 py-2.5 text-sm hover:bg-white/25 transition-colors backdrop-blur-sm border border-white/20">
-                <Stethoscope className="h-4 w-4" />
-                I&apos;m a Clinician
-              </Link>
-            </div>
-
-            <p className="mt-8 text-[10px] text-white/30 font-medium tracking-wide">
-              Precision Medicine · BECE Final Year Project · Dissertation 2026
-            </p>
           </div>
 
-          {/* Right: Key stats panel */}
-          <div className="hidden lg:flex flex-col gap-3 min-w-[220px]">
-            {[
-              { value: "0.802", label: "BioBERT F1 Score",   sub: "Weighted F1 on test set" },
-              { value: "215k",  label: "Training Reviews",   sub: "UCI Drug Review Dataset" },
-              { value: "50",    label: "Simulated Patients", sub: "Synthetic EHR profiles"  },
-              { value: "25",    label: "Drugs in Base",      sub: "5 conditions covered"     },
-            ].map(({ value, label, sub }) => (
-              <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 px-5 py-3.5">
-                <p className="text-2xl font-extrabold text-white tabular-nums">{value}</p>
-                <p className="text-sm font-semibold text-white/80 mt-0.5">{label}</p>
-                <p className="text-[10px] text-white/40 mt-0.5">{sub}</p>
-              </div>
-            ))}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-500/20 border border-blue-400/30 px-3 py-1 text-xs font-medium text-blue-200">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+            Powered by BioBERT · Real-time Clinical Intelligence
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-white mb-5">
+            Smarter medication decisions,<br />
+            <span className="text-blue-300">powered by AI.</span>
+          </h1>
+
+          <p className="text-base text-slate-300 leading-relaxed mb-8 max-w-lg">
+            SE-CDSS analyses patient medication feedback in real time — classifying sentiment,
+            assessing clinical risk, and surfacing personalised drug recommendations for clinicians
+            and patients alike.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <Link href="/login?next=/patient"
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 text-sm transition-colors shadow-lg">
+              <UserCheck className="h-4 w-4" />
+              Patient Portal
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+            <Link href="/login?next=/clinician"
+              className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3 text-sm transition-colors backdrop-blur-sm">
+              <Stethoscope className="h-4 w-4" />
+              Clinician Dashboard
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── STATS BAR ─────────────────────────────────────── */}
+      {/* ── CORE FEATURES ─────────────────────────────────── */}
       <section>
-        <HeroStats />
-      </section>
-
-      {/* ── SYSTEM CAPABILITIES ────────────────────────────── */}
-      <section>
-        <h2 className="section-title mb-1">What the System Does</h2>
-        <p className="section-subtitle mb-6">Four integrated steps, working together on every submission.</p>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ step, icon: Icon, title, desc, hoverBg }) => (
-            <div
-              key={title}
-              className={`group card card-hover relative cursor-default transition-all duration-200 ${hoverBg} hover:border-transparent hover:shadow-card-hover`}
-            >
-              <span className="absolute top-4 right-4 text-xs font-bold text-slate-200 group-hover:text-white/30 transition-colors">
-                {step}
-              </span>
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700 group-hover:bg-white/20 transition-colors">
-                <Icon className="h-6 w-6 text-slate-500 dark:text-slate-300 group-hover:text-white transition-colors" />
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-slate-50 group-hover:text-white mb-2 text-sm leading-snug transition-colors">
-                {title}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 group-hover:text-white/80 leading-relaxed transition-colors">
-                {desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS pipeline ──────────────────────────── */}
-      <section>
-        <h2 className="section-title mb-1">How It Works</h2>
-        <p className="section-subtitle mb-6">From your words to a clinical recommendation — in seconds.</p>
-
-        {/* Pipeline steps */}
-        <div className="flex items-center gap-0 overflow-x-auto pb-3 mb-8">
-          {pipeline.map(({ num, label, color }, i) => (
-            <div key={label} className="flex items-center shrink-0">
-              <div className="flex flex-col items-center gap-2">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-full ${color} text-white text-xs font-bold shadow`}>
-                  {num}
-                </div>
-                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center max-w-[90px] leading-tight">{label}</span>
-              </div>
-              {i < pipeline.length - 1 && (
-                <ChevronRight className="h-5 w-5 text-slate-300 dark:text-slate-600 mx-3 mb-4 shrink-0" />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Architecture diagram */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden bg-white dark:bg-slate-800 shadow-card">
-          <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-red-400" />
-            <div className="h-2 w-2 rounded-full bg-amber-400" />
-            <div className="h-2 w-2 rounded-full bg-green-400" />
-            <span className="ml-2 text-xs font-semibold text-slate-400 dark:text-slate-500">System Architecture — SE-CDSS Block Diagram</span>
-          </div>
-          <div className="p-4">
-            <Image
-              src="/images/architecture.png"
-              alt="SE-CDSS system architecture block diagram"
-              width={900}
-              height={450}
-              className="w-full h-auto rounded-lg"
-              priority
-            />
-          </div>
-          <p className="text-center text-xs text-slate-400 dark:text-slate-500 pb-4">
-            Figure 3.1 — SE-CDSS architecture: patient input → BioBERT pipeline → risk assessment → EHR matching → recommendations
+        <div className="text-center mb-10">
+          <h2 className="section-title">What SE-CDSS Does</h2>
+          <p className="section-subtitle mt-2 max-w-xl mx-auto">
+            Three intelligent modules that work together on every patient submission — no manual configuration needed.
           </p>
         </div>
-      </section>
 
-      {/* ── WHO IS THIS FOR ────────────────────────────────── */}
-      <section className="grid gap-5 lg:grid-cols-2">
-        {/* Patient card */}
-        <div className="rounded-2xl border-2 border-blue-200 dark:border-blue-800/50 bg-blue-50 dark:bg-blue-950/20 p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow">
-              <UserCheck className="h-5 w-5 text-white" />
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Sentiment Analysis */}
+          <div className="group rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-card hover:shadow-card-hover transition-shadow">
+            <div className="relative h-48 overflow-hidden">
+              <Image
+                src="/images/custom/sentimentanalysis.jpg"
+                alt="AI sentiment analysis"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
+              <div className="absolute bottom-3 left-4">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 shadow">
+                  <Brain className="h-5 w-5 text-white" />
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-base">For Patients</h3>
-              <p className="text-xs text-blue-600 dark:text-blue-400">Share your medication experience</p>
+            <div className="p-5">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-base mb-2">Sentiment Analysis</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                BioBERT reads each patient review and classifies it as Positive, Neutral, or Negative —
+                with a confidence score. Understands clinical language that general AI models miss.
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {["3-class classification", "87%+ confidence accuracy", "Clinical language aware"].map(f => (
+                  <li key={f} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckCircle className="h-3.5 w-3.5 text-blue-500 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <ol className="space-y-3 mb-5">
-            {[
-              "Describe how your medication is making you feel — side effects, improvements, concerns.",
-              "The system analyses your review and flags any clinical risks automatically.",
-              "You and your care team receive a ranked list of alternative medications if needed.",
-            ].map((step, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white text-[10px] font-bold mt-0.5">
-                  {i + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-          <Link href="/login?next=/patient"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 text-sm transition-colors">
-            <Activity className="h-4 w-4" />
-            Go to Patient Portal
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
 
-        {/* Clinician card */}
-        <div className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800 dark:bg-slate-600 shadow">
-              <Stethoscope className="h-5 w-5 text-white" />
+          {/* EHR Integration */}
+          <div className="group rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-card hover:shadow-card-hover transition-shadow">
+            <div className="relative h-48 overflow-hidden">
+              <Image
+                src="/images/custom/ehrintegration.jpg"
+                alt="Electronic Health Record integration"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
+              <div className="absolute bottom-3 left-4">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-600 shadow">
+                  <Shield className="h-5 w-5 text-white" />
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-base">For Clinicians</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Monitor patients and guide treatment</p>
+            <div className="p-5">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-base mb-2">Risk Assessment & EHR</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                Sentiment is cross-referenced against the patient&apos;s Electronic Health Record —
+                allergies, current medications, and condition profile — to assess clinical risk level.
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {["Mild · Moderate · Severe classification", "Adverse keyword override", "Patient history aware"].map(f => (
+                  <li key={f} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckCircle className="h-3.5 w-3.5 text-purple-500 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <ol className="space-y-3 mb-5">
-            {[
-              "Look up any patient by ID to see their full medication sentiment history.",
-              "View risk trend charts — spot deteriorating responses before they become emergencies.",
-              "Generate ranked drug recommendations filtered by condition, allergies, and EHR profile.",
-            ].map((step, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-700 dark:bg-slate-500 text-white text-[10px] font-bold mt-0.5">
-                  {i + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-          <Link href="/login?next=/clinician"
-            className="inline-flex items-center gap-2 rounded-xl bg-slate-800 dark:bg-slate-600 hover:bg-slate-700 text-white font-semibold px-5 py-2.5 text-sm transition-colors">
-            <Stethoscope className="h-4 w-4" />
-            Go to Clinician Dashboard
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+
+          {/* Drug Recommendations */}
+          <div className="group rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-card hover:shadow-card-hover transition-shadow">
+            <div className="relative h-48 overflow-hidden">
+              <Image
+                src="/images/custom/drugrecommendation.jpg"
+                alt="Drug recommendations"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
+              <div className="absolute bottom-3 left-4">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 shadow">
+                  <TrendingUp className="h-5 w-5 text-white" />
+                </div>
+              </div>
+            </div>
+            <div className="p-5">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-base mb-2">Drug Recommendations</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                The top 3 alternative medications are ranked using a weighted scoring formula combining
+                clinical guidelines, EHR profile compatibility, and patient sentiment signals.
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {["Guideline + EHR + Sentiment scoring", "Top 3 ranked alternatives", "Condition-specific results"].map(f => (
+                  <li key={f} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── SUPPORTED CONDITIONS ───────────────────────────── */}
+      {/* ── PORTAL SELECTION ──────────────────────────────── */}
+      <section>
+        <div className="text-center mb-8">
+          <h2 className="section-title">Get Started</h2>
+          <p className="section-subtitle mt-2">Choose the portal that matches your role.</p>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          {/* Patient */}
+          <div className="rounded-2xl border-2 border-blue-200 dark:border-blue-800/50 bg-blue-50 dark:bg-blue-950/20 p-7">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 shadow-lg">
+                <UserCheck className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-slate-50 text-lg">Patient Portal</h3>
+                <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">Submit feedback · view your analysis</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+              Describe how your medication is making you feel. The system analyses your feedback,
+              flags any risks, and shows you a personalised list of alternatives your care team can discuss with you.
+            </p>
+            <div className="space-y-2 mb-6">
+              {[
+                "Instant sentiment and risk analysis",
+                "Personalised drug alternatives",
+                "Secure · private · no medical knowledge needed.",
+              ].map(item => (
+                <div key={item} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+            <Link href="/login?next=/patient"
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 text-sm transition-colors">
+              <UserCheck className="h-4 w-4" />
+              Open Patient Portal
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          {/* Clinician */}
+          <div className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-7">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-800 dark:bg-slate-600 shadow-lg">
+                <Stethoscope className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-slate-50 text-lg">Clinician Dashboard</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Monitor patients · guide treatment</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+              Look up any patient to see their complete medication sentiment history, risk trend charts,
+              and ranked drug recommendations filtered by their EHR profile and condition.
+            </p>
+            <div className="space-y-2 mb-6">
+              {[
+                "Patient sentiment trend monitoring",
+                "Evidence-based drug ranking",
+                "Secure messaging to patients",
+              ].map(item => (
+                <div key={item} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-500 shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+            <Link href="/login?next=/clinician"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-800 dark:bg-slate-600 hover:bg-slate-700 text-white font-semibold px-5 py-2.5 text-sm transition-colors">
+              <Stethoscope className="h-4 w-4" />
+              Open Clinician Dashboard
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SUPPORTED CONDITIONS ──────────────────────────── */}
       <section>
         <h2 className="section-title mb-1">Supported Conditions</h2>
-        <p className="section-subtitle mb-5">5 conditions covered · 25 drugs in the evidence base · 3 alternatives per recommendation</p>
+        <p className="section-subtitle mb-5">5 conditions · 25 evidence-based drugs · top 3 alternatives per recommendation</p>
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
           {conditions.map(({ name, drugs, accent, dot }) => (
-            <div
-              key={name}
-              className={`rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 border-l-4 ${accent} hover:shadow-card transition-shadow`}
-            >
+            <div key={name}
+              className={`rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 border-l-4 ${accent} hover:shadow-card transition-shadow`}>
               <div className="flex items-center gap-2 mb-1">
                 <span className={`h-2 w-2 rounded-full shrink-0 ${dot}`} />
                 <p className="font-bold text-slate-900 dark:text-slate-50 text-sm">{name}</p>
@@ -298,34 +283,6 @@ export default function HomePage() {
               <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed pl-4">{drugs}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* ── MODEL PERFORMANCE preview ──────────────────────── */}
-      <section>
-        <h2 className="section-title mb-1">Model Performance</h2>
-        <p className="section-subtitle mb-5">BioBERT fine-tuned on 40,000 drug reviews achieves strong clinical sentiment classification.</p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="card">
-            <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-3">BioBERT Confusion Matrix</p>
-            <Image
-              src="/images/biobert_confusion.png"
-              alt="BioBERT confusion matrix"
-              width={480}
-              height={360}
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
-          <div className="card">
-            <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-3">Model Comparison</p>
-            <Image
-              src="/images/model_comparison.png"
-              alt="BioBERT vs TF-IDF baseline model comparison"
-              width={480}
-              height={360}
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
         </div>
       </section>
 

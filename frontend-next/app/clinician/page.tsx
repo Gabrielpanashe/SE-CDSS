@@ -8,6 +8,7 @@ import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { Spinner } from "@/components/ui/Spinner";
 import { Badge } from "@/components/ui/Badge";
 import { CONDITIONS, riskColor, riskDot, sentimentColor, capitalize, formatTimestamp } from "@/lib/utils";
+import Image from "next/image";
 import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { UserBadge } from "@/components/UserBadge";
@@ -106,16 +107,23 @@ export default function ClinicianPage() {
     <AuthGate role="clinician">
     <div className="space-y-6">
       {/* Header */}
-      <div className="rounded-2xl bg-slate-900 dark:bg-slate-950 px-6 py-5 text-white flex items-center justify-between gap-4 shadow-card overflow-hidden relative">
-        <div className="absolute inset-0 opacity-5 pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 80% 50%, white 0%, transparent 55%)" }} />
+      <div className="relative rounded-2xl overflow-hidden min-h-[140px] flex items-center shadow-card">
+        <Image
+          src="/images/custom/ehrintegration.jpg"
+          alt="Clinician dashboard"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/30" />
+        <div className="relative z-10 flex w-full items-center justify-between gap-4 px-6 py-5">
         <div className="relative">
           <div className="flex items-center gap-2 mb-0.5">
-            <Stethoscope className="h-4 w-4 text-slate-400" />
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Clinician Dashboard</p>
+            <Stethoscope className="h-4 w-4 text-slate-300" />
+            <p className="text-[11px] font-semibold text-slate-300 uppercase tracking-wide">Clinician Dashboard</p>
           </div>
           <h1 className="text-xl font-extrabold text-white leading-tight">Patient Monitoring & Recommendations</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-300 mt-0.5">
             Look up patients · view sentiment trends · generate drug recommendations
           </p>
         </div>
@@ -143,6 +151,7 @@ export default function ClinicianPage() {
             <LogOut className="h-4 w-4" />
             Sign Out
           </button>
+        </div>
         </div>
       </div>
 
@@ -340,12 +349,22 @@ export default function ClinicianPage() {
           )}
 
           {!trends && !loading && !error && (
-            <div className="card flex flex-col items-center justify-center py-24 text-center">
-              <div className="h-14 w-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-3">
-                <Search className="h-6 w-6 text-slate-300" />
+            <div className="relative rounded-2xl overflow-hidden min-h-[320px] flex items-center justify-center border border-slate-200 dark:border-slate-700">
+              <Image
+                src="/images/custom/dashboardemptystate.jpg"
+                alt="Select a patient to get started"
+                fill
+                className="object-cover object-center opacity-30 dark:opacity-20"
+              />
+              <div className="relative z-10 text-center px-6 py-10">
+                <div className="h-14 w-14 rounded-2xl bg-white dark:bg-slate-800 shadow-card flex items-center justify-center mb-4 mx-auto">
+                  <Search className="h-6 w-6 text-slate-400" />
+                </div>
+                <p className="text-base font-bold text-slate-700 dark:text-slate-200">No patient selected</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xs">
+                  Enter a Patient ID in the panel on the left and click &ldquo;Load Patient Data&rdquo; to begin.
+                </p>
               </div>
-              <p className="text-sm font-semibold text-slate-400">No patient selected</p>
-              <p className="text-xs text-slate-300 mt-1">Enter a Patient ID and click &ldquo;Load Patient Data&rdquo;</p>
             </div>
           )}
 
