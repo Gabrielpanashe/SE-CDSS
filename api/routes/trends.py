@@ -23,6 +23,7 @@ class TrendEntry(BaseModel):
     confidence: float
     risk_level: str
     drug_name: Optional[str] = None
+    condition: Optional[str] = None
     timestamp: str
 
 
@@ -72,6 +73,7 @@ def get_trends(
                 confidence=float(row.confidence),
                 risk_level=str(row.risk_level),
                 drug_name=row.drug_name,
+                condition=row.condition,
                 timestamp=ts.isoformat() if ts is not None else "",
             )
         )

@@ -413,6 +413,51 @@ export default function ClinicianPage() {
 
               {tab === "trends" && (
                 <div className="space-y-4">
+                  {/* Patient info panel */}
+                  {(() => {
+                    const last = trends.trends.at(-1)!;
+                    const first = trends.trends[0];
+                    const condition = last.condition ?? trends.trends.find(t => t.condition)?.condition;
+                    const drug = last.drug_name ?? trends.trends.find(t => t.drug_name)?.drug_name;
+                    return (
+                      <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-blue-50/60 dark:bg-blue-900/10 px-5 py-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600">
+                            <Stethoscope className="h-3.5 w-3.5 text-white" />
+                          </div>
+                          <p className="text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Patient Information</p>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                          <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-2.5">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide font-semibold mb-0.5">Patient ID</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{trends.patient_id}</p>
+                          </div>
+                          <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-2.5">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide font-semibold mb-0.5">Condition</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-slate-50 capitalize">{condition ?? "—"}</p>
+                          </div>
+                          <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-2.5">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide font-semibold mb-0.5">Latest Drug</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{drug ?? "—"}</p>
+                          </div>
+                          <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-2.5">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide font-semibold mb-0.5">Records</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-slate-50">
+                              {trends.total_entries} <span className="text-xs font-normal text-slate-400">entries</span>
+                            </p>
+                          </div>
+                        </div>
+                        {first && (
+                          <p className="text-[11px] text-slate-400 mt-2.5">
+                            First entry: <span className="font-medium text-slate-500">{formatTimestamp(first.timestamp)}</span>
+                            {" · "}
+                            Latest: <span className="font-medium text-slate-500">{formatTimestamp(last.timestamp)}</span>
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                   <TrendChart trends={trends.trends} />
 
                   {/* History table */}
@@ -432,6 +477,7 @@ export default function ClinicianPage() {
                           <th className="pb-2 text-left px-1">Sentiment</th>
                           <th className="pb-2 text-left px-1">Conf.</th>
                           <th className="pb-2 text-left px-1">Risk</th>
+                          <th className="pb-2 text-left px-1">Condition</th>
                           <th className="pb-2 text-left px-1">Drug</th>
                           <th className="pb-2 text-left px-1">Timestamp</th>
                         </tr>
@@ -450,6 +496,7 @@ export default function ClinicianPage() {
                                 {t.risk_level}
                               </Badge>
                             </td>
+                            <td className="py-2 px-1 text-slate-600 capitalize">{t.condition ?? "—"}</td>
                             <td className="py-2 px-1 text-slate-600">{t.drug_name ?? "—"}</td>
                             <td className="py-2 px-1 text-slate-400">{formatTimestamp(t.timestamp)}</td>
                           </tr>

@@ -42,6 +42,7 @@ export interface TrendEntry {
   confidence: number;
   risk_level: string;
   drug_name: string | null;
+  condition: string | null;
   timestamp: string;
 }
 
