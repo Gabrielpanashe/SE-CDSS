@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -29,8 +29,13 @@ export function NavDrawer({ open, onClose }: Props) {
   const path   = usePathname();
   const router = useRouter();
   const { theme, toggle } = useTheme();
-  const email  = getEmail();
-  const role   = getRole();
+  const [email, setEmail] = useState<string | null>(null);
+  const [role,  setRole]  = useState<string | null>(null);
+
+  useEffect(() => {
+    setEmail(getEmail());
+    setRole(getRole());
+  }, [path, open]);
 
   /* Close on route change */
   // eslint-disable-next-line react-hooks/exhaustive-deps
