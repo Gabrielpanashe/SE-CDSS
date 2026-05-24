@@ -58,6 +58,7 @@ export default function LoginPage() {
             src="/images/custom/login_background.jpg"
             alt="Clinical setting"
             fill
+            sizes="50vw"
             className="object-cover object-center"
             priority
           />

@@ -52,6 +52,7 @@ export default function HowItWorksPage() {
                 src={image}
                 alt={title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 to-transparent" />

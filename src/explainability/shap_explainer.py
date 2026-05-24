@@ -22,21 +22,15 @@ LOGGER = logging.getLogger(__name__)
 
 def _biobert_predict_proba(texts: List[str]):
     """
-    Wrapper called by LIME: takes a list of perturbed text strings and
-    returns an (n_samples, 3) probability matrix [negative, neutral, positive].
-    Lazy-imports BioBERT so the explainer only loads it once it is already warm.
+    Wrapper called by LIME: batches all perturbed texts through BioBERT
+    in one forward pass (n_samples, 3) → [negative, neutral, positive].
     """
-    from src.models.predict_bert import predict  # noqa: PLC0415
+    from src.models.predict_bert import predict_batch  # noqa: PLC0415
 
-    result = []
-    for text in texts:
-        try:
-            out = predict(text)
-            p = out["probabilities"]
-            result.append([p["negative"], p["neutral"], p["positive"]])
-        except Exception:
-            result.append([1 / 3, 1 / 3, 1 / 3])
-    return np.array(result, dtype=float)
+    try:
+        return np.array(predict_batch(texts), dtype=float)
+    except Exception:
+        return np.full((len(texts), 3), 1 / 3, dtype=float)
 
 
 def explain(text: str, top_n: int = 5) -> Dict[str, List[str]]:
@@ -68,9 +62,9 @@ def explain(text: str, top_n: int = 5) -> Dict[str, List[str]]:
         explanation = explainer.explain_instance(
             text,
             _biobert_predict_proba,
-            num_features=top_n * 2,   # ask for extra; we'll split +/–
+            num_features=top_n * 2,
             labels=[label_idx],
-            num_samples=100,          # low enough to be fast on CPU
+            num_samples=50,
         )
 
         word_weights = explanation.as_list(label=label_idx)

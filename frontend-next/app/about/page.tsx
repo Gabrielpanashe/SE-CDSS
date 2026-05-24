@@ -26,6 +26,7 @@ export default function AboutPage() {
           src="/images/custom/about1.jpg"
           alt="SE-CDSS clinical decision support system"
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />
@@ -65,6 +66,7 @@ export default function AboutPage() {
             src="/images/custom/about2.jpg"
             alt="Clinical decision support in practice"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
           />
         </div>

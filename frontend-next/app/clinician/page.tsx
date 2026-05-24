@@ -112,6 +112,7 @@ export default function ClinicianPage() {
           src="/images/custom/ehrintegration.jpg"
           alt="Clinician dashboard"
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />
@@ -354,6 +355,7 @@ export default function ClinicianPage() {
                 src="/images/custom/dashboardemptystate.jpg"
                 alt="Select a patient to get started"
                 fill
+                sizes="100vw"
                 className="object-cover object-center opacity-30 dark:opacity-20"
               />
               <div className="relative z-10 text-center px-6 py-10">

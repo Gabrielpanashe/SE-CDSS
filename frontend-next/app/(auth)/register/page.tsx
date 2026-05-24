@@ -65,6 +65,7 @@ export default function RegisterPage() {
             src="/images/custom/patient_signupbackground.jpg"
             alt="Healthcare background"
             fill
+            sizes="50vw"
             className="object-cover object-center"
             priority
           />

@@ -95,13 +95,16 @@ def submit_feedback(
     except Exception:
         LOGGER.warning("Notification creation failed — non-fatal.")
 
-    lime_result = shap_explain(body.review)
-    explanation = (
-        f"Supporting evidence: {', '.join(lime_result['top_positive']) or 'none'}. "
-        f"Uncertainty factors: {', '.join(lime_result['top_negative']) or 'none'}."
-        if (lime_result["top_positive"] or lime_result["top_negative"])
-        else None
-    )
+    explanation: Optional[str] = None
+    try:
+        lime_result = shap_explain(body.review)
+        if lime_result["top_positive"] or lime_result["top_negative"]:
+            explanation = (
+                f"Supporting evidence: {', '.join(lime_result['top_positive']) or 'none'}. "
+                f"Uncertainty factors: {', '.join(lime_result['top_negative']) or 'none'}."
+            )
+    except Exception:
+        LOGGER.warning("LIME explanation failed — returning without explanation.")
 
     return FeedbackResponse(
         sentiment=prediction["sentiment"],

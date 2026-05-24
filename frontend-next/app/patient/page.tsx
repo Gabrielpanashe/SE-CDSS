@@ -110,6 +110,7 @@ export default function PatientPage() {
           src="/images/custom/patientfeedback_portalbanner.jpg"
           alt="Patient portal"
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />
@@ -313,7 +314,7 @@ export default function PatientPage() {
               <p className="text-sm font-semibold text-red-700">Analysis Failed</p>
               <p className="text-xs text-red-600 mt-0.5">{error}</p>
               <p className="text-xs text-red-400 mt-2">
-                Make sure the FastAPI backend is running: <code className="font-mono">uvicorn api.main:app --reload</code>
+                Please try again. If the problem persists, contact your system administrator.
               </p>
             </div>
           )}

@@ -63,6 +63,7 @@ export default function HomePage() {
                 src="/images/custom/hero_section.jpg"
                 alt="Clinical environment"
                 fill
+                sizes="50vw"
                 className="object-cover object-center"
                 priority
               />
@@ -99,6 +100,7 @@ export default function HomePage() {
                 src="/images/custom/sentimentanalysis.jpg"
                 alt="AI sentiment analysis"
                 fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
@@ -132,6 +134,7 @@ export default function HomePage() {
                 src="/images/custom/ehrintegration.jpg"
                 alt="Electronic Health Record integration"
                 fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
@@ -165,6 +168,7 @@ export default function HomePage() {
                 src="/images/custom/drugrecommendation.jpg"
                 alt="Drug recommendations"
                 fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />

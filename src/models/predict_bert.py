@@ -148,3 +148,29 @@ def predict(review_text: str) -> Dict[str, Any]:
         "cleaned_text":  cleaned,
         "probabilities": prob_dict,
     }
+
+
+def predict_batch(texts: list) -> list:
+    """
+    Run a single batched forward pass for multiple texts.
+    Returns a list of probability arrays [[neg, neu, pos], ...].
+    Used by LIME to avoid N sequential forward passes.
+    """
+    try:
+        _load_model()
+    except FileNotFoundError as exc:
+        raise RuntimeError(str(exc)) from exc
+
+    cleaned = [clean_text(t) or " " for t in texts]
+    inputs = _tokenizer(
+        cleaned,
+        max_length=MAX_LENGTH,
+        truncation=True,
+        padding="max_length",
+        return_tensors="pt",
+    )
+    inputs = {k: v.to(_device) for k, v in inputs.items()}
+    with torch.no_grad():
+        logits = _model(**inputs).logits
+        probs = torch.softmax(logits, dim=-1).cpu().numpy()
+    return probs.tolist()
