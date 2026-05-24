@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { getEmail, getRole } from "@/lib/auth";
+import { getEmail, getRole, getDisplayName } from "@/lib/auth";
 import { api } from "@/lib/api";
-import { useTheme } from "@/components/ThemeProvider";
 import { NavDrawer } from "@/components/NavDrawer";
-import { Menu, Activity, Bell, Sun, Moon, Phone } from "lucide-react";
+import { Menu, Activity, Bell, Phone } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/",             label: "Home"                },
@@ -19,19 +18,18 @@ const NAV_LINKS = [
 ];
 
 export function TopNav() {
-  const path               = usePathname();
-  const { theme, toggle }  = useTheme();
-  const isDark             = theme === "dark";
+  const path = usePathname();
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [email,      setEmail]      = useState<string | null>(null);
-  const [role,       setRole]       = useState<string | null>(null);
-  const [unread,     setUnread]     = useState(0);
-  const [apiOnline,  setApiOnline]  = useState<boolean | null>(null);
+  const [drawerOpen,   setDrawerOpen]   = useState(false);
+  const [email,        setEmail]        = useState<string | null>(null);
+  const [role,         setRole]         = useState<string | null>(null);
+  const [displayName,  setDisplayName]  = useState<string | null>(null);
+  const [unread,       setUnread]       = useState(0);
 
   useEffect(() => {
     setEmail(getEmail());
     setRole(getRole());
+    setDisplayName(getDisplayName());
   }, [path]);
 
   useEffect(() => {
@@ -41,17 +39,8 @@ export function TopNav() {
       .catch(() => setUnread(0));
   }, [path]);
 
-  useEffect(() => {
-    let cancelled = false;
-    function ping() {
-      api.health()
-        .then(() => { if (!cancelled) setApiOnline(true); })
-        .catch(() => { if (!cancelled) setApiOnline(false); });
-    }
-    ping();
-    const id = setInterval(ping, 30_000);
-    return () => { cancelled = true; clearInterval(id); };
-  }, []);
+  // Only show user badge on portal pages
+  const isPortalPage = path.startsWith("/patient") || path.startsWith("/clinician");
 
   return (
     <>
@@ -116,65 +105,40 @@ export function TopNav() {
             })}
           </nav>
 
-          {/* RIGHT: utilities + CTA */}
+          {/* RIGHT: notification bell + user badge (portal only) + CTA */}
           <div className="flex items-center gap-1.5 shrink-0">
 
-            {/* API status — hidden on small screens */}
-            {apiOnline !== null && (
-              <div className={cn(
-                "hidden xl:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold border",
-                apiOnline
-                  ? "border-green-200 dark:border-green-800/60 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
-                  : "border-red-200 dark:border-red-800/60 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
-              )}>
-                <span className={cn("h-1.5 w-1.5 rounded-full", apiOnline ? "bg-green-500 animate-pulse" : "bg-red-500")} />
-                {apiOnline ? "API Online" : "API Offline"}
-              </div>
+            {/* Notification bell — only when logged in */}
+            {email && (
+              <button
+                title={unread > 0 ? `${unread} unread` : "No notifications"}
+                className="relative flex h-8 w-8 items-center justify-center rounded-lg
+                  text-slate-500 dark:text-slate-400
+                  hover:text-slate-800 dark:hover:text-slate-100
+                  hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <Bell className="h-4 w-4" />
+                {unread > 0 && (
+                  <span className="absolute top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center
+                    rounded-full bg-blue-600 text-[8px] font-bold text-white">
+                    {unread > 9 ? "9+" : unread}
+                  </span>
+                )}
+              </button>
             )}
 
-            {/* Notification bell */}
-            <button
-              title={unread > 0 ? `${unread} unread` : "No notifications"}
-              className="relative flex h-8 w-8 items-center justify-center rounded-lg
-                text-slate-500 dark:text-slate-400
-                hover:text-slate-800 dark:hover:text-slate-100
-                hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              <Bell className="h-4 w-4" />
-              {unread > 0 && (
-                <span className="absolute top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center
-                  rounded-full bg-blue-600 text-[8px] font-bold text-white">
-                  {unread > 9 ? "9+" : unread}
-                </span>
-              )}
-            </button>
-
-            {/* Dark / Light mode toggle */}
-            <button
-              onClick={toggle}
-              aria-label="Toggle theme"
-              className="flex h-8 w-8 items-center justify-center rounded-lg
-                text-slate-500 dark:text-slate-400
-                hover:text-slate-800 dark:hover:text-slate-100
-                hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              {isDark
-                ? <Sun  className="h-4 w-4 text-amber-400" />
-                : <Moon className="h-4 w-4" />}
-            </button>
-
-            {/* User badge — shown when signed in */}
-            {email && (
+            {/* User badge — only on /patient and /clinician pages */}
+            {email && isPortalPage && (
               <div className="hidden md:flex items-center gap-2 rounded-xl
                 border border-slate-200 dark:border-slate-700
                 bg-slate-50 dark:bg-slate-800
-                px-2.5 py-1.5 max-w-[180px]">
+                px-2.5 py-1.5 max-w-[200px]">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full
                   bg-blue-600 text-[9px] font-bold text-white uppercase">
-                  {email.charAt(0)}
+                  {(displayName ?? email).charAt(0)}
                 </span>
                 <span className="text-[11px] font-medium text-slate-700 dark:text-slate-200 truncate">
-                  {email}
+                  {displayName ?? email}
                 </span>
                 {role && (
                   <span className={cn(

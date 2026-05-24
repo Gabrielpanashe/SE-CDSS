@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getEmail, getRole, logout } from "@/lib/auth";
 import { useTheme } from "@/components/ThemeProvider";
+import { api } from "@/lib/api";
 import {
   X, Home, Activity, Stethoscope, Workflow, Info,
   Phone, Sun, Moon, LogIn, LogOut, ChevronRight,
@@ -29,13 +30,21 @@ export function NavDrawer({ open, onClose }: Props) {
   const path   = usePathname();
   const router = useRouter();
   const { theme, toggle } = useTheme();
-  const [email, setEmail] = useState<string | null>(null);
-  const [role,  setRole]  = useState<string | null>(null);
+  const [email,     setEmail]     = useState<string | null>(null);
+  const [role,      setRole]      = useState<string | null>(null);
+  const [apiOnline, setApiOnline] = useState<boolean | null>(null);
 
   useEffect(() => {
     setEmail(getEmail());
     setRole(getRole());
   }, [path, open]);
+
+  useEffect(() => {
+    if (!open) return;
+    api.health()
+      .then(() => setApiOnline(true))
+      .catch(() => setApiOnline(false));
+  }, [open]);
 
   /* Close on route change */
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,6 +140,21 @@ export function NavDrawer({ open, onClose }: Props) {
             );
           })}
         </nav>
+
+        {/* API status */}
+        {apiOnline !== null && (
+          <div className="border-t border-slate-100 dark:border-slate-800 px-4 py-3">
+            <div className={cn(
+              "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold border",
+              apiOnline
+                ? "border-green-200 dark:border-green-800/60 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
+                : "border-red-200 dark:border-red-800/60 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
+            )}>
+              <span className={cn("h-2 w-2 rounded-full", apiOnline ? "bg-green-500 animate-pulse" : "bg-red-500")} />
+              {apiOnline ? "API Online" : "API Offline"}
+            </div>
+          </div>
+        )}
 
         {/* Theme toggle */}
         <div className="border-t border-slate-100 dark:border-slate-800 px-4 py-3">

@@ -36,7 +36,7 @@ export default function LoginPage() {
         throw new Error(body.detail ?? "Login failed.");
       }
       const data = await res.json();
-      setAuth(data.access_token, data.role, data.email, data.patient_id);
+      setAuth(data.access_token, data.role, data.email, data.patient_id, data.display_name);
       const roleDefault = data.role === "clinician" ? "/clinician" : "/patient";
       router.push(nextPath ?? roleDefault);
     } catch (err: unknown) {

@@ -124,6 +124,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(String, nullable=False)  # "patient" | "clinician"
     patient_id = Column(String, nullable=True)
+    display_name = Column(String, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 

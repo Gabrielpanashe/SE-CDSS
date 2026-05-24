@@ -1,7 +1,8 @@
-const TOKEN_KEY      = "se_cdss_token";
-const ROLE_KEY       = "se_cdss_role";
-const EMAIL_KEY      = "se_cdss_email";
-const PATIENT_ID_KEY = "se_cdss_patient_id";
+const TOKEN_KEY        = "se_cdss_token";
+const ROLE_KEY         = "se_cdss_role";
+const EMAIL_KEY        = "se_cdss_email";
+const PATIENT_ID_KEY   = "se_cdss_patient_id";
+const DISPLAY_NAME_KEY = "se_cdss_display_name";
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -23,16 +24,23 @@ export function getPatientId(): string | null {
   return localStorage.getItem(PATIENT_ID_KEY);
 }
 
+export function getDisplayName(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(DISPLAY_NAME_KEY);
+}
+
 export function isAuthenticated(): boolean {
   return !!getToken();
 }
 
-export function setAuth(token: string, role: string, email: string, patientId?: string | null): void {
+export function setAuth(token: string, role: string, email: string, patientId?: string | null, displayName?: string | null): void {
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(ROLE_KEY, role);
   localStorage.setItem(EMAIL_KEY, email);
   if (patientId) localStorage.setItem(PATIENT_ID_KEY, patientId);
   else localStorage.removeItem(PATIENT_ID_KEY);
+  if (displayName) localStorage.setItem(DISPLAY_NAME_KEY, displayName);
+  else localStorage.removeItem(DISPLAY_NAME_KEY);
 }
 
 export function logout(): void {
@@ -40,6 +48,7 @@ export function logout(): void {
   localStorage.removeItem(ROLE_KEY);
   localStorage.removeItem(EMAIL_KEY);
   localStorage.removeItem(PATIENT_ID_KEY);
+  localStorage.removeItem(DISPLAY_NAME_KEY);
 }
 
 export function authHeader(): Record<string, string> {

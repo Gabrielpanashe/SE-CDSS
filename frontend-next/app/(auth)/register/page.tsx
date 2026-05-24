@@ -8,14 +8,15 @@ import { Activity, UserPlus, Eye, EyeOff, UserCheck, Stethoscope } from "lucide-
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [email, setEmail]         = useState("");
-  const [password, setPassword]   = useState("");
-  const [showPw, setShowPw]       = useState(false);
-  const [role, setRole]           = useState<"patient" | "clinician">("patient");
-  const [patientId, setPatientId] = useState("");
-  const [error, setError]         = useState<string | null>(null);
-  const [loading, setLoading]     = useState(false);
-  const [nextPath, setNextPath]   = useState<string | null>(null);
+  const [email, setEmail]               = useState("");
+  const [password, setPassword]         = useState("");
+  const [showPw, setShowPw]             = useState(false);
+  const [role, setRole]                 = useState<"patient" | "clinician">("patient");
+  const [patientId, setPatientId]       = useState("");
+  const [displayName, setDisplayName]   = useState("");
+  const [error, setError]               = useState<string | null>(null);
+  const [loading, setLoading]           = useState(false);
+  const [nextPath, setNextPath]         = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -38,6 +39,7 @@ export default function RegisterPage() {
           password,
           role,
           patient_id: role === "patient" && patientId ? patientId : null,
+          display_name: role === "clinician" && displayName ? displayName : null,
         }),
       });
       if (!res.ok) {
@@ -173,6 +175,21 @@ export default function RegisterPage() {
                   ))}
                 </div>
               </div>
+
+              {role === "clinician" && (
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    Full name <span className="text-slate-400 font-normal">(e.g. Dr John Smith)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    className="input-field"
+                    placeholder="Dr John Smith"
+                  />
+                </div>
+              )}
 
               {role === "patient" && (
                 <div>

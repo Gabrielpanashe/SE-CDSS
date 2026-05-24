@@ -17,6 +17,7 @@ class RegisterRequest(BaseModel):
     password: str
     role: str
     patient_id: str | None = None
+    display_name: str | None = None
 
 
 class LoginRequest(BaseModel):
@@ -30,12 +31,14 @@ class TokenResponse(BaseModel):
     role: str
     email: str
     patient_id: str | None = None
+    display_name: str | None = None
 
 
 class MeResponse(BaseModel):
     email: str
     role: str
     patient_id: str | None = None
+    display_name: str | None = None
 
 
 @router.post("/register", status_code=201)
@@ -49,6 +52,7 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)) -> dict:
         password_hash=hash_password(body.password),
         role=body.role,
         patient_id=body.patient_id,
+        display_name=body.display_name,
     )
     db.add(user)
     db.commit()
@@ -67,6 +71,7 @@ def login(body: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
         role=user.role,
         email=user.email,
         patient_id=user.patient_id,
+        display_name=user.display_name,
     )
 
 

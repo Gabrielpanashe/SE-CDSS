@@ -11,9 +11,8 @@ import { CONDITIONS, riskColor, riskDot, sentimentColor, capitalize, formatTimes
 import Image from "next/image";
 import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
-import { UserBadge } from "@/components/UserBadge";
 import { useRouter } from "next/navigation";
-import { logout } from "@/lib/auth";
+import { logout, getDisplayName, getEmail } from "@/lib/auth";
 
 type Tab = "trends" | "recommendations";
 
@@ -102,12 +101,13 @@ export default function ClinicianPage() {
   }
 
   const latestSentiment = trends?.trends.at(-1)?.sentiment ?? null;
+  const clinicianName   = getDisplayName() ?? getEmail() ?? "Clinician";
 
   return (
     <AuthGate role="clinician">
     <div className="space-y-6">
-      {/* Header */}
-      <div className="relative rounded-2xl overflow-hidden min-h-[140px] flex items-center shadow-card">
+      {/* Header banner */}
+      <div className="relative rounded-2xl overflow-hidden min-h-[110px] flex items-center shadow-card">
         <Image
           src="/images/custom/ehrintegration.jpg"
           alt="Clinician dashboard"
@@ -117,19 +117,17 @@ export default function ClinicianPage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/30" />
-        <div className="relative z-10 flex w-full items-center justify-between gap-4 px-6 py-5">
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-0.5">
-            <Stethoscope className="h-4 w-4 text-slate-300" />
-            <p className="text-[11px] font-semibold text-slate-300 uppercase tracking-wide">Clinician Dashboard</p>
+        <div className="relative z-10 flex w-full items-center justify-between gap-4 px-6 py-4">
+          {/* Left: identity */}
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <Stethoscope className="h-3.5 w-3.5 text-blue-300" />
+              <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Clinician Portal</p>
+            </div>
+            <p className="text-lg font-extrabold text-white leading-tight">{clinicianName}</p>
           </div>
-          <h1 className="text-xl font-extrabold text-white leading-tight">Patient Monitoring & Recommendations</h1>
-          <p className="text-xs text-slate-300 mt-0.5">
-            Look up patients · view sentiment trends · generate drug recommendations
-          </p>
-        </div>
-        <div className="relative flex items-center gap-2 shrink-0">
-          <UserBadge />
+          {/* Right: action buttons */}
+          <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setShowNotif((v) => !v)}
             className="relative flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/15 px-3 py-2
@@ -154,6 +152,16 @@ export default function ClinicianPage() {
           </button>
         </div>
         </div>
+      </div>
+
+      {/* Page title */}
+      <div>
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-slate-50 tracking-tight">
+          Patient Monitoring &amp; Recommendations
+        </h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+          Look up patients · view sentiment trends · generate drug recommendations
+        </p>
       </div>
 
       {/* Notification panel */}
