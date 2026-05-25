@@ -9,12 +9,12 @@ import { Spinner } from "@/components/ui/Spinner";
 import { Badge } from "@/components/ui/Badge";
 import { CONDITIONS, riskColor, riskDot, sentimentColor, capitalize, formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
-import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut, MessageCircle } from "lucide-react";
+import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut, MessageCircle, Send, Inbox } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { useRouter } from "next/navigation";
 import { logout, getDisplayName, getEmail } from "@/lib/auth";
 
-type Tab = "trends" | "recommendations";
+type Tab = "trends" | "recommendations" | "messages";
 
 export default function ClinicianPage() {
   const router = useRouter();
@@ -322,39 +322,20 @@ export default function ClinicianPage() {
             </div>
           )}
 
-          {/* Message Patient */}
+          {/* Message Patient — shortcut button */}
           {patientUserId && (
-            <div className="card space-y-3">
-              <div className="flex items-center gap-2 mb-1">
-                <Bell className="h-4 w-4 text-blue-500" />
-                <h2 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Message Patient</h2>
+            <button
+              onClick={() => setTab("messages")}
+              className="w-full card flex items-center gap-3 text-left hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+            >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600">
+                <MessageCircle className="h-4 w-4 text-white" />
               </div>
-              {msgSent ? (
-                <div className="rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 px-3 py-2.5 text-center">
-                  <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">Message sent!</p>
-                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">The patient will see it in their portal.</p>
-                  <button onClick={() => setMsgSent(false)} className="mt-2 text-xs text-blue-600 dark:text-blue-400 underline">Send another</button>
-                </div>
-              ) : (
-                <>
-                  <textarea
-                    rows={3}
-                    className="input-field resize-none text-sm"
-                    placeholder={`Write a message to patient ${patientId}…`}
-                    value={msgText}
-                    onChange={(e) => setMsgText(e.target.value)}
-                  />
-                  <button
-                    onClick={sendMessage}
-                    disabled={msgSending || !msgText.trim()}
-                    className="btn-primary w-full flex items-center justify-center gap-2 text-sm"
-                  >
-                    {msgSending ? <Spinner className="h-4 w-4 text-white" /> : <Bell className="h-4 w-4" />}
-                    {msgSending ? "Sending…" : "Send to Patient Portal"}
-                  </button>
-                </>
-              )}
-            </div>
+              <div>
+                <p className="font-bold text-slate-900 dark:text-slate-50 text-sm">Message Patient</p>
+                <p className="text-[11px] text-slate-400">Send a message to {patientId}</p>
+              </div>
+            </button>
           )}
         </div>
 
@@ -407,16 +388,21 @@ export default function ClinicianPage() {
           {trends && trends.total_entries > 0 && (
             <>
               {/* Tabs */}
-              <div className="flex gap-1 rounded-xl bg-white border border-slate-200 p-1 w-fit shadow-sm">
-                {(["trends", "recommendations"] as Tab[]).map((t) => (
+              <div className="flex gap-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 w-fit shadow-sm">
+                {([
+                  { key: "trends",          label: "Trends",          icon: Activity    },
+                  { key: "recommendations", label: "Recommendations", icon: BarChart2   },
+                  { key: "messages",        label: "Messages",        icon: MessageCircle },
+                ] as { key: Tab; label: string; icon: React.ElementType }[]).map(({ key, label, icon: Icon }) => (
                   <button
-                    key={t}
-                    onClick={() => setTab(t)}
-                    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${
-                      tab === t ? "bg-blue-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-100"
+                    key={key}
+                    onClick={() => setTab(key)}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
+                      tab === key ? "bg-blue-600 text-white shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100"
                     }`}
                   >
-                    {t}
+                    <Icon className="h-3.5 w-3.5" />
+                    {label}
                   </button>
                 ))}
               </div>
@@ -532,6 +518,128 @@ export default function ClinicianPage() {
                   <BarChart2 className="h-8 w-8 text-slate-200 mb-3" />
                   <p className="text-sm font-semibold text-slate-400">No recommendations loaded</p>
                   <p className="text-xs text-slate-300 mt-1">Select a condition and click &ldquo;Get Recommendations&rdquo;</p>
+                </div>
+              )}
+
+              {/* ── Messages tab ─────────────────────────────── */}
+              {tab === "messages" && (
+                <div className="grid gap-6 lg:grid-cols-2">
+                  {/* Compose */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+                        <Send className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Send to Patient</h3>
+                        <p className="text-[11px] text-slate-400">Patient will see this in their portal inbox</p>
+                      </div>
+                    </div>
+
+                    <div className="card space-y-4">
+                      {/* Patient target */}
+                      <div className="flex items-center gap-2 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 px-3 py-2.5">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-600">
+                          <Stethoscope className="h-3.5 w-3.5 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[10px] text-blue-500 dark:text-blue-400 uppercase font-bold tracking-wide">Sending to</p>
+                          <p className="text-sm font-bold text-blue-700 dark:text-blue-300">{trends.patient_id}</p>
+                        </div>
+                      </div>
+
+                      {msgSent ? (
+                        <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 px-4 py-5 text-center">
+                          <CheckCheck className="h-6 w-6 text-emerald-500 mx-auto mb-2" />
+                          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Message sent!</p>
+                          <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                            Patient {trends.patient_id} will see it in their Messages inbox.
+                          </p>
+                          <button onClick={() => setMsgSent(false)}
+                            className="mt-3 text-xs text-emerald-600 dark:text-emerald-400 underline font-medium">
+                            Send another
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <textarea
+                            rows={6}
+                            className="input-field resize-none text-sm"
+                            placeholder={`Write a message to patient ${trends.patient_id}… e.g. "Your latest review indicates mild concern. Please monitor and follow up in 7 days."`}
+                            value={msgText}
+                            onChange={(e) => setMsgText(e.target.value)}
+                          />
+                          <div className="flex items-center justify-between">
+                            <p className="text-[10px] text-slate-400">{msgText.length} characters</p>
+                            <button
+                              onClick={sendMessage}
+                              disabled={msgSending || !msgText.trim() || !patientUserId}
+                              className="btn-primary flex items-center gap-2 text-sm"
+                            >
+                              {msgSending ? <Spinner className="h-4 w-4 text-white" /> : <Send className="h-4 w-4" />}
+                              {msgSending ? "Sending…" : "Send to Patient"}
+                            </button>
+                          </div>
+                          {!patientUserId && (
+                            <p className="text-xs text-amber-600 dark:text-amber-400">
+                              This patient has no registered account — messaging unavailable.
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Patient messages received */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600">
+                        <Inbox className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Patient Messages</h3>
+                        <p className="text-[11px] text-slate-400">Messages sent by patients to the care team</p>
+                      </div>
+                    </div>
+
+                    {notifications.filter(n => n.type === "patient_message").length === 0 ? (
+                      <div className="card flex flex-col items-center justify-center py-12 text-center">
+                        <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center mb-3">
+                          <MessageCircle className="h-5 w-5 text-slate-300" />
+                        </div>
+                        <p className="text-sm font-semibold text-slate-400">No patient messages</p>
+                        <p className="text-xs text-slate-300 mt-1">Messages from patients will appear here</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {notifications.filter(n => n.type === "patient_message").map((n) => (
+                          <div key={n.id}
+                            className="rounded-2xl border border-emerald-100 dark:border-emerald-800/50 bg-emerald-50/60 dark:bg-emerald-900/10 px-4 py-4">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex items-center gap-2">
+                                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600">
+                                  <MessageCircle className="h-3.5 w-3.5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300">Patient Message</p>
+                                  <p className="text-[10px] text-slate-400">{formatTimestamp(n.created_at)}</p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => dismissNotification(n.id)}
+                                title="Mark as read"
+                                className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full
+                                  text-slate-400 hover:text-emerald-600 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors"
+                              >
+                                <CheckCheck className="h-4 w-4" />
+                              </button>
+                            </div>
+                            <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed mt-3 pl-9">{n.message}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
