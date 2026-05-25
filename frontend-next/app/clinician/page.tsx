@@ -40,6 +40,12 @@ export default function ClinicianPage() {
   const [msgSent, setMsgSent]             = useState(false);
   const [msgError, setMsgError]           = useState<string | null>(null);
 
+  // Recommendation summary send
+  const [recSummaryText, setRecSummaryText]   = useState("");
+  const [recSummarySending, setRecSummarySending] = useState(false);
+  const [recSummarySent, setRecSummarySent]   = useState(false);
+  const [recSummaryError, setRecSummaryError] = useState<string | null>(null);
+
   async function refreshNotifications() {
     setNotifRefreshing(true);
     try {
@@ -103,6 +109,38 @@ export default function ClinicianPage() {
     }
   }
 
+  function buildRecSummary(recs: RecommendResponse): string {
+    const top = recs.recommendations.slice(0, 3);
+    const rows = top.map((r, i) =>
+      `${i + 1}. ${r.drug}\n   Score: ${(r.recommendation_score * 100).toFixed(0)}%  |  Guideline: ${(r.guideline_score * 100).toFixed(0)}%  |  EHR History: ${(r.ehr_score * 100).toFixed(0)}%  |  Sentiment: ${(r.sentiment_score * 100).toFixed(0)}%`
+    ).join("\n");
+    return [
+      `📋 Recommendation Summary — ${capitalize(recs.condition)}`,
+      `Patient: ${recs.patient_id}`,
+      ``,
+      `Based on your recent reviews and clinical guidelines, here are the top recommended medications:`,
+      ``,
+      rows,
+      ``,
+      `Please discuss any changes with your care team before adjusting your medication.`,
+    ].join("\n");
+  }
+
+  async function sendRecSummary() {
+    if (!patientUserId || !recSummaryText.trim()) return;
+    setRecSummarySending(true);
+    setRecSummaryError(null);
+    const latestLogId = trends?.trends.at(-1)?.log_id;
+    try {
+      await api.respondToPatient(patientUserId, recSummaryText.trim(), latestLogId);
+      setRecSummarySent(true);
+    } catch (err: unknown) {
+      setRecSummaryError(err instanceof Error ? err.message : "Failed to send. Try again.");
+    } finally {
+      setRecSummarySending(false);
+    }
+  }
+
   async function loadRecommendations() {
     if (!condition || !patientId.trim()) return;
     setRecLoading(true);
@@ -110,6 +148,9 @@ export default function ClinicianPage() {
     try {
       const data = await api.getRecommendations(condition, patientId.trim(), sentiment);
       setRecommendations(data);
+      setRecSummaryText(buildRecSummary(data));
+      setRecSummarySent(false);
+      setRecSummaryError(null);
       setTab("recommendations");
     } catch (err: unknown) {
       setRecError(err instanceof Error ? err.message : "Failed to load recommendations.");
@@ -527,6 +568,66 @@ export default function ClinicianPage() {
                     items={recommendations.recommendations}
                     condition={recommendations.condition}
                   />
+
+                  {/* Send summary to patient */}
+                  <div className="rounded-2xl border border-blue-100 dark:border-blue-800/50 bg-blue-50/40 dark:bg-blue-900/10 px-5 py-4 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600">
+                        <Send className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm">Send Recommendations to Patient</h3>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          A formatted summary is pre-filled — edit as needed, then send to {recommendations.patient_id}&apos;s inbox.
+                        </p>
+                      </div>
+                    </div>
+
+                    {recSummarySent ? (
+                      <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 px-4 py-4 text-center">
+                        <CheckCheck className="h-6 w-6 text-emerald-500 mx-auto mb-2" />
+                        <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Recommendations sent!</p>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                          Patient {recommendations.patient_id} will see this in their Messages inbox.
+                        </p>
+                        <button onClick={() => { setRecSummarySent(false); setRecSummaryText(buildRecSummary(recommendations)); }}
+                          className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 underline font-medium">
+                          Edit &amp; resend
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <textarea
+                          rows={10}
+                          className="input-field resize-none text-xs font-mono leading-relaxed"
+                          value={recSummaryText}
+                          onChange={(e) => { setRecSummaryText(e.target.value); setRecSummaryError(null); }}
+                        />
+                        {recSummaryError && (
+                          <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2">
+                            {recSummaryError}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-[10px] text-slate-400">
+                            {recSummaryText.length} characters
+                            {!patientUserId && (
+                              <span className="ml-2 text-amber-500">— look up a patient first to enable sending</span>
+                            )}
+                          </p>
+                          <button
+                            onClick={sendRecSummary}
+                            disabled={recSummarySending || !recSummaryText.trim() || !patientUserId}
+                            className="btn-primary flex items-center gap-2 text-sm"
+                          >
+                            {recSummarySending ? <Spinner className="h-4 w-4 text-white" /> : <Send className="h-4 w-4" />}
+                            {recSummarySending ? "Sending…" : "Send to Patient"}
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
                   <DisclaimerBanner text={recommendations.disclaimer} />
                 </div>
               )}

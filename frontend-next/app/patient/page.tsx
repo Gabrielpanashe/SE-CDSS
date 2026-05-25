@@ -637,31 +637,57 @@ export default function PatientPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                {clinicianMessages.map((msg) => (
-                  <div key={msg.id}
-                    className="rounded-2xl border border-blue-100 dark:border-blue-800 bg-white dark:bg-slate-800 px-4 py-4 shadow-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-start gap-2.5">
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600">
-                          <Stethoscope className="h-4 w-4 text-white" />
+                {clinicianMessages.map((msg) => {
+                  const isRecSummary = msg.message.startsWith("📋 Recommendation Summary");
+                  return (
+                    <div key={msg.id}
+                      className={`rounded-2xl border bg-white dark:bg-slate-800 px-4 py-4 shadow-sm
+                        ${isRecSummary
+                          ? "border-emerald-200 dark:border-emerald-800/60"
+                          : "border-blue-100 dark:border-blue-800"
+                        }`}>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-start gap-2.5">
+                          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full
+                            ${isRecSummary ? "bg-emerald-600" : "bg-blue-600"}`}>
+                            {isRecSummary
+                              ? <Pill className="h-4 w-4 text-white" />
+                              : <Stethoscope className="h-4 w-4 text-white" />
+                            }
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className={`text-xs font-bold ${isRecSummary ? "text-emerald-700 dark:text-emerald-300" : "text-blue-700 dark:text-blue-300"}`}>
+                                {isRecSummary ? "Recommendation Summary" : "Your Clinician"}
+                              </p>
+                              {isRecSummary && (
+                                <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                                  Clinical
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-slate-400 mt-0.5">{formatTimestamp(msg.created_at)}</p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-bold text-blue-700 dark:text-blue-300">Your Clinician</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">{formatTimestamp(msg.created_at)}</p>
-                        </div>
+                        <button
+                          onClick={() => dismissClinicianMessage(msg.id)}
+                          title="Mark as read"
+                          className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full text-slate-400
+                            hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors"
+                        >
+                          <CheckCircle2 className="h-4 w-4" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => dismissClinicianMessage(msg.id)}
-                        title="Mark as read"
-                        className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full text-slate-400
-                          hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors"
-                      >
-                        <CheckCircle2 className="h-4 w-4" />
-                      </button>
+                      <pre className={`mt-3 pl-10 text-xs leading-relaxed whitespace-pre-wrap font-sans
+                        ${isRecSummary
+                          ? "text-slate-700 dark:text-slate-200 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-xl px-3 py-2.5 border border-emerald-100 dark:border-emerald-800/40"
+                          : "text-sm text-slate-700 dark:text-slate-200"
+                        }`}>
+                        {msg.message}
+                      </pre>
                     </div>
-                    <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed mt-3 pl-10">{msg.message}</p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
