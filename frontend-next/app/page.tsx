@@ -3,14 +3,60 @@ import Image from "next/image";
 import {
   Stethoscope, Brain, Shield, TrendingUp,
   ArrowRight, Heart, UserCheck, CheckCircle,
+  Droplets, Microscope, Wind,
 } from "lucide-react";
 
 const conditions = [
-  { name: "Hypertension", drugs: "Amlodipine · Lisinopril · Losartan",             accent: "border-l-red-400",    dot: "bg-red-400"    },
-  { name: "Diabetes",     drugs: "Metformin · Insulin Glargine · Empagliflozin",   accent: "border-l-blue-400",   dot: "bg-blue-400"   },
-  { name: "Depression",   drugs: "Escitalopram · Sertraline · Venlafaxine",        accent: "border-l-purple-400", dot: "bg-purple-400" },
-  { name: "Malaria",      drugs: "Artemether-Lumefantrine · Quinine · Atovaquone", accent: "border-l-amber-400",  dot: "bg-amber-400"  },
-  { name: "Respiratory",  drugs: "Salbutamol · Azithromycin · Amoxicillin",        accent: "border-l-green-400",  dot: "bg-green-400"  },
+  {
+    name: "Hypertension",
+    drugs: ["Amlodipine", "Lisinopril", "Losartan"],
+    icon: Heart,
+    gradient: "from-red-500 to-rose-600",
+    border: "border-red-200 dark:border-red-800/50",
+    bg: "bg-red-50 dark:bg-red-950/20",
+    iconBg: "bg-red-500",
+    pill: "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300",
+  },
+  {
+    name: "Diabetes",
+    drugs: ["Metformin", "Insulin Glargine", "Empagliflozin"],
+    icon: Droplets,
+    gradient: "from-blue-500 to-cyan-600",
+    border: "border-blue-200 dark:border-blue-800/50",
+    bg: "bg-blue-50 dark:bg-blue-950/20",
+    iconBg: "bg-blue-500",
+    pill: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300",
+  },
+  {
+    name: "Depression",
+    drugs: ["Escitalopram", "Sertraline", "Venlafaxine"],
+    icon: Brain,
+    gradient: "from-purple-500 to-violet-600",
+    border: "border-purple-200 dark:border-purple-800/50",
+    bg: "bg-purple-50 dark:bg-purple-950/20",
+    iconBg: "bg-purple-500",
+    pill: "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
+  },
+  {
+    name: "Malaria",
+    drugs: ["Artemether-Lumefantrine", "Quinine", "Atovaquone"],
+    icon: Microscope,
+    gradient: "from-amber-500 to-orange-600",
+    border: "border-amber-200 dark:border-amber-800/50",
+    bg: "bg-amber-50 dark:bg-amber-950/20",
+    iconBg: "bg-amber-500",
+    pill: "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300",
+  },
+  {
+    name: "Respiratory",
+    drugs: ["Salbutamol", "Azithromycin", "Amoxicillin"],
+    icon: Wind,
+    gradient: "from-emerald-500 to-teal-600",
+    border: "border-emerald-200 dark:border-emerald-800/50",
+    bg: "bg-emerald-50 dark:bg-emerald-950/20",
+    iconBg: "bg-emerald-500",
+    pill: "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
+  },
 ];
 
 export default function HomePage() {
@@ -279,22 +325,39 @@ export default function HomePage() {
 
       {/* ── SUPPORTED CONDITIONS ──────────────────────────── */}
       <section>
-        <div className="text-center mb-6">
+        <div className="text-center mb-8">
           <h2 className="section-title mb-1">Supported Conditions</h2>
           <p className="section-subtitle">5 therapeutic areas · 25 evidence-based drugs · top 3 ranked alternatives per patient</p>
         </div>
-        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-          {conditions.map(({ name, drugs, accent, dot }) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {conditions.map(({ name, drugs, icon: Icon, gradient, border, bg, iconBg, pill }) => (
             <div key={name}
-              className={`rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 border-l-4 ${accent} hover:shadow-card transition-shadow`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span className={`h-2 w-2 rounded-full shrink-0 ${dot}`} />
-                <p className="font-bold text-slate-900 dark:text-slate-50 text-sm">{name}</p>
-                <span className="ml-auto text-[10px] font-semibold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 rounded px-1.5 py-0.5">
+              className={`group relative rounded-2xl border ${border} ${bg} p-5 overflow-hidden
+                hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default`}>
+              {/* Decorative gradient blob */}
+              <div className={`absolute -top-6 -right-6 h-20 w-20 rounded-full bg-gradient-to-br ${gradient}
+                opacity-10 group-hover:opacity-20 group-hover:scale-125 transition-all duration-500`} />
+
+              <div className="flex items-start justify-between mb-4">
+                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBg} shadow-sm`}>
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400
+                  bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
+                  rounded-full px-2.5 py-0.5">
                   3 drugs
                 </span>
               </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed pl-4">{drugs}</p>
+
+              <p className="font-extrabold text-slate-900 dark:text-slate-50 text-base mb-3">{name}</p>
+
+              <div className="flex flex-wrap gap-1.5">
+                {drugs.map(drug => (
+                  <span key={drug} className={`text-[11px] font-semibold rounded-full px-2.5 py-1 ${pill}`}>
+                    {drug}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>

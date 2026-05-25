@@ -9,7 +9,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { Badge } from "@/components/ui/Badge";
 import { CONDITIONS, riskColor, riskDot, sentimentColor, capitalize, formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
-import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut } from "lucide-react";
+import { Search, Stethoscope, Activity, BarChart2, History, RefreshCw, Bell, CheckCheck, LogOut, MessageCircle } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { useRouter } from "next/navigation";
 import { logout, getDisplayName, getEmail } from "@/lib/auth";
@@ -172,18 +172,28 @@ export default function ClinicianPage() {
             <p className="text-sm text-slate-400 py-4 text-center">All caught up!</p>
           ) : (
             notifications.map((n) => (
-              <div key={n.id} className="flex items-start justify-between gap-3 rounded-xl
-                bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-700 px-4 py-3">
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 capitalize mb-0.5">
-                    {n.type.replace(/_/g, " ")}
-                  </p>
-                  <p className="text-sm text-slate-700 dark:text-slate-200">{n.message}</p>
-                  {n.followup_due_at && (
-                    <p className="text-[11px] text-slate-400 mt-0.5">
-                      Due: {new Date(n.followup_due_at).toLocaleDateString()}
+              <div key={n.id} className={`flex items-start justify-between gap-3 rounded-xl px-4 py-3 border
+                ${n.type === "patient_message"
+                  ? "bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50"
+                  : "bg-slate-50 dark:bg-slate-700/50 border-slate-100 dark:border-slate-700"
+                }`}>
+                <div className="flex items-start gap-2.5 min-w-0">
+                  {n.type === "patient_message"
+                    ? <MessageCircle className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
+                    : <Bell className="h-4 w-4 text-blue-400 mt-0.5 shrink-0" />
+                  }
+                  <div className="min-w-0">
+                    <p className={`text-xs font-bold capitalize mb-0.5
+                      ${n.type === "patient_message" ? "text-emerald-600 dark:text-emerald-400" : "text-blue-600 dark:text-blue-400"}`}>
+                      {n.type === "patient_message" ? "Patient Message" : n.type.replace(/_/g, " ")}
                     </p>
-                  )}
+                    <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">{n.message}</p>
+                    {n.followup_due_at && (
+                      <p className="text-[11px] text-slate-400 mt-0.5">
+                        Due: {new Date(n.followup_due_at).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <button
                   onClick={() => dismissNotification(n.id)}

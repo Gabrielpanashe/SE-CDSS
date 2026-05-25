@@ -32,6 +32,10 @@ class RespondRequest(BaseModel):
     prediction_log_id: Optional[int] = None
 
 
+class PatientMessageRequest(BaseModel):
+    message: str
+
+
 def _fmt(dt: Optional[datetime]) -> Optional[str]:
     return dt.isoformat() if dt else None
 
@@ -100,6 +104,25 @@ def respond(
     db.add(notif)
     db.commit()
     return {"message": "Response sent."}
+
+
+@router.post("/patient-message", status_code=201)
+def patient_message(
+    body: PatientMessageRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict:
+    if current_user.role != "patient":
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Only patients can send patient messages.")
+    notif = Notification(
+        type="patient_message",
+        from_user_id=current_user.id,
+        to_user_id=None,  # broadcast — all clinicians see it
+        message=body.message,
+    )
+    db.add(notif)
+    db.commit()
+    return {"message": "Message sent to your care team."}
 
 
 def create_review_notifications(

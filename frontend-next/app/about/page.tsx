@@ -2,11 +2,36 @@ import Image from "next/image";
 import { Brain, Database, Server, Globe, FlaskConical, GitBranch, ShieldCheck, TrendingUp, Activity } from "lucide-react";
 
 const stack = [
-  { icon: Brain,        label: "BioBERT",     desc: "dmis-lab/biobert-base-cased-v1.2 · 108.3M parameters · fine-tuned for 3-class clinical sentiment", color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800/50 text-purple-700 dark:text-purple-300" },
-  { icon: Server,       label: "FastAPI",      desc: "Python 3.12 · async REST API · Pydantic validation · JWT authentication",                          color: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-700 dark:text-blue-300"           },
-  { icon: Database,     label: "PostgreSQL",   desc: "SQLAlchemy ORM · 3 core tables: PredictionLog, PatientFeedback, Recommendation",                   color: "bg-slate-50 dark:bg-slate-700/40 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200"          },
-  { icon: Globe,        label: "Next.js 14",   desc: "TypeScript · Tailwind CSS · App Router · Role-based patient and clinician portals",                 color: "bg-slate-50 dark:bg-slate-700/40 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200"          },
-  { icon: FlaskConical, label: "scikit-learn", desc: "TF-IDF vectorisation + Logistic Regression baseline · LIME model-agnostic explainability",          color: "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-700 dark:text-amber-300"       },
+  {
+    icon: Brain, label: "BioBERT", badge: "108.3M parameters",
+    desc: "dmis-lab/biobert-base-cased-v1.2 fine-tuned on 215k drug reviews for 3-class clinical sentiment classification.",
+    color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800/50 text-purple-700 dark:text-purple-300",
+    iconBg: "bg-purple-500",
+  },
+  {
+    icon: Server, label: "FastAPI", badge: "Python 3.12",
+    desc: "Async REST API with Pydantic v2 validation, JWT authentication, and SQLAlchemy ORM. Serves BioBERT inference and EHR data.",
+    color: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-700 dark:text-blue-300",
+    iconBg: "bg-blue-500",
+  },
+  {
+    icon: Database, label: "SQLite / SQLAlchemy", badge: "3 core tables",
+    desc: "Lightweight embedded database with PredictionLog, PatientFeedback, and Recommendation tables. Zero-config for academic deployment.",
+    color: "bg-slate-50 dark:bg-slate-700/40 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200",
+    iconBg: "bg-slate-600",
+  },
+  {
+    icon: Globe, label: "Next.js 14", badge: "App Router",
+    desc: "TypeScript frontend with Tailwind CSS, role-based portals for patients and clinicians, and a server-side rewrite proxy for zero-CORS API calls.",
+    color: "bg-slate-50 dark:bg-slate-700/40 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200",
+    iconBg: "bg-slate-800 dark:bg-slate-500",
+  },
+  {
+    icon: FlaskConical, label: "scikit-learn", badge: "Baseline + LIME",
+    desc: "TF-IDF + Logistic Regression baseline (F1 0.741) for comparison against BioBERT. LIME provides model-agnostic explainability for each prediction.",
+    color: "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-700 dark:text-amber-300",
+    iconBg: "bg-amber-500",
+  },
 ];
 
 const highlights = [
@@ -58,7 +83,7 @@ export default function AboutPage() {
           </p>
           <div className="rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 px-4 py-3 text-xs text-slate-500 dark:text-slate-400">
             Developed as a final-year dissertation at <strong className="text-slate-700 dark:text-slate-200">Chinhoyi University of Technology</strong>,
-            Zimbabwe, 2026 — BSIT programme.
+            Zimbabwe, 2026 — BECE programme.
           </div>
         </div>
         <div className="relative h-60 rounded-2xl overflow-hidden shadow-card">
@@ -123,15 +148,20 @@ export default function AboutPage() {
 
       {/* Tech stack */}
       <div>
-        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-4">Technology Stack</h2>
-        <div className="space-y-2">
-          {stack.map(({ icon: Icon, label, desc, color }) => (
-            <div key={label} className={`flex items-start gap-3 rounded-xl border px-4 py-3 ${color}`}>
-              <Icon className="h-4 w-4 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-bold text-sm">{label}</p>
-                <p className="text-xs mt-0.5 opacity-80">{desc}</p>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-5">Technology Stack</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {stack.map(({ icon: Icon, label, badge, desc, color, iconBg }) => (
+            <div key={label} className={`group relative rounded-2xl border p-5 overflow-hidden hover:shadow-md transition-shadow ${color}`}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconBg} shadow-sm`}>
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="font-bold text-sm leading-tight">{label}</p>
+                  <span className="text-[10px] font-semibold opacity-60 uppercase tracking-wider">{badge}</span>
+                </div>
               </div>
+              <p className="text-xs opacity-80 leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -148,7 +178,7 @@ export default function AboutPage() {
       {/* Footer credit */}
       <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-6">
         <GitBranch className="h-4 w-4 shrink-0" />
-        <span>Panashe M. Chandiwana · C21147799W · Chinhoyi University of Technology · BSIT 2026</span>
+        <span>Panashe M. Chandiwana · C21147799W · Chinhoyi University of Technology · BECE 2026</span>
       </div>
     </div>
   );

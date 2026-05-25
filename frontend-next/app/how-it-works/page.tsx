@@ -35,7 +35,7 @@ const steps = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="space-y-12 max-w-3xl">
+    <div className="space-y-12 max-w-5xl mx-auto">
       <div>
         <h1 className="section-title">How It Works</h1>
         <p className="section-subtitle mt-1">

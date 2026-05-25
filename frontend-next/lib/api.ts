@@ -109,4 +109,10 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ to_user_id, message, prediction_log_id }),
     }),
+
+  sendPatientMessage: (message: string) =>
+    request<{ message: string }>("/notifications/patient-message", {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
 };

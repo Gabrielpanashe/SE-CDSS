@@ -53,7 +53,7 @@ export default function LoginPage() {
       <div className="w-full max-w-4xl grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-card-hover border border-slate-200 dark:border-slate-700">
 
         {/* Left — decorative image panel */}
-        <div className="relative hidden lg:flex flex-col justify-end min-h-[520px] overflow-hidden">
+        <div className="relative hidden lg:flex flex-col justify-center min-h-[520px] overflow-hidden">
           <Image
             src="/images/custom/login_background.jpg"
             alt="Clinical setting"
@@ -62,20 +62,24 @@ export default function LoginPage() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/30 to-transparent" />
-          <div className="relative z-10 p-8 pb-10">
-            <div className="flex items-center gap-2.5 mb-5">
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/60 to-slate-900/30" />
+          <div className="relative z-10 p-10">
+            <div className="flex items-center gap-2.5 mb-6">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                 <Activity className="h-4 w-4 text-white" />
               </div>
               <p className="font-extrabold text-white text-sm">SE&#8209;CDSS</p>
             </div>
-            <h2 className="text-2xl font-extrabold text-white leading-tight mb-2">
+            <h2 className="text-3xl font-extrabold text-white leading-tight mb-3">
               Clinical decision support<br />at your fingertips.
             </h2>
-            <p className="text-sm text-slate-300 max-w-xs leading-relaxed">
+            <p className="text-sm text-slate-300 max-w-xs leading-relaxed mb-6">
               AI-powered medication sentiment analysis and personalised drug recommendations.
             </p>
+            <div className="flex items-center gap-2 text-xs text-blue-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+              Powered by BioBERT · 0.802 F1 Score
+            </div>
           </div>
         </div>
 
