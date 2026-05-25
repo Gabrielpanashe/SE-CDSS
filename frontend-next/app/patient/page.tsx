@@ -58,6 +58,7 @@ export default function PatientPage() {
   // ── History ──────────────────────────────────────────
   const [history, setHistory]         = useState<TrendsResponse | null>(null);
   const [histLoading, setHistLoading] = useState(false);
+  const [histError, setHistError]     = useState<string | null>(null);
 
   // ── Notifications & messaging ─────────────────────────
   const [followupReminder, setFollowupReminder]   = useState<NotificationItem | null>(null);
@@ -65,8 +66,22 @@ export default function PatientPage() {
   const [msgToClinic, setMsgToClinic]             = useState("");
   const [msgSending, setMsgSending]               = useState(false);
   const [msgSent, setMsgSent]                     = useState(false);
+  const [msgError, setMsgError]                   = useState<string | null>(null);
 
-  // ── Load notifications + history on mount ─────────────
+  // ── Load history (callable from anywhere) ────────────
+  function loadHistory(pid: string) {
+    if (histLoading) return;
+    setHistLoading(true);
+    setHistError(null);
+    api.getTrends(pid)
+      .then((data) => { setHistory(data); })
+      .catch((err: unknown) => {
+        setHistError(err instanceof Error ? err.message : "Failed to load history. Check your Patient ID.");
+      })
+      .finally(() => setHistLoading(false));
+  }
+
+  // ── Load notifications on mount ───────────────────────
   useEffect(() => {
     api.getNotifications()
       .then((items) => {
@@ -79,27 +94,21 @@ export default function PatientPage() {
       .catch(() => null);
   }, []);
 
+  // ── Load history on mount if savedPid available ───────
   useEffect(() => {
-    const pid = savedPid;
-    if (!pid) return;
-    setHistLoading(true);
-    api.getTrends(pid)
-      .then(setHistory)
-      .catch(() => setHistory(null))
-      .finally(() => setHistLoading(false));
-  }, [savedPid]);
+    if (savedPid) loadHistory(savedPid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // When user switches to History tab with a typed patient_id (not in localStorage), load history
+  // ── Load history when switching to History tab ────────
   useEffect(() => {
     if (activeTab !== "history") return;
     const pid = form.patient_id || savedPid;
-    if (!pid || history !== null) return;
-    setHistLoading(true);
-    api.getTrends(pid)
-      .then(setHistory)
-      .catch(() => setHistory(null))
-      .finally(() => setHistLoading(false));
-  }, [activeTab, form.patient_id, savedPid, history]);
+    if (!pid) return;
+    // Only fetch if we don't have data yet or had an error
+    if (history === null || histError) loadHistory(pid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
 
   // ── Handlers ──────────────────────────────────────────
   async function dismissClinicianMessage(id: number) {
@@ -110,12 +119,13 @@ export default function PatientPage() {
   async function sendMessageToClinic() {
     if (!msgToClinic.trim()) return;
     setMsgSending(true);
+    setMsgError(null);
     try {
       await api.sendPatientMessage(msgToClinic.trim());
       setMsgSent(true);
       setMsgToClinic("");
-    } catch {
-      // non-critical
+    } catch (err: unknown) {
+      setMsgError(err instanceof Error ? err.message : "Failed to send. Please try again.");
     } finally {
       setMsgSending(false);
     }
@@ -146,9 +156,7 @@ export default function PatientPage() {
         } catch { /* optional */ }
       }
       // Refresh history after submission
-      if (form.patient_id) {
-        api.getTrends(form.patient_id).then(setHistory).catch(() => null);
-      }
+      if (form.patient_id) loadHistory(form.patient_id);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Unexpected error. Is the backend running?");
     } finally {
@@ -436,6 +444,7 @@ export default function PatientPage() {
       ══════════════════════════════════════════════════════ */}
       {activeTab === "history" && (
         <div className="space-y-5">
+          {/* No patient ID */}
           {!(form.patient_id || savedPid) && (
             <div className="card flex flex-col items-center justify-center py-16 text-center">
               <div className="h-12 w-12 rounded-2xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center mb-3">
@@ -452,6 +461,7 @@ export default function PatientPage() {
             </div>
           )}
 
+          {/* Loading */}
           {(form.patient_id || savedPid) && histLoading && (
             <div className="card flex flex-col items-center justify-center py-16 gap-3">
               <Spinner className="h-8 w-8 text-blue-500" />
@@ -459,7 +469,27 @@ export default function PatientPage() {
             </div>
           )}
 
-          {(form.patient_id || savedPid) && !histLoading && history && history.total_entries === 0 && (
+          {/* Error state */}
+          {(form.patient_id || savedPid) && !histLoading && histError && (
+            <div className="card flex flex-col items-center justify-center py-16 text-center">
+              <div className="h-12 w-12 rounded-2xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center mb-3">
+                <Info className="h-5 w-5 text-red-400" />
+              </div>
+              <p className="text-sm font-semibold text-red-600 dark:text-red-400">Could not load history</p>
+              <p className="text-xs text-slate-400 mt-1 max-w-xs">{histError}</p>
+              <p className="text-xs text-slate-300 mt-1 max-w-xs">
+                Make sure your Patient ID matches the one linked to your account.
+              </p>
+              <button
+                onClick={() => loadHistory(form.patient_id || savedPid!)}
+                className="mt-4 btn-primary text-sm flex items-center gap-2"
+              >
+                <RefreshCw className="h-4 w-4" /> Try Again
+              </button>
+            </div>
+          )}
+
+          {(form.patient_id || savedPid) && !histLoading && !histError && history && history.total_entries === 0 && (
             <div className="card flex flex-col items-center justify-center py-16 text-center">
               <History className="h-8 w-8 text-slate-200 mb-3" />
               <p className="text-sm font-semibold text-slate-400">No submissions yet</p>
@@ -471,7 +501,7 @@ export default function PatientPage() {
             </div>
           )}
 
-          {(form.patient_id || savedPid) && !histLoading && history && history.total_entries > 0 && (
+          {(form.patient_id || savedPid) && !histLoading && !histError && history && history.total_entries > 0 && (
             <>
               {/* Patient summary bar */}
               <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-blue-50/60 dark:bg-blue-900/10 px-5 py-4">
@@ -480,6 +510,13 @@ export default function PatientPage() {
                     <User className="h-3.5 w-3.5 text-white" />
                   </div>
                   <p className="text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-blue-400">Your Health Overview</p>
+                  <button
+                    onClick={() => loadHistory(form.patient_id || savedPid!)}
+                    className="ml-auto flex items-center gap-1 text-xs text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                    title="Refresh history"
+                  >
+                    <RefreshCw className="h-3 w-3" /> Refresh
+                  </button>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-2.5 text-center">
@@ -666,8 +703,13 @@ export default function PatientPage() {
                     className="input-field resize-none text-sm"
                     placeholder="e.g. I've been experiencing dizziness since starting Amlodipine — should I be concerned?"
                     value={msgToClinic}
-                    onChange={(e) => setMsgToClinic(e.target.value)}
+                    onChange={(e) => { setMsgToClinic(e.target.value); setMsgError(null); }}
                   />
+                  {msgError && (
+                    <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2">
+                      {msgError}
+                    </p>
+                  )}
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] text-slate-400">{msgToClinic.length}/500 characters</p>
                     <button

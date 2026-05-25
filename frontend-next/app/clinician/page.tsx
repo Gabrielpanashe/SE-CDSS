@@ -394,18 +394,9 @@ export default function ClinicianPage() {
             </div>
           )}
 
-          {trends && trends.total_entries === 0 && (
-            <div className="card flex flex-col items-center justify-center py-24 text-center">
-              <History className="h-8 w-8 text-slate-200 mb-3" />
-              <p className="text-sm font-semibold text-slate-400">No records found</p>
-              <p className="text-xs text-slate-300 mt-1">Patient <strong>{trends.patient_id}</strong> has no prediction logs yet.</p>
-              <p className="text-xs text-slate-300 mt-0.5">Submit feedback in the Patient Portal first.</p>
-            </div>
-          )}
-
-          {trends && trends.total_entries > 0 && (
+          {trends && (
             <>
-              {/* Tabs */}
+              {/* Tabs — always shown once a patient is looked up */}
               <div className="flex gap-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 w-fit shadow-sm">
                 {([
                   { key: "trends",          label: "Trends",          icon: Activity    },
@@ -425,7 +416,16 @@ export default function ClinicianPage() {
                 ))}
               </div>
 
-              {tab === "trends" && (
+              {tab === "trends" && trends.total_entries === 0 && (
+                <div className="card flex flex-col items-center justify-center py-24 text-center">
+                  <History className="h-8 w-8 text-slate-200 mb-3" />
+                  <p className="text-sm font-semibold text-slate-400">No records found</p>
+                  <p className="text-xs text-slate-300 mt-1">Patient <strong>{trends.patient_id}</strong> has no prediction logs yet.</p>
+                  <p className="text-xs text-slate-300 mt-0.5">Submit feedback in the Patient Portal first.</p>
+                </div>
+              )}
+
+              {tab === "trends" && trends.total_entries > 0 && (
                 <div className="space-y-4">
                   {/* Patient info panel */}
                   {(() => {
