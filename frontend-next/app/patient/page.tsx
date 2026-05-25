@@ -80,13 +80,26 @@ export default function PatientPage() {
   }, []);
 
   useEffect(() => {
-    if (!savedPid) return;
+    const pid = savedPid;
+    if (!pid) return;
     setHistLoading(true);
-    api.getTrends(savedPid)
+    api.getTrends(pid)
       .then(setHistory)
       .catch(() => setHistory(null))
       .finally(() => setHistLoading(false));
   }, [savedPid]);
+
+  // When user switches to History tab with a typed patient_id (not in localStorage), load history
+  useEffect(() => {
+    if (activeTab !== "history") return;
+    const pid = form.patient_id || savedPid;
+    if (!pid || history !== null) return;
+    setHistLoading(true);
+    api.getTrends(pid)
+      .then(setHistory)
+      .catch(() => setHistory(null))
+      .finally(() => setHistLoading(false));
+  }, [activeTab, form.patient_id, savedPid, history]);
 
   // ── Handlers ──────────────────────────────────────────
   async function dismissClinicianMessage(id: number) {
@@ -423,7 +436,7 @@ export default function PatientPage() {
       ══════════════════════════════════════════════════════ */}
       {activeTab === "history" && (
         <div className="space-y-5">
-          {!savedPid && (
+          {!(form.patient_id || savedPid) && (
             <div className="card flex flex-col items-center justify-center py-16 text-center">
               <div className="h-12 w-12 rounded-2xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center mb-3">
                 <User className="h-5 w-5 text-slate-300" />
@@ -439,14 +452,14 @@ export default function PatientPage() {
             </div>
           )}
 
-          {savedPid && histLoading && (
+          {(form.patient_id || savedPid) && histLoading && (
             <div className="card flex flex-col items-center justify-center py-16 gap-3">
               <Spinner className="h-8 w-8 text-blue-500" />
               <p className="text-sm text-slate-500">Loading your history…</p>
             </div>
           )}
 
-          {savedPid && !histLoading && history && history.total_entries === 0 && (
+          {(form.patient_id || savedPid) && !histLoading && history && history.total_entries === 0 && (
             <div className="card flex flex-col items-center justify-center py-16 text-center">
               <History className="h-8 w-8 text-slate-200 mb-3" />
               <p className="text-sm font-semibold text-slate-400">No submissions yet</p>
@@ -458,7 +471,7 @@ export default function PatientPage() {
             </div>
           )}
 
-          {savedPid && !histLoading && history && history.total_entries > 0 && (
+          {(form.patient_id || savedPid) && !histLoading && history && history.total_entries > 0 && (
             <>
               {/* Patient summary bar */}
               <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-blue-50/60 dark:bg-blue-900/10 px-5 py-4">

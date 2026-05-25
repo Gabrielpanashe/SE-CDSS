@@ -32,16 +32,31 @@ export default function ClinicianPage() {
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [showNotif, setShowNotif]         = useState(false);
+  const [notifRefreshing, setNotifRefreshing] = useState(false);
 
   const [patientUserId, setPatientUserId] = useState<number | null>(null);
   const [msgText, setMsgText]             = useState("");
   const [msgSending, setMsgSending]       = useState(false);
   const [msgSent, setMsgSent]             = useState(false);
+  const [msgError, setMsgError]           = useState<string | null>(null);
 
+  async function refreshNotifications() {
+    setNotifRefreshing(true);
+    try {
+      const items = await api.getNotifications();
+      setNotifications(items);
+    } catch {
+      // keep existing
+    } finally {
+      setNotifRefreshing(false);
+    }
+  }
+
+  // Initial load + auto-poll every 15s
   useEffect(() => {
-    api.getNotifications()
-      .then(setNotifications)
-      .catch(() => setNotifications([]));
+    refreshNotifications();
+    const id = setInterval(refreshNotifications, 15000);
+    return () => clearInterval(id);
   }, []);
 
   async function dismissNotification(id: number) {
@@ -75,11 +90,14 @@ export default function ClinicianPage() {
   async function sendMessage() {
     if (!patientUserId || !msgText.trim()) return;
     setMsgSending(true);
+    setMsgError(null);
     const latestLogId = trends?.trends.at(-1)?.log_id;
     try {
       await api.respondToPatient(patientUserId, msgText.trim(), latestLogId);
       setMsgSent(true);
       setMsgText("");
+    } catch (err: unknown) {
+      setMsgError(err instanceof Error ? err.message : "Failed to send. Try again.");
     } finally {
       setMsgSending(false);
     }
@@ -555,7 +573,7 @@ export default function ClinicianPage() {
                           <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
                             Patient {trends.patient_id} will see it in their Messages inbox.
                           </p>
-                          <button onClick={() => setMsgSent(false)}
+                          <button onClick={() => { setMsgSent(false); setMsgError(null); }}
                             className="mt-3 text-xs text-emerald-600 dark:text-emerald-400 underline font-medium">
                             Send another
                           </button>
@@ -567,8 +585,13 @@ export default function ClinicianPage() {
                             className="input-field resize-none text-sm"
                             placeholder={`Write a message to patient ${trends.patient_id}… e.g. "Your latest review indicates mild concern. Please monitor and follow up in 7 days."`}
                             value={msgText}
-                            onChange={(e) => setMsgText(e.target.value)}
+                            onChange={(e) => { setMsgText(e.target.value); setMsgError(null); }}
                           />
+                          {msgError && (
+                            <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2">
+                              {msgError}
+                            </p>
+                          )}
                           <div className="flex items-center justify-between">
                             <p className="text-[10px] text-slate-400">{msgText.length} characters</p>
                             <button
