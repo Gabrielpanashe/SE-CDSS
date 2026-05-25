@@ -320,7 +320,7 @@ class Notification(Base):
     __tablename__ = "notifications"
 
     id = Column(Integer, primary_key=True)
-    type = Column(String, nullable=False)       # "new_review" | "clinician_response" | "followup_reminder"
+    type = Column(String, nullable=False)       # "new_review" | "clinician_response" | "followup_reminder" | "patient_message"
     from_user_id = Column(Integer, nullable=True)
     to_user_id = Column(Integer, nullable=True)
     prediction_log_id = Column(Integer, nullable=True)
