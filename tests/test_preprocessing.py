@@ -23,3 +23,13 @@ def test_preprocess_text_removes_short_tokens() -> None:
     processed = preprocess_text(cleaned)
     assert "medication" in processed or "medicate" in processed
     assert "am" not in processed.split()
+
+
+def test_clean_text_empty_string_returns_empty() -> None:
+    assert clean_text("") == ""
+
+
+def test_preprocess_text_returns_non_empty_for_medical_input() -> None:
+    result = preprocess_text("patient experienced severe chest pain after medication dose")
+    assert isinstance(result, str)
+    assert len(result.strip()) > 0

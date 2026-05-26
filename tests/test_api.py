@@ -130,3 +130,52 @@ def test_trends_shape(client: TestClient, auth_headers: dict) -> None:
     body = response.json()
     assert body["total_entries"] == 0
     assert body["disclaimer"] == config.DISCLAIMER_TEXT
+
+
+def test_register_duplicate_email(client: TestClient) -> None:
+    """Second registration with the same email must return 409 Conflict."""
+    payload = {"email": "dup@se-cdss.test", "password": "Pass123!", "role": "patient"}
+    client.post("/auth/register", json=payload)
+    resp = client.post("/auth/register", json=payload)
+    assert resp.status_code == 409
+
+
+def test_register_invalid_role(client: TestClient) -> None:
+    """Role values outside 'patient'/'clinician' must be rejected with 400."""
+    resp = client.post(
+        "/auth/register",
+        json={"email": "badrole@se-cdss.test", "password": "Pass123!", "role": "admin"},
+    )
+    assert resp.status_code == 400
+
+
+def test_me_endpoint_returns_correct_role(client: TestClient, auth_headers: dict) -> None:
+    """GET /auth/me returns the authenticated user's email and role."""
+    resp = client.get("/auth/me", headers=auth_headers)
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["email"] == _TEST_EMAIL
+    assert body["role"] == "clinician"
+
+
+def test_notifications_requires_auth(client: TestClient) -> None:
+    """Notification list endpoint must be JWT-protected."""
+    resp = client.get("/notifications")
+    assert resp.status_code == 401
+
+
+def test_patient_cannot_view_other_patient_trends(client: TestClient) -> None:
+    """A patient is forbidden from accessing another patient's trend data (403)."""
+    email = "p-access@se-cdss.test"
+    client.post(
+        "/auth/register",
+        json={"email": email, "password": "Pass123!", "role": "patient", "patient_id": "P-ACCA"},
+    )
+    resp = client.post("/auth/login", json={"email": email, "password": "Pass123!"})
+    assert resp.status_code == 200
+    headers = {"Authorization": f"Bearer {resp.json()['access_token']}"}
+
+    # Own trends — allowed
+    assert client.get("/api/trends/P-ACCA", headers=headers).status_code == 200
+    # Another patient's trends — forbidden
+    assert client.get("/api/trends/P-99999", headers=headers).status_code == 403
