@@ -32,7 +32,7 @@ export default function ClinicianPage() {
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [showNotif, setShowNotif]         = useState(false);
-  const [notifRefreshing, setNotifRefreshing] = useState(false);
+  const [_notifRefreshing, setNotifRefreshing] = useState(false);
 
   const [patientUserId, setPatientUserId] = useState<number | null>(null);
   const [msgText, setMsgText]             = useState("");
